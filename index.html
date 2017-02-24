@@ -27,28 +27,28 @@
         
             <a name="intro"><h2>Setting Up A Raspberry Pi Cluster</h2></a>
 
-        <p>These instructions will help people who wish to set up a small cluster of Raspberry Pi computers to use as a small parallel system. The instructions will take a reader through the process of connecting the computers, setting up the environment and checking it works correctly.
+        <p>These instructions will help you build and set up a small cluster of Raspberry Pi computers to use as a small parallel system. The instructions take you through the process of connecting the computers together, setting up the environment and checking that it works correctly.
         </p>
 <p>
-        <b>Note:</b> this is for a cluster of 5 Raspberry pis - the cluster can be any size you want (minimum of 2 as otherwise it is a single computer)
+        <b>Note:</b> these instructions deal with a cluster of 5 Raspberry pis but the cluster can be of any size you want (minimum of 2 as otherwise it is not a parallel computer).
    </p>         
             
         <a name="command">Command Terminals</a>
         <p>
-        Throughout this document, it will refer to command terminals, these are how the Raspberry Pis will be accessed and how users will tell the Raspberry Pis what to do.
-        A command terminal gives a command line interface to a user. These will often look like:
+        This document will refer to command terminals throughout, this is how the Raspberry Pis are accessed, how you configure them and how you tell the Raspberry Pis what you want them to do.
+        A command terminal provides a command line interface to a user. These often look like:
                 <figure>
            
 <img src="images/terminal.png" alt="Terminal"/>
             <figcaption>Example Terminal</figcaption>
             </figure>
-        Sometime they will have light text on a dark background but the Raspberry Pi uses a Linux operating system and will have a terminal that functions the same as this document expects.
+        Sometime they will have light text on a dark background - you can configure them to your own liking. Regardless, a Raspberry Pi uses the Linux operating system and will have a terminal that functions and behaves in the same way this document describes.
         </p>
     <p>
-            If you are using Windows, you may need to install an SSH client to connect to the Raspberry Pi. A SSH client which is free is PuTTY - <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">available at this link</a>
+            If you are using Windows, you may need to install an SSH client to connect to the Raspberry Pi. An SSH client which is free is PuTTY - <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">available at this link</a>.
         </p>
         <p>
-        On a Linux system, you will need to open a command terminal - this may be from a right click and choose "Terminal", or from a list of programs in the program menu.
+        On a Linux system, you will need to open a command terminal on your computer - you may be able to get this using a right mouse click and choosing "Terminal", or from a list of programs in the program menu.
         </p>
         <p>
         On Windows you will need to start your SSH client.
@@ -60,16 +60,16 @@
        <a name="materials"><h2>Materials</h2></a>
 <h3>Required</h3>
         <ul>
-<li>5 Raspberry Pis (Note the examples used in this instruction set are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models - if problems are encountered please ask on the forum and we will see if we can provide help) </li>
-<li>5 Power Supplies/1 Multisupply Unit </li>
-<li>1 Switch (8 Ports)</li>
-<li>6 Ethernet Cables</li>
-<li>5 USB Cables</li>
-<li>Laptop or desktop PC with shareable ethernet connection</li>
+<li>5 Raspberry Pis (Note the examples used in this instruction set are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models - if problems are encountered please ask on the forum and we will see if we can provide help).</li>
+<li>5 Power Supplies/1 Multisupply Unit.</li>
+<li>1 Switch (8 Ports).</li>
+<li>6 Ethernet Cables.</li>
+<li>5 USB Cables.</li>
+<li>Laptop or desktop PC with shareable ethernet connection.</li>
 </ul>
 <h3>Optional</h3>
         <ul>
-<li>5 <a href="#case">Raspberry Pi cases - example cases are Lego-Style stackable cases</a></li>
+<li>5 <a href="#case">Raspberry Pi cases - example cases are Lego-Style stackable cases</a>.</li>
 </ul>
 
 <h3>The Hardware</h3>
@@ -90,7 +90,7 @@ Each Raspberry Pi should look like this:
             </figure>
 
         
-If you are using cases - this is the point to put the Raspberry pi into the case. An example of a cased Raspberry Pi would look like this:
+If you are using cases - this is the point where you should put the Raspberry Pi into its case. An example of a cased Raspberry Pi would look like this:
            <figure>
                 <a name="case"/>
 <img src="images/IMG_20160906_105359475.jpg" alt="Cased Raspberry Pi Open"/>
@@ -119,7 +119,7 @@ Now it should look something like:
 <img src="images/IMG_20170210_132914225.jpg" alt="Ethernet"/>
             <figcaption>Connected</figcaption>
             </figure>
-Connect your laptop or desktop to the switch via an ethernet cable. (Note that while Raspberry pi 3 has builtin wireless network - we aren’t using this and currently it wouldn’t have been set up.)
+Connect your laptop or desktop to the switch via an ethernet cable. (Note that while Raspberry pi 3 has a builtin wireless network - we are not using this and at this point it probably would not have been set up.)
 
 Now all the network cables are connected - we need to put the power cables in.
 
@@ -137,7 +137,7 @@ Now connect the micro usb end of the usb cables to each Raspberry Pi:
             <figcaption>Raspberry Pi Power</figcaption>
             </figure>
 
-Connect the other end to your power supply:
+Connect the other end to your power supply, in this case we are using an externally powered USB-hub:
          <figure>
 <img src="images/IMG_20170210_133126552_HDR.jpg" alt="Ethernet"/>
             <figcaption>Plug in</figcaption>
@@ -164,7 +164,10 @@ First on your laptop/desktop you will have to configure the internet sharing:
 <li>Go to System Perferences</li>
 
 <li>Choose Sharing </li>
-
+         <figure>
+<img src="images/mac-preferences.png" alt="Mac preferences"/>
+            <figcaption>Mac preferences</figcaption>
+            </figure>
 <li>Click on Internet Sharing and choose share from Wifi to Ethernet </li>
 </ul>
     <p>
@@ -272,16 +275,16 @@ bridge100: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 15
 This is the IP address 192.168.2.1 (line beginning with inet above.)
 <p>
 There are two ways to find out what is connected:
-The first is to run the command <i>arp</i>
+the first is to run the command <i>arp</i>.
 </p>
 <pre>
-Command arp -i bridge100 -a
+ arp -i bridge100 -a
 </pre>
 This runs a program which returns information about what is connected currently to that interface.
 
 Command Breakdown:
-<pre>  
-arp - program to run
+<pre> arp - program to run
+  
 -i value - use the interface value
 -a - display all current connections
 </pre>
@@ -290,7 +293,7 @@ When you run this command you will get output which contains lines like:
 ? (239.255.255.250) at 1:0:5e:7f:ff:fa on bridge100 ifscope permanent [ethernet]
 </pre>
 <p>
-The other way is to install a program like nmap, which is available at <a href="https://nmap.org/">https://nmap.org/</a>
+The other way is to install a program like nmap, which is available from <a href="https://nmap.org/">https://nmap.org/</a>.
 </p>
  <p>       
 <b>NOTE:</b>Windows information is still be written TODO
@@ -313,7 +316,7 @@ A brief explanation of IP Addresses and DHCP are available at following links:
 Now we have our Pis started, we know their addresses - now we should start doing some configuration and setup.
 </p>
     <p>
-As an example my Pi addresses are:
+For example, my Pi addresses are:
            </p>
     <pre>
 192.168.2.18
