@@ -252,7 +252,7 @@ vboxnet0: flags=8943&lt;UP,BROADCAST,RUNNING,PROMISC,SIMPLEX,MULTICAST&gt; mtu 1
 vboxnet1: flags=8842&lt;BROADCAST,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 	ether 0a:00:27:00:00:01 
 </pre>
-You are likely to be looking for the bridge100 interface:
+You are most likely to be looking for the bridge100 interface:
 <pre>
 bridge100: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 	options=3&lt;RXCSUM,TXCSUM&gt;
@@ -296,7 +296,7 @@ When you run this command you will get output which contains lines like:
 The other way is to install a program like nmap, which is available from <a href="https://nmap.org/">https://nmap.org/</a>.
 </p>
  <p>       
-<b>NOTE:</b>Windows information is still be written TODO
+<b>NOTE:</b> Windows information is still be written TODO
 </p>
         <p>
 Now we know what IP addresses are assigned to the Pis.
@@ -304,7 +304,7 @@ Now we know what IP addresses are assigned to the Pis.
         <p>
 IP addresses are what we can use to identify a Pi on the network and use it as a target to log in - its the same as a street address when going somewhere - though IP addresses can change. 
             
-A brief explanation of IP Addresses and DHCP are available at following links:
+A brief explanation of IP Addresses and DHCP are available at the following links:
             </p>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/IP_address">IP Address</a></li>
@@ -313,7 +313,7 @@ A brief explanation of IP Addresses and DHCP are available at following links:
        
 
     <p>
-Now we have our Pis started, we know their addresses - now we should start doing some configuration and setup.
+Now we have our Pis started, we know their IP addresses - now we should start doing some configuration and setup.
 </p>
     <p>
 For example, my Pi addresses are:
@@ -340,13 +340,13 @@ The worker nodes will do the actual computation in any programs.
 We will start with the master node.
 </p>        
         <p>
-In your command terminal type the following command, replacing the 192.168.2.18 with your address for your Pi:
+In your command terminal type the following command, replacing the 192.168.2.18 with your IP address for your Pi:
         </p>        
 <pre>
 ssh pi@192.168.2.18
 </pre>
         <p>
-You will get something like this coming up:
+You will get output like this coming up:
         </p>        
     <pre>
 The authenticity of host '192.168.2.18 (192.168.2.18)' can't be established.
@@ -354,7 +354,7 @@ RSA key fingerprint is a0:97:1f:d6:df:8c:a5:45:db:fe:b4:94:46:1d:0f:48.
 Are you sure you want to continue connecting (yes/no)? 
 </pre>
         <p>
-Put yes in and the following will appear:
+Answer yes in and the following will appear:
             </p>        
 <pre>
 Warning: Permanently added '192.168.2.18' (RSA) to the list of known hosts.
@@ -364,7 +364,7 @@ pi@192.168.2.18's password:
 Type in the password: <i>raspberry</i>
 </p>       
         <p>
-Now you have logged into your new master node of your cluster.
+Now you have logged into your new master node for your cluster.
 </p>       
         <p>
 To breakdown what happened, you typed in 
@@ -374,7 +374,7 @@ To breakdown what happened, you typed in
 This is a command which runs the ssh client on your computer and tries to connect to a system at address 192.168.2.18 with the user name pi. This is a standard way of logging into a remote system - like a supercomputer such as ARCHER.
 </p>        
         <p>
-You will get something like:
+You will then get output like:
 </p>
     <pre>
 The programs included with the Debian GNU/Linux system are free software;
@@ -388,10 +388,10 @@ Last login: Fri Feb 26 03:25:51 2016
 pi@raspberrypi:~ $ 
 </pre>
 <p>
-<a name="configrpi">Lets do some main system configuration</a>:
+<a name="configrpi">Let's do some main system configuration</a>:
 </p>        
         <p>
-Type the command  sudo raspi-config and press Enter/Return
+Type the command  sudo raspi-config and press Enter/Return, e.g.:
         </p>        
 <pre>
 pi@raspberrypi:~ $ sudo raspi-config
@@ -400,10 +400,10 @@ pi@raspberrypi:~ $ sudo raspi-config
 This will run a provided Raspberry pi configuration program.
             </p>        
 <p>
-The sudo means run as super-user which has permissions to make system changes rather than just changes for a user.
+The sudo command means that any following commands will be run as the super-user which has permissions to make system changes rather than just changes in a user own files.
 </p>
         <p>
-When the menu appears:
+When a menu appears:
         </p>        
 <ul>
 <li>Choose option 3 Boot Options</li>
