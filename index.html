@@ -406,15 +406,15 @@ The sudo command means that any following commands will be run as the super-user
 When a menu appears:
         </p>        
 <ul>
-<li>Choose option 3 Boot Options</li>
+<li>Choose option 3 Boot Options.</li>
 <li>Now choose option B1 Text console and hit enter/return.</li>
 </ul>
         <p>
-This will mean that the Raspberry Pi will always boot to a command line rather than a GUI (what we normally use in everyday use of computers.).
+This will mean that the Raspberry Pi will always boot to a command line rather than a GUI (that is a Graphical User Interface which is what we normally use in everyday use of computers).
         </p>        
 <ul>
-<li>Now choose the option 9 Advanced Options</li>
-<li>Choose the Option A2 Hostname and hit enter/return</li>
+<li>Now choose the option 9 Advanced Options.</li>
+<li>Choose the Option A2 Hostname and hit enter/return.</li>
         </ul>    
         <p>
 An information screen will appear - read it before continuing.
@@ -429,7 +429,7 @@ In my example I will change it to <i>beira</i> and hit enter/return to confirm i
 We need to set the right time zone so that the date and time on the Pi is correct.
         </p>
 <ul>
-    <li>Choose Option 5 Internationalisation Options</li>
+    <li>Choose Option 5 Internationalisation Options.</li>
 <li>Choose the T2 Change Timezone option.</li>
   <li>  From the list choose your area, for me it is Europe</li>
     <li>Then choose your closest location, I chose London.</li>
@@ -506,11 +506,11 @@ At the command line run the following:
 pi@beira:~ $ ssh-keygen -t rsa
 </pre>
         <p>
-This will generate what is called a public/private key pair - this is a system used for encryption and security to allow information to be shared in private. This will generate a public file which can be given to any other machine or person you want to communicate with and a private file which has to be kept secret so that other people know that only you sent information to them or that information they send to you using your public key can only be read by you.
+This will generate what is called a public/private key pair - this is a system used for encryption and security to allow information to be shared in private. This will generate a public file which can be given to any other machine or person you want to communicate with and a private file which has to be kept secret so that other people know that only you sent information to them or the information they send to you using your public key can only be read by you.
 </p>        
         <p>
-Use the default settings for the first prompt and don’t put in a passphrase for this cluster. 
-You will get something out that looks a little like:
+Use the default settings for the first prompt and don’t put in a passphrase for this cluster (just press return/enter when you are asked for a pass phrase). 
+Your interaction should look a little like:
         </p>        
     <pre>
 pi@beira:~ $ ssh-keygen -t rsa
@@ -544,7 +544,7 @@ You’ve set up a ssh key - remember how to do this as you will be doing it agai
 sudo apt-get update
     </pre>
         <p>
-This will pull information about the latest versions of packages available to the Raspberry pi operating system. It will take about 30-50 seconds to run.
+This will pull information about the latest versions of packages available for the Raspberry pi operating system. It will take about 30-50 seconds to run.
 </p>     
         <p>
 Now we will run:
@@ -559,7 +559,7 @@ This will upgrade the installed software to its latest versions - which should i
 When the prompt asks enter ‘Y’ and it will install the upgrades.
 </p>  
     <p>    
-Depending on the number of upgrades it would take a long period of time to run this part.
+Depending on the number of upgrades it could take a long period of time to run this command.
 </p>   
         <p>
 Once the update has finished, we will start to set up the Network File System (NFS) server component.
@@ -578,17 +578,17 @@ This should open up a file like this:
             <figcaption>Adding ipv6</figcaption>
             </figure>
 <p>
-at the end of the file, using the cursor keys to move,  if it is not present, add the following
+at the end of the file, using the cursor keys to move,  if it is not present, add the following:
 </p>
         <pre>
 ipv6
 </pre>
 <ul>
-   <li> Now press the keys CRTL and O at the same time - this will save the file</li>
+   <li> Now press the keys CRTL and O at the same time - this will save the file.</li>
     <li>Now press the keys CRTL and X at the same time - this will close nano.</li>
 </ul>
 <p>        
-<b>Note:</b> nano is a simple text editor program that will be using during this configuration process.
+<b>Note:</b> nano is a simple text editor program that we will be using during this configuration process.
 </p>
 <p>
 Run the command: 
@@ -609,16 +609,16 @@ Now we will start to create the actual shared location. Start by creating a dire
 sudo mkdir -p /home/shared_dir
 </pre>
         <p>
-<i>mkdir</i> is a command to create a directory (which can contain other directories and files)
+<i>mkdir</i> is a command used to create a directory (which can contain other directories and files).
 </p>
         <p>
-Now change its permissions so everyone can read and write:
+Now change its permissions so that everyone can read or write to this directory:
         </p>
 <pre>
 sudo chmod 777 /home/shared_dir
 </pre>
         <p>
-            <i>chmod</i> is a command to change the permissions on a file or directory. Here 777 means that everyone can read, write and execute in the directory. If you only what the creator to be able to write and others can only read you could use 644. This link will take you to the<a href="https://en.wikipedia.org/wiki/Chmod">Wikipedia chmod entry</a>.
+            <i>chmod</i> is a command to change the permissions on a file or directory. Here 777 means that everyone can read, write or execute commands in that directory. If you only want the owner to be able to write and others to only read you would use 644. This link will take you to the <a href="https://en.wikipedia.org/wiki/Chmod">Wikipedia chmod entry</a>.
 </p>
         <p>
 Now we need to mount the shared_dir and bind it.
@@ -630,7 +630,7 @@ sudo mount --bind /home/shared_dir/ /home/shared_dir/
 This means that the system recognises this as something which is a mountable drive in the system - so that it can share it to other computers.
 </p>
         <p>
-Now we need to make sure it gets mounted and exported each time at boot and that other people from other computers can access it.
+Now we need to make sure the directory gets mounted and exported each time when the system boots up and that other computers can access it.
 </p>
         <p>
 Run the following command: 
@@ -645,7 +645,7 @@ at the end of the file add the following:
 /home/shared_dir  /home/shared_dir   none   bind  0 0
     </pre>
 <ul>
-   <li> Now press the keys CRTL and O at the same time - this will save the file</li>
+   <li> Now press the keys CRTL and O at the same time - this will save the file.</li>
     <li>Now press the keys CRTL and X at the same time - this will close nano.</li>
 </ul>
         <p>
@@ -680,18 +680,18 @@ or
     </pre>
 
 <ul>
-   <li> Now press the keys CRTL and O at the same time - this will save the file</li>
+   <li> Now press the keys CRTL and O at the same time - this will save the file.</li>
     <li>Now press the keys CRTL and X at the same time - this will close nano.</li>
 </ul>
         <p>
         
-The configuration continues with a mapping file, run: 
+The configuration process continues with a mapping file, run: 
         </p>
     <pre>
 sudo nano /etc/idmapd.conf
 </pre>
         <p>
-Ensure that under [Mapping] the following is entered:
+Ensure that under the [Mapping] section the following is present:
          </p>
     <pre>
 [Mapping]
@@ -712,10 +712,10 @@ At the end of the file add the following to export your shared_dir to the networ
 /home/shared_dir 192.168.2.0/24(rw,nohide,insecure,no_subtree_check,async)
 </pre>
         <p>
-This line will expose your shared_dir to the network where all the addresses start 192.168.2 and allow read and write operations.
+This line will expose your shared_dir to the network where all the addresses start 192.168.2 and allow read and write acess.
          </p>
 <p>
-A final check on this:
+As a final check on this we will examine the following files:
          </p>
     <pre>
 /etc/init.d/nfs-kernel-server
@@ -723,19 +723,19 @@ A final check on this:
 /etc/init.d/rpcbind
 </pre>
         <p>
-Have a look at the above files in nano. Each one near the top should have a line:
+Have a look at each of the above files in nano. Each one, near the top of the file, should have a line:
          </p>
     <pre>
 # Default-Start:     2 3 4 5
 </pre>
         <p>
-            <b>however</b> in some is may say:
+            <b>however</b> in some this may say:
      </p>
     <pre>
 # Default-Start:     S
 </pre>
         <p>
-You need to change all the S to 2 3 4 5 and then run:
+You need to change all the files that have an S to 2 3 4 5 and then run:
         </p>
     <pre>
 sudo update-rc.d -f rpcbind remove
@@ -748,18 +748,18 @@ sudo update-rc.d -f nfs-kernel-server remove
 sudo update-rc.d nfs-kernel-server defaults
 </pre>
     <p>
-If this continues to fail with any error messages, try the following:
+If any of these commands fail with error messages, try the following:
          </p>
 <pre>    
 sudo apt-get purge rpcbind
 sudo apt-get install nfs-kernel-server
 </pre>
         <p>
-and do the above update again.
+and try to do the above update again for any of the operations that failed.
 </p>
 
      <p>   
-Before we go into setting up a DHCP server we will setup MPI - a core technology used in parallel and high performance computing. We will install and test on a single node a simple program.
+Before we go into setting up a DHCP server we will setup MPI. MPI is a core technology used in parallel and high performance computing that allows processes to communicate in a standard way and thus allows them to collaborate to solve a problems together in parallel. We will install and test a simple program on a single node.
 </p>
         <p>
 Run the following:
@@ -776,7 +776,7 @@ Now try running the command:
 mpiexec —version
 </pre>
         <p>
-You should get something like: 
+You should get output looking something like: 
         </p>
     <pre>
 pi@beira:~ $ mpiexec --version
@@ -800,7 +800,7 @@ HYDRA build details:
 Now we will write a small program to test that MPI works on our one Raspberry Pi.
         </p>
         <p>
-Type the following commands which will switch us to the shared_dir, make a new directory, create a text file, enter the contents, compile the program and run it.
+Type the following commands which will change us to the shared_dir directory, where we will create a new directory, change into that directory, create a text file with the code content, compile the resulting program and run it.
          </p>
 <pre>
 cd /home/shared_dir
@@ -842,10 +842,10 @@ int main(int argc, char** argv) {
 }
 </pre>
     <p>
-Now save and exit nano.
+Now save the file and exit nano.
         </p>
         <p>
-Type the following:
+Type the following to compile the code:
          </p>
 <pre>
 mpicc -o hello hello.c
@@ -857,34 +857,34 @@ Type the command:
 ls -al
 </pre>
         <p>
-This should show the directory contents - which will include a file called hello
+This should show the directory contents - which will include an executable file called hello.
      </p>
         <p>
 Now we will run this as an MPI program.
  </p>
         <p>
-First we will create a hostfile
+First we need to create a hostfile:
          </p>
 <pre>
 nano hostfile
 </pre>
         <p>
-and type in the address of your Raspberry Pi followed by <i>:4</i>, for example I type in:
+where you need to type in the address of <b>your</b> Raspberry Pi followed by a :<i>:4</i>", for example I need to type in:
          </p>
 <pre> 
 192.168.2.18:4
 </pre>
         <p>
-Now save and exit.
+Now save the file and exit nano.
  </p>
         <p>
-Now type the command:
+To run the hello program type in the command:
          </p>
 <pre>  
 mpiexec -n 4 -f hostfile ./hello
 </pre>
         <p>
-The mpiexec command will run the program hello as an MPI program across 4 cores on the systems identified in the hostfile. This means that the program will run as four processes which could communicate with each other - in this case each process will only write out which core on the Raspberry Pi it is working on.
+The mpiexec command will run the program hello as an MPI program across 4 cores on the systems identified in your hostfile. This means that the program will run as four processes which can communicate with each other - in this case each process will only write out which core on the Raspberry Pi it is working on.
  </p>
         <p>
 You should get output like this:
@@ -897,10 +897,10 @@ Hello world from processor beira, rank 2 out of 4 processors
 Hello world from processor beira, rank 3 out of 4 processors
 </pre>
         <p>
-Congratulations - you have setup MPI and run a program with it. This is the first step in checking that things are working correctly.
+If you see this output like this then congratulations - you have setup MPI on your system and run a basic MPI program on it. This is the first step in checking that things are working correctly.
         </p>
         <p>
-To enable Wifi on this main node, you need to add your network to the wpa_supplicant.conf file.
+To enable Wifi on this main node, you need to add a network to the wpa_supplicant.conf file.
         </p>
         <p>
 Type the command:
@@ -927,10 +927,10 @@ network={
 }
 </pre>
         <p>
-        If you have a system like <i>eduroam</i> please see the blog article: <a href="https://www.epcc.ed.ac.uk/blog/2016/04/29/getting-wee-archie-net">Eduroam Networking</a>
+        If you have a system like <i>eduroam</i> please see the blog article: <a href="https://www.epcc.ed.ac.uk/blog/2016/04/29/getting-wee-archie-net">Eduroam Networking</a>.
  </p>
         <p>
-You may need to restart the wifi connection. Run the command: 
+You may need to restart the wifi connection on your Raspberry pi. Run the command: 
          </p>
 <pre>    
 sudo ifdown wlan0
@@ -942,7 +942,7 @@ Wait for a few second then run:
 sudo ifup wlan0
 </pre>
         <p>
-if you run the command 
+if you run the command:
          </p>
 <pre>
 ifconfig wlan0
@@ -951,7 +951,7 @@ ifconfig wlan0
 You should get the output for the wifi with an IP address. Sharing this connection will be done after the next part.
  </p>
 <p>        
-Now what we will do is setup a DHCP server on this node - this will hand out IP addresses to any machine that connect to its network which asks for one.
+Now what we need to do is setup a DHCP server on this node - this will serve IP addresses to any other machine that wants to connect to its network and asks for one.
  </p>
      <p>   
         First we will install <i>dnsmasq</i>, to do this run the command:
@@ -972,10 +972,10 @@ This will open a long and busy looking config file.
         Press CRTL and W which will start a search, type in <i>domain-needed</i> and press enter/return.
          </p>
         <p>
-        Remove the # from the beginning of the line.
+        Remove the # from the beginning of that line  (a # is a comment and tells the program to ignore the rest of the line, good for documenting your own changes).
          </p>
         <p>
-        Remove the # from the line with bogus-priv
+        Also remove the # from the line that has bogus-priv.
  </p>
         <p>
 Find the line beginning server=/ (ignore lines starting with #) and change the line to read:
@@ -984,13 +984,13 @@ Find the line beginning server=/ (ignore lines starting with #) and change the l
 server=/cluster/&lt;ip address of your main node&gt;
 </pre>   
         <p>
-so for example:
+so for example I would use:
  </p>
 <pre>
 server=/cluster/192.168.2.18
 </pre>
         <p>
-Now find the line starting local=/ and change it to:
+Now find the line starting with local=/ and change it to:
  </p>
     <pre>
 local=/cluster/
@@ -999,14 +999,14 @@ local=/cluster/
 Search for expand-hosts.
  </p>
         <p>
-Remove the # from the beginning of the line.
+Remove the # from the beginning of that line.
  </p>
 Below the previous section there will be a line:
 <pre>
 #domain=
 </pre>
         <p>
-change this to
+change this to:
  </p>
 <pre>
 domain=cluster
@@ -1051,10 +1051,10 @@ at the end of the file add <i>&lt;ip address of your main node&gt; &lt;hostname 
 192.168.2.18   beira
 </pre>    
         <p>
-Then,save and exit.
+Then save and exit.
         </p>
 <p>
-Now we will fix the IP address of this Raspberry Pi - so that it is a fixed point we always know.
+Now we will fix the IP address of this Raspberry Pi - so that it is a fixed point we will always know.
         </p>
 <h3>Network Configuration: Raspberry Pi "Wheezy"</h3>  
         <p>
@@ -1064,13 +1064,13 @@ For older Raspberry pis do the following:
 sudo nano /etc/network/interfaces
 </pre>
         <p>
-in that file there will be a line
+in that file there will be a line:
            </p>
 <pre>
 iface eth0 net manual
 </pre>
         <p>
-we will change this to a static IP address.
+we will change this to use  a static IP address.
   
 replace the line with
                    </p>
@@ -1082,7 +1082,7 @@ network 192.168.3.0
 broadcast 192.168.2.255
 gateway 192.168.2.1
 </pre>
-        <p><b>Note:</b> Use the IP Address of your node in place of my example 192.168.2.18</p>
+        <p><b>Note:</b> Use the IP Address of your node in place of my example 192.168.2.18.</p>
 <p>
         Save this file and exit now.
        </p>
@@ -1128,7 +1128,7 @@ If you disable the internet sharing on your laptop/desktop you will find that yo
 If you have configured wifi to connect to your internet, you can share this across the network being served by the Raspberry pi via its ethernet connection.
   </p>
         <p>
-To begin run:
+On the host Raspberry pi run:
           </p>
 <pre>
  sudo nano /proc/sys/net/ipv4/ip_forward
@@ -1149,7 +1149,7 @@ This will share the connection across any machines getting IP addresses from thi
 However if you reboot the Pi, this sharing will be lost.
 </p>
         <p>
-What we will do is make the iptables persistent and the forwarding permanent.
+What we need to do is make the iptables persistent and the forwarding permanent.
 </p>
         <p>
 To do this run:
@@ -1158,7 +1158,7 @@ To do this run:
 sudo nano /etc/sysctl.conf
 </pre>   
         <p>
-From the line #net.ipv4.ip_forward=1 remove the #
+For the line #net.ipv4.ip_forward=1 remove the #.
 </p>
         <p>
 Now run the following commands to make the iptables changes load each time:
@@ -1174,13 +1174,13 @@ When it asks you if you want to save the current configuration, say yes both tim
 This will add the wifi sharing as a permanent feature of your cluster.
 </p>
         <p>
-Now you have made your main node which can do the following:
+Now you have made changes to your main node which will do the following:
         </p>
 <ul>
-<li>Share a network drive</li>
-<li>Run a DHCP Server</li>
-<li>Run an MPI program</li>
-<li>Share Internet Connection</li>
+<li>Share a network drive.</li>
+<li>Run a DHCP Server.</li>
+<li>Run an MPI program.</li>
+<li>Share Internet Connections.</li>
 </ul>
     
     
@@ -1213,10 +1213,10 @@ One of these will be your laptop/desktop.
 1471482976 34:15:9e:07:d4:42 192.168.2.47 Khonsu 01:34:15:9e:07:d4:42
 </pre>
         <p>
-You will notice some of the lines have a * - this is because all the worker nodes have the same hostname which doesn’t really work on a network. Your laptop or desktop should have a name, in my example it is Khonsu.
+You will notice some of the lines have a "*" - this is because all the worker nodes have the same hostname which doesn’t really work on a network. Your laptop or desktop should have a name, in my example it is Khonsu.
 </p>
 <p>
-We are going to do manual configuration, but we could write a script to run on all our nodes so that we don’t have to type a lot ourselves. If this is not the first time you have created a cluster, you can create a script, if it is the first time it may be more reassuring to do it yourself.
+We are going to do a manual configuration change to fix this, but we could write a script to run on all our nodes so that we don’t have to type a lot ourselves. If this is not the first time you have created a cluster, you can create a script, if it is the first time it may be more reassuring to do it yourself.
 </p>
 <p>
 So on each node you need to login:
@@ -1226,10 +1226,10 @@ So on each node you need to login:
 ssh pi@&lt;address&gt;
 </pre>
         <p>
-You will get the ssh certificate warning, then you need to put your password in.
+You will get the ssh certificate warning which you can ignore, then you will need to type your password in.
 </p>
 <p>
-    Once logged in - we will run the raspi-config again and choose the same settings options as the master node - just with a different hostname and remember to set the timezone - <a href="#configrpi" >see the main system configuration.</a>
+    Once logged in - you will need to run the raspi-config again and choose the same settings options as you did for the master node - just with a different hostname and remember to set the timezone - <a href="#configrpi" >see the main system configuration</a>.
         </p>
         <p>
 For my example I will just call them worker01-worker04 so if I look at the leases in dnsmasq:
@@ -1245,16 +1245,16 @@ For my example I will just call them worker01-worker04 so if I look at the lease
 I can login to the nodes with their IP Address now if the configuration of the server has worked correctly.
 </p>
         <p>
-And we will generate an ssh key with ssh-keygen for each machine.
+You we will need to generate an ssh key with ssh-keygen for each machine.
 </p>
         <p>
-Now we have four workers each with ssh keys.
+Now you will have four workers each with their own ssh keys.
 </p>
         <p>
-Now we have to update them all.
+Now you will have to update them all.
 </p>
         <p>
-We can open up multiple terminals and run on each worker the following command:
+You can open up multiple terminals and on each worker run the following command:
         </p>
     <pre>
 sudo rpi-update
@@ -1263,16 +1263,16 @@ sudo rpi-update
 This means all the workers are updating at the same time.
 </p>
         <p>
-Once the update has completed - you will need to reboot
+Once the update has completed - you will need to reboot.
 </p>
         <p>
-To save a lot of typing - what we will do is set up passwordless login within the cluster - we need this for parallel programs and it saves us time as well.
+To save a lot of typing - what we will do is set up passwordless login within the cluster - we need this for parallel programs to work and it saves us time as well.
 </p>
         <p>
 First we will set up passwordless login from the master node to the worker node.
             </p>
         <p>
-Log into the master node then for each of your workers run the following:
+Log into the master node and then for each of your workers run the following:
         </p>
     <pre>
 ssh-copy-id pi@&lt;worker node&gt;
@@ -1281,10 +1281,10 @@ ssh-copy-id pi@&lt;worker node&gt;
 Each time you will need to enter a password.
 </p>
         <p>
-Now you will need to do this on each of the workers - doing ssh-copy-id to all the other nodes (including the master)
+Now you will need to do this on each of the workers - doing an ssh-copy-id to all the other nodes.
 </p>
         <p>
-Now that will take a little time to type in  but will save time in the future.
+Now that will take a little time to type in but it will save time in the future.
 </p>
 
         <p>
@@ -1315,13 +1315,13 @@ Run the command:
 sudo apt-get update && sudo apt-get upgrade
 </pre>
         <p>
-You will need to confirm on each worker that you want the install to continue
+You will need to confirm on each worker that you want the install to continue.
 </p>
         <p>
 This will take some time to install even if they are all going at the same time.
 </p>
         <p>
-After they are updated we need to install some additional packages
+After they are updated we need to install some additional packages:
         </p>
 <pre>
 sudo apt-get install libxml2-dev
@@ -1329,14 +1329,14 @@ sudo apt-get install zlib1g zlib1g-dev
 sudo apt-get install mpich
 </pre>
           <p>
-Now you should be able to run 
+Now you should be able to run: 
         </p>
       
     <pre>
 mpiexec —version
 </pre>
 <p>
-However we are not quite finished with the software setup, we need to setup the mounted shared drive.
+However, we are not quite finished with the software setup. We need to setup the mounted shared drive.
 </p>
         <p>
 Start on each node by doing this:
@@ -1361,19 +1361,19 @@ You will need to do this on each node:
 Have a look at the above files in nano.
 </p>
         <p>
-each one near the top should have a line
+Each file should have a line near the top with:
         </p>
     <pre>
 # Default-Start:     2 3 4 5
 </pre>
         <p>
-however in some is may say:
+However, as before, in some it may have:
         </p>
     <pre>
 # Default-Start:     S
 </pre>
         <p>
-Change all the S to 2 3 4 5 
+Change all the S to 2 3 4 5. 
 </p>
         <p>
 Then run:
@@ -1392,10 +1392,10 @@ We are going to address the shared nfs drive by its IP address:
 sudo mount 192.168.2.18:/home/shared_dir /home/shared_dir
 </pre>
         <p>
-This will mount the drive a single time - when you reboot it will be lost
+This will only mount the drive a single time - when you reboot the pi the changes will be lost.
 </p>
         <p>
-So we need to add in some configuration that will do this automatically, run:
+So we need to add it to some configuration that will do this automatically, run:
     </p>
     <pre>
 sudo nano /etc/fstab
@@ -1406,16 +1406,13 @@ at the end of the file add:
 192.168.2.18:/home/shared_dir /home/shared_dir nfs rw,hard,intr,noauto,x-systemd.automount 0 0
 </pre>
         <p>
-Now we can reboot everything so 
-in each node run:
+Now you can reboot everything so on each node run:
         </p>
     <pre>
 sudo reboot
 </pre>
         <p>
-Now we will test out simple hello world across multiple nodes:
-</p>
-        <p>
+Now we will test our simple hello world across multiple nodes -
 login to the master node:
         </p>
 <pre>
@@ -1423,7 +1420,7 @@ cd /home/shared_dir/testprogram
 nano hostfile
 </pre>
         <p>
-in hostile add the IP addresses of your nodes (not the ones in the example unless they match up) with a :4 at the end like this:
+in the hostile add the IP addresses of your nodes (not the ones in the example unless they match up) with a :4 at the end like this:
         </p>
 <pre>
 192.168.2.18:4
@@ -1433,7 +1430,7 @@ in hostile add the IP addresses of your nodes (not the ones in the example unles
 192.168.2.62:4
 </pre>
         <p>
-Save and exit nano
+Save and exit nano.
 </p>
         <p>
 Run the following command:
@@ -1467,7 +1464,7 @@ Hello world from processor beira, rank 0 out of 20 processors
 Hello world from processor beira, rank 2 out of 20 processors
 </pre>
         <p>
-Congratulations you have put together a basic cluster for running parallel programs on.
+Congratulations, if you got this then you have put together a basic cluster for running parallel programs on.
 </p>
    
         <p>
@@ -1476,30 +1473,30 @@ To turn off  a Raspberry Pi, type:
     <pre>sudo halt</pre>
 
      <p>
-To see how fast your cluster is, the next instruction set will show you how to install a benchmark and run it.
+To see how fast your cluster is, the next instruction set will show you how to install a benchmark and how to run it.
 </p>
 
 <a name="bench"><h3>Running a benchmark</h3></a>
 <p>
-Linpack is a commonly used benchmark to test how “fast” a supercomputer can go. What we are going to do is installed linpack on your cluster and test how fast your cluster is.
+Linpack is a commonly used benchmark to test how “fast” a supercomputer can go. What we are going to do is install linpack on your cluster and test how fast your cluster is.
 </p>
    
         <p>
-First thing to do - log into your cluster and connect it to the internet.
+The first thing to do is to log into your cluster and connect it to the internet.
 </p>
    
         <p>
-We are going to run the HPL - High Performance Linpack Benchmark on your cluster, information found at <a href="http://www.netlib.org/benchmark/hpl/">Linpack</a>
+We are going to run the HPL - High Performance Linpack Benchmark on your cluster, more information on this can be found at <a href="http://www.netlib.org/benchmark/hpl/">Linpack</a>.
         </p>
 <h4>Software Setup:</h4>
 <p>
-On each node we need some additional software so run the following on each node:
+On each node, we need some additional software so run the following command on each of the nodes:
  </p>
     <pre>
  sudo apt-get install libatlas-base-dev gfortran
 </pre>
         <p>
-now use the following command to change to the shared drive
+Now use the following command to change to the shared drive:
          </p>
 <pre>
 cd /home/shared_dir
@@ -1524,7 +1521,7 @@ This file is a compressed archive to make it quicker to download, we will now ex
 tar xf hpl-2.2.tar.gz
 </pre>
         <p>
-change into the new directory and into the setup directory:
+Change into the new directory and into the setup directory:
          </p>
 <pre>
 cd hpl-2.2/setup
@@ -1536,14 +1533,14 @@ Run the following command:
 sh make_generic
 </pre>
         <p>
-change to the directory above:
+Change to the parent directory:
         
      </p>
     <pre>
 cd ..
 </pre>
         <p>
-copy the UNKNOWN make file and call it Make.rpi
+Copy the Make.UNKNOWN file and call it Make.rpi.
          </p>
 <pre>
 cp setup/Make.UNKOWN Make.rpi
@@ -1555,18 +1552,18 @@ Now we will edit the file:
 nano Make.rpi
 </pre>
         <p>
-Press CRTL+W and search for ARCH
+Press CRTL+W and search for ARCH.
  </p>
         <p>
-The line should say ARCH = UNKNOWN
+The line should say ARCH = UNKNOWN.
          </p>
 <pre>
 Change unknown to rpi
 </pre>
         <p>
-Search for TOPdir
+Search for TOPdir.
  </p>
-Change the value for TOPdir to
+Change the value for TOPdir to:
     <pre>
 /home/shared_dir/linpack/hpl-2.2
 </pre>
@@ -1574,10 +1571,10 @@ Change the value for TOPdir to
 We could set the first part of this to an environment variable but that is another topic.
  </p>
         <p>
-A few lines below you will find three blank entries Mkdir, MPinc, MPlib
+A few lines below you will find three blank entries Mkdir, MPinc, MPlib.
  </p>
         <p>
-Set these to the below:
+Set these to the values shown below:
  </p>
     <pre>
 MPdir        = /usr/lib
@@ -1590,16 +1587,16 @@ LALib        = -lblas
 
 </pre>
         <p>
-Save and exit nano, then type the command:
+Save the file and exit nano, then type the command:
          </p>
 <pre>
 make arch=rpi
 </pre>
         <p>
-This will compile the benchmark
+This will compile the benchmark.
  </p>
         <p>
-Now we need to create a data file to test with.
+Now we need to create a data file to test with:
      </p>
 <pre>
 cd bin/rpi
@@ -1643,7 +1640,7 @@ HPL.out      output file name (if any)
 
 </pre>
         <p>
-        Save and exit nano.
+        Save the file and exit nano.
  </p>
         <p>
 Then in the bin/rpi directory run:
@@ -1652,7 +1649,7 @@ Then in the bin/rpi directory run:
 ./xhpl
 </pre>
         <p>
-this will output:
+This will produce output like:
          </p>
     <pre>
 ================================================================================
@@ -1702,7 +1699,7 @@ ALIGN  : 8 double precision words
 and this will take some time to run.
  </p>
         <p>
-Then will output something like this:
+Then in the end it will produce output like:
  </p>
 <pre>
 ================================================================================
@@ -1727,13 +1724,13 @@ End of Tests.
 ================================================================================
 </pre>
         <p>
-The numbers will vary but this result about shows that a single RPI3 achieves 269.3Mflops.
+The numbers will vary but this result about shows that a single Raspberry Pi 3 achieves 269.3Mflops (see under the Gflops column at the top).
  </p>
 <p>
 Now what we will do is run LINPACK across our cluster.
  </p>
         <p>
-First thing to do is to create a hostfile with the ip addresses of your nodes.
+The first thing you need to do is to create a hostfile with the ip addresses of your nodes.
          </p>
     <pre>
 192.168.2.18:4
@@ -1743,7 +1740,7 @@ First thing to do is to create a hostfile with the ip addresses of your nodes.
 192.168.2.62:4
 </pre>
         <p>
-Now we will edit our HPL.dat
+Now you will need to edit your HPL.dat:
         </p>
 <pre>
 HPLinpack benchmark input file
@@ -1780,7 +1777,7 @@ HPL.out      output file name (if any)
 
 </pre>
         <p>
-Then we will run the program using mpiexec
+Then run the program using mpiexec:
          </p>
 <pre>
 mpiexec -n 20 -f hostfile ./xhpl
