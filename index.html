@@ -307,6 +307,14 @@ When you run this command you will get output which contains lines like:
 <p>
 The other way is to install a program like nmap, which is available from <a href="https://nmap.org/">https://nmap.org/</a>.
 </p>
+       <p> To run nmap to scan on your network you can do it in two ways:</p>
+        <ul>
+            <li>Scan a range of IP addresses: <pre> nmap 192.168.2.1-255</pre>
+            Use this option if you know what range your connection sharing will use; replace the IP address range with your own values.</li>
+            <li>Scan a subnet on the network: <pre>nmap 192.168.2.0/24</pre>
+            Use this option if you only know the start of the IP address range (e.g. 192.168.2) and it will scan over the whole subnet.</li>
+        </ul>
+    
  <p>       
 <b>NOTE:</b> Windows information is still be written TODO
 </p>
