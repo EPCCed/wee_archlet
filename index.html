@@ -29,10 +29,10 @@
 
         <p>These instructions will help you build and set up a small cluster of Raspberry Pi computers to use as a small parallel system. The instructions take you through the process of connecting the computers together, setting up the environment and checking that it works correctly.
         </p>
-        <p>These instructions are not for complete beginners with computers - they have concepts of networks, command line and file systems with some explanation but require some experience and a willingness to try things.
+        <p>These instructions are not for complete beginners with computers - they assume knowledge of concepts such as networks, command line and file systems. There are some explanations in this document but still require some experience and a willingness to try things out.
         </p>
 <p>
-        <b>Note:</b> these instructions deal with a cluster of 5 Raspberry pis but the cluster can be of any size you want (minimum of 2 as otherwise it is not a parallel computer).
+        <b>Note:</b> these instructions deal with a cluster of 5 Raspberry Pis but the cluster can be of any size you want (minimum of 2 as otherwise it is not a parallel computer).
    </p>         
             
         <p>
@@ -50,7 +50,7 @@
         Sometime they will have light text on a dark background - you can configure them to your own liking. Regardless, a Raspberry Pi uses the Linux operating system and will have a terminal that functions and behaves in the same way this document describes.
         </p>
     <p>
-            If you are using Windows, you may need to install an SSH client to connect to the Raspberry Pi. An SSH client which is free is PuTTY - <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">available at this link</a>.
+            If you are using Windows, you may need to install an SSH client to connect to the Raspberry Pi. An SSH client which is free is PuTTY - <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">available from this link</a>.
         </p>
         <p>
         On a Linux system, you will need to open a command terminal on your computer - you may be able to get this using a right mouse click and choosing "Terminal", or from a list of programs in the program menu.
@@ -65,7 +65,7 @@
        <a name="materials"><h2>Materials</h2></a>
 <h3>Required</h3>
          <ul>
-<li>5 Raspberry Pis (Note the examples used in this instruction set are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models - if problems are encountered please submit an issue to ADD ADDRESS).</li>
+<li>5 Raspberry Pis (Note the examples used in these instructions are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models - if problems are encountered please submit an issue to ADD ADDRESS).</li>
 <li>5 Power Supplies/1 Multisupply Unit.</li>
 <li>1 Switch (8 Ports).</li>
 <li>6 Ethernet Cables.</li>
@@ -79,7 +79,7 @@
         
         <h3>Materials used in these instructions:</h3>
                 <ul>
-<li>5 Raspberry Pi 3</li>
+<li>5 Raspberry Pi 3.</li>
             <li><a href="http://www.farnell.com/datasheets/1948264.pdf">1 Multi-USB Power Socket. Note - This model appears to have been discontinued. </a></li>
 <li>1 Netgear GS108E Switch (8 Ports). </li>
 <li>6 Ethernet Cables.</li>
@@ -136,7 +136,7 @@ Now it should look something like:
 <img src="images/IMG_20170210_132914225.jpg" alt="Ethernet"/>
             <figcaption>Connected</figcaption>
             </figure>
-Connect your laptop or desktop to the switch via an ethernet cable. (Note that while Raspberry pi 3 has a builtin wireless network - we are not using this and at this point it probably would not have been set up.)
+Connect your laptop or desktop to the switch via an ethernet cable. (Note that while Raspberry Pi 3 has a builtin wireless network - we are not using this and at this point it probably would not have been set up.)
 
 Now all the network cables are connected - we need to put the power cables in.
 
@@ -174,7 +174,7 @@ Now we have put all the hardware connections in, it is time to start configuring
 
 <h3><a name="sharing">Network Software Setup</a></h3>
 
-        <p><b>Note: </b>These instructions assume you are using a computer connected to a WiFi network and that computer has a free Ethernet port to connect to the cluster.</p>
+        <p><b>Note: </b>These instructions assume you are using a computer connected to a WiFi network and that this computer has a free Ethernet port to connect to the cluster.</p>
   <p>      
 First on your laptop/desktop you will have to configure the internet sharing:
 </p>
@@ -201,7 +201,7 @@ This will start a service which shares the connection from the WiFi across the E
         <p>
 Finding out the IP addresses of your Raspberry Pis. For the setup used here, the shared network connection showed up as an adapter called Bridge100 after running ifconfig. This is what allows the WiFi connection to be shared to the Ethernet connection.
 </p>
-        <p><b>Note:</b> Bridge100 may be renamed to some other name on your computer. To check which interface is created - type ifconfig before turning on your sharing or plugging in your adapter then run it again after to find the changes.</p>
+        <p><b>Note:</b> the Bridge100 may be using some other name on your computer. To check which interface is created - type ifconfig before turning on your sharing or plugging in your adapter then run it again afterwards to find out what difference the changes made.</p>
         <p>
 For a MacOS computer you need to find out the Bridge100 IP address. This is the most likely interface you are using for ethernet although some systems will vary.
 </p>
@@ -344,7 +344,7 @@ A brief explanation of IP Addresses and DHCP are available at the following link
 
     <p>
 Now we have our Pis started, we know their current IP addresses - now we should start doing some configuration and setup. 
-        <b>Note: These IP addresses are only valid with the current connection to your computer. After the setup is complete the Raspberry Pis will be assigned addresses by the cluster server.</b>
+        <b>Note: These IP addresses are only valid with the current connection to your computer. After the setup is complete, the Raspberry Pis will be assigned addresses by the cluster server.</b>
 </p>
     <p>
 For example, my Pi addresses are:
@@ -385,7 +385,7 @@ RSA key fingerprint is a0:97:1f:d6:df:8c:a5:45:db:fe:b4:94:46:1d:0f:48.
 Are you sure you want to continue connecting (yes/no)? 
 </pre>
         <p>
-Answer yes in and the following will appear:
+Type yes in and the following will appear:
             </p>        
 <pre>
 Warning: Permanently added '192.168.2.18' (RSA) to the list of known hosts.
@@ -428,7 +428,7 @@ Type the command  sudo raspi-config and press Enter/Return, e.g.:
 pi@raspberrypi:~ $ sudo raspi-config
 </pre>
         <p>
-This will run a provided Raspberry pi configuration program.
+This will run a provided Raspberry Pi configuration program.
             </p>        
 <p>
 The sudo command means that any following commands will be run as the super-user which has permissions to make system changes rather than just changes in a user own files.
@@ -462,7 +462,7 @@ We need to set the right time zone so that the date and time on the Pi is correc
 <ul>
     <li>Choose Option 5 Internationalisation Options.</li>
 <li>Choose the T2 Change Timezone option.</li>
-  <li>  From the list choose your area, for me it is Europe</li>
+  <li>  From the list choose your area, for me it is Europe.</li>
     <li>Then choose your closest location, I chose London.</li>
         </ul>    
     
@@ -470,13 +470,13 @@ We need to set the right time zone so that the date and time on the Pi is correc
 Once back in the main menu, use the cursor/arrow keys to move to the button which says Finish and hit enter/return.
           </p>
         <p>
-It will ask if you want to reboot - choose yes and reboot this pi.
+It will ask if you want to reboot - choose yes and reboot this Pi.
   </p>
     <p>    
-Your ssh session with the Raspberry pi will end. The Raspberry pi will take a little time to reboot before you can log in again to continue. Have patience here.
+Your ssh session with the Raspberry Pi will end. The Raspberry Pi will take a little time to reboot before you can log in again to continue. Have patience here.
   </p>
         <p>
-Now log back into the Raspberry pi using the ssh command previously used and put in the password.
+Now log back into the Raspberry Pi using the ssh command previously used and put in the password.
   </p>
         <p>
 Now you will note that the command line says pi@your-hostname-here so my example shows
@@ -485,7 +485,7 @@ Now you will note that the command line says pi@your-hostname-here so my example
 pi@beira:~ $
 </pre>
         <p>
-We will now install some updates on the Raspberry pi main software. The first command to run is rpi-update.
+We will now install some updates on the Raspberry Pi main software. The first command to run is rpi-update.
           </p>
 <pre>
 pi@beira:~ $ sudo rpi-update
@@ -507,7 +507,7 @@ https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=167934
 Would you like to proceed? (y/N)
 </pre>
         <p>
-If you do not want to perform this update, choose <i>N</i>, otherwise type <i>y</i>. You will need to reboot the Raspberry pi for this to take effect.
+If you do not want to perform this update, choose <i>N</i>, otherwise type <i>y</i>. You will need to reboot the Raspberry Pi for this to take effect.
           </p>
     <pre>
 pi@beira:~ $ sudo reboot
@@ -575,7 +575,7 @@ You’ve set up a ssh key - remember how to do this as you will be doing it agai
 sudo apt-get update
     </pre>
         <p>
-This will pull information about the latest versions of packages available for the Raspberry pi operating system. It will take about 30-50 seconds to run.
+This will pull information about the latest versions of packages available for the Raspberry Pi operating system. It will take about 30-50 seconds to run.
 </p>     
         <p>
 Now we will run:
@@ -643,13 +643,13 @@ sudo mkdir -p /home/shared_dir
 <i>mkdir</i> is a command used to create a directory (which can contain other directories and files).
 </p>
         <p>
-Now change its permissions so that everyone can read or write to this directory:
+Now change its access permissions so that everyone can read or write to this directory:
         </p>
 <pre>
 sudo chmod 777 /home/shared_dir
 </pre>
         <p>
-            <i>chmod</i> is a command to change the permissions on a file or directory. Here 777 means that everyone can read, write or execute commands in that directory. If you only want the owner to be able to write and others to only read you would use 644. This link will take you to the <a href="https://en.wikipedia.org/wiki/Chmod">Wikipedia chmod entry</a>.
+            <i>chmod</i> is a command to change the access permissions on a file or directory. Here 777 means that everyone can read, write or execute commands in that directory. If you only want the owner to be able to write and others to only read you would use 644. This link will take you to the <a href="https://en.wikipedia.org/wiki/Chmod">Wikipedia chmod entry</a>.
 </p>
         <p>
 Now we need to mount the shared_dir and bind it.
@@ -950,8 +950,8 @@ network={
 }
 </pre>
         <p>
-            <b>Note: The SSID is the WiFi network identifier - this is an identifier broadcast to allow you to select the right WiFi network. If you are running a home network - this will likely be on your router. Otherwise you can check to see what WiFi network your main computer is connected to from the WiFi network properties.</b>
-as an example:
+            <b>Note: The SSID is the WiFi network identifier - this is an identifier broadcast to allow you to select the right WiFi network. If you are running a home network - this will likely be on your router. Otherwise you can check to see what WiFi network your main computer is connected to from the WiFi network properties.</b><br/>
+As an example:
          </p>
 <pre>
 network={
@@ -963,7 +963,7 @@ network={
         If you have a system like <i>eduroam</i> please see the blog article: <a href="https://www.epcc.ed.ac.uk/blog/2016/04/29/getting-wee-archie-net">Eduroam Networking</a>.
  </p>
         <p>
-You may need to restart the wifi connection on your Raspberry pi. Run the command: 
+You may need to restart the wifi connection on your Raspberry Pi. Run the command: 
          </p>
 <pre>    
 sudo ifdown wlan0
@@ -1017,7 +1017,7 @@ Find the line beginning server=/ (ignore lines starting with #) and change the l
 server=/cluster/&lt;ip address of your main node&gt;
 </pre>   
         <p>
-so for example I would use:
+so, for example I would use:
  </p>
 <pre>
 server=/cluster/192.168.2.18
@@ -1093,7 +1093,7 @@ Then save and exit.
 Now we will fix the IP address of this Raspberry Pi - so that it is a fixed point we will always know.
         </p>
 <h3>Network Configuration: Raspberry Pi "Wheezy"</h3>  
-        <p>There are two tested versions of Raspbian for these instructions - "Wheezy" and "Jessie". New installations of Raspbian should be "Jessie" - commonly Raspberry Pi 3 computers, older Raspberry Pi 1 and 2 will if not upgraded likely be running "Wheezy". Use the instructions for your particular installation.</p>
+        <p>There are two tested versions of Raspbian for these instructions - "Wheezy" and "Jessie". New installations of Raspbian should be "Jessie" - commonly Raspberry Pi 3 computers, older Raspberry Pi 1 and 2 will, if not upgraded, likely be running "Wheezy". Use the instructions for your particular installation.</p>
         <p>
 For Raspberry Pi running the Raspbian version denoted "Wheezy" (commonly non-upgraded Raspberry Pi 1 and 2) do the following:
         </p>
@@ -1131,7 +1131,7 @@ sudo service dnsmasq start
 sudo reboot
 </pre>
 <p>
-Then log back into the Raspberry pi.
+Then log back into the Raspberry Pi.
   </p>
 <h3>Network Configuration: Raspberry Pi "Jessie"</h3> 
 For Raspberry Pi computers running Raspbian version denoted "Jessie" (commonly Raspberry Pi 3), run:
@@ -1154,7 +1154,7 @@ sudo service dnsmasq start
 sudo reboot
 </pre>    
    <p> 
-Then log back into the Raspberry pi.
+Then log back into the Raspberry Pi.
   </p>
 
    <h3>All Systems</h3>  
@@ -1162,10 +1162,10 @@ Then log back into the Raspberry pi.
 If you disable the internet sharing on your laptop/desktop you will find that you get an IP address from the Pi on the ethernet.
   </p>
         <p>
-If you have configured wifi to connect to your internet, you can share this across the network being served by the Raspberry pi via its ethernet connection.
+If you have configured wifi to connect to your internet, you can share this across the network being served by the Raspberry Pi via its ethernet connection.
   </p>
         <p>
-On the host Raspberry pi run:
+On the host Raspberry Pi run:
           </p>
 <pre>
  sudo nano /proc/sys/net/ipv4/ip_forward
@@ -1266,7 +1266,7 @@ ssh pi@&lt;address&gt;
 You will get the ssh certificate warning which you can ignore, then you will need to type your password in.
 </p>
 <p>
-    Once logged in - you will need to run the raspi-config again and choose the same settings options as you did for the master node - just with a different hostname and remember to set the timezone - <a href="#configrpi" >see the main system configuration</a>. Here is the list of raspi-config steps.
+    Once logged in - you will need to run the raspi-config again and choose the same settings options as you did for the master node - just with a different hostname and remember to set the timezone - <a href="#configrpi" >see the main system configuration</a>. Here is the list of raspi-config steps:
     
     <ul>
 <li>Choose option 3 Boot Options.</li>
@@ -1281,7 +1281,7 @@ You will get the ssh certificate warning which you can ignore, then you will nee
         </ul>    
         </p>
         <p>
-For my example I will just call them worker01-worker04 so if I look at the leases in dnsmasq:
+For my example, I will just call them worker01-worker04 so if I look at the leases in dnsmasq:
         </p>
     <pre>
 1471486724 b8:27:eb:1d:52:f6 192.168.2.55 worker01 01:b8:27:eb:1d:52:f6
@@ -1441,7 +1441,7 @@ We are going to address the shared nfs drive by its IP address:
 sudo mount 192.168.2.18:/home/shared_dir /home/shared_dir
 </pre>
         <p>
-This will only mount the drive a single time - when you reboot the pi the changes will be lost.
+This will only mount the drive a single time - when you reboot the Pi the changes will be lost.
 </p>
         <p>
 So we need to add it to some configuration that will do this automatically, run:
