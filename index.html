@@ -33,6 +33,9 @@
         <b>Note:</b> these instructions deal with a cluster of 5 Raspberry pis but the cluster can be of any size you want (minimum of 2 as otherwise it is not a parallel computer).
    </p>         
             
+        <p>
+        <b>Note:</b> This is an initial version of these instructions - some parts may need to be updated or changed to make them clearer. If you try these instructions and find any issues or have suggestions, submit an issue to ADD ADDRESS.
+   </p>   
         <a name="command">Command Terminals</a>
         <p>
         This document will refer to command terminals throughout, this is how the Raspberry Pis are accessed, how you configure them and how you tell the Raspberry Pis what you want them to do.
@@ -1814,8 +1817,10 @@ Your speeds will vary. This is the default setup for Linpack on this cluster - w
  </p>
         <p>Further instructions for tweaking your cluster and installing demos from EPCC and ARCHER will be appearing in the future.</p>
 <p>
-<b>Note:</b> If the network connections appear inconsistent, add to /etc/sysctl.conf: <i>vm.min_free_kbytes = 16384 </i>
- </p>
+<b>Note:</b> If the network connections appear to break connection (error message comes up) or freeze (network becomes unresponsive), add the following line to the file /etc/sysctl.conf: 
+     </p>
+        <pre>vm.min_free_kbytes = 16384 </pre>
+
    
     </body>
 </html>
