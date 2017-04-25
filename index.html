@@ -29,6 +29,8 @@
 
         <p>These instructions will help you build and set up a small cluster of Raspberry Pi computers to use as a small parallel system. The instructions take you through the process of connecting the computers together, setting up the environment and checking that it works correctly.
         </p>
+        <p>These instructions are not for complete beginners with computers - they have concepts of networks, command line and file systems with some explanation but require some experience and a willingness to try things.
+        </p>
 <p>
         <b>Note:</b> these instructions deal with a cluster of 5 Raspberry pis but the cluster can be of any size you want (minimum of 2 as otherwise it is not a parallel computer).
    </p>         
@@ -63,7 +65,7 @@
        <a name="materials"><h2>Materials</h2></a>
 <h3>Required</h3>
          <ul>
-<li>5 Raspberry Pis (Note the examples used in this instruction set are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models - if problems are encountered please ask on the forum and we will see if we can provide help).</li>
+<li>5 Raspberry Pis (Note the examples used in this instruction set are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models - if problems are encountered please submit an issue to ADD ADDRESS).</li>
 <li>5 Power Supplies/1 Multisupply Unit.</li>
 <li>1 Switch (8 Ports).</li>
 <li>6 Ethernet Cables.</li>
@@ -172,8 +174,10 @@ Now we have put all the hardware connections in, it is time to start configuring
 
 <h3><a name="sharing">Network Software Setup</a></h3>
 
+        <p><b>Note: </b>These instructions assume you are using a computer connected to a WiFi network and that computer has a free Ethernet port to connect to the cluster.</p>
+  <p>      
 First on your laptop/desktop you will have to configure the internet sharing:
-
+</p>
 <h4>Mac OS</h4>
 <ul>
 <li>Go to System Perferences</li>
@@ -678,7 +682,7 @@ To continue the configuration, run:
 sudo nano /etc/default/nfs-kernel-server
 </pre>
         <p>
-Make sure that 
+Make sure that one of the following options is present in the opened file:
           </p>
 <pre>    
 NEED_SVCGSSD=no
@@ -942,6 +946,7 @@ network={
 }
 </pre>
         <p>
+            <b>Note: The SSID is the WiFi network identifier - this is an identifier broadcast to allow you to select the right WiFi network. If you are running a home network - this will likely be on your router. Otherwise you can check to see what WiFi network your main computer is connected to from the WiFi network properties.</b>
 as an example:
          </p>
 <pre>
@@ -1025,12 +1030,12 @@ Search for expand-hosts.
         <p>
 Remove the # from the beginning of that line.
  </p>
-Below the previous section there will be a line:
+Goto the line starting:
 <pre>
 #domain=
 </pre>
         <p>
-change this to:
+and change this to:
  </p>
 <pre>
 domain=cluster
@@ -1081,8 +1086,9 @@ Then save and exit.
 Now we will fix the IP address of this Raspberry Pi - so that it is a fixed point we will always know.
         </p>
 <h3>Network Configuration: Raspberry Pi "Wheezy"</h3>  
+        <p>There are two tested versions of Raspbian for these instructions - "Wheezy" and "Jessie". New installations of Raspbian should be "Jessie" - commonly Raspberry Pi 3 computers, older Raspberry Pi 1 and 2 will if not upgraded likely be running "Wheezy". Use the instructions for your particular installation.</p>
         <p>
-For older Raspberry pis do the following:
+For Raspberry Pi running the Raspbian version denoted "Wheezy" (commonly non-upgraded Raspberry Pi 1 and 2) do the following:
         </p>
 <pre>
 sudo nano /etc/network/interfaces
@@ -1121,7 +1127,7 @@ sudo reboot
 Then log back into the Raspberry pi.
   </p>
 <h3>Network Configuration: Raspberry Pi "Jessie"</h3> 
-For newer Raspberry Pi computers, run:
+For Raspberry Pi computers running Raspbian version denoted "Jessie" (commonly Raspberry Pi 3), run:
     <pre>
     sudo nano /etc/dhcpcd.conf
 </pre>
@@ -1815,7 +1821,7 @@ For my example cluster a test run came out 2.403Gflops.
         <p>
 Your speeds will vary. This is the default setup for Linpack on this cluster - we have been exploring ways of getting better performance - for example we can change some of the software libraries in the benchmark for more efficient ones, this has proven to give far better performance numbers. 
  </p>
-        <p>Further instructions for tweaking your cluster and installing demos from EPCC and ARCHER will be appearing in the future.</p>
+        <p>Further instructions for tweaking your cluster and installing demos from EPCC and ARCHER will be appearing in the future. Monitor our blog at <a href="https://www.epcc.ed.ac.uk/blog">https://www.epcc.ed.ac.uk/blog</a> and Twitter feed at <a href="https://twitter.com/EPCCed">https://twitter.com/EPCCed</a> for related announcements.</p>
 <p>
 <b>Note:</b> If the network connections appear to break connection (error message comes up) or freeze (network becomes unresponsive), add the following line to the file /etc/sysctl.conf: 
      </p>
