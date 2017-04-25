@@ -199,11 +199,11 @@ This will start a service which shares the connection from the WiFi across the E
         
 <h3>Getting into the Pi</h3>        
         <p>
-Finding out the IP addresses of your Raspberry Pis.
+Finding out the IP addresses of your Raspberry Pis. For the setup used here, the shared network connection showed up as an adapter called Bridge100 after running ifconfig. This is what allows the WiFi connection to be shared to the Ethernet connection.
 </p>
-        <p><b>Note:</b> The Bridge100 interface may be renamed to some other name on your computer. To check which interface is created - type ifconfig before turning on your sharing or plugging in your adapter then run it again after to find the changes.</p>
+        <p><b>Note:</b> Bridge100 may be renamed to some other name on your computer. To check which interface is created - type ifconfig before turning on your sharing or plugging in your adapter then run it again after to find the changes.</p>
         <p>
-For a MacOS or Linux computer you need to find out the Bridge100 IP address. This is the most likely interface you are using for ethernet although some systems will vary.
+For a MacOS computer you need to find out the Bridge100 IP address. This is the most likely interface you are using for ethernet although some systems will vary.
 </p>
 Open a command terminal:
 <figure>
@@ -311,6 +311,9 @@ When you run this command you will get output which contains lines like:
 <pre>
 ? (239.255.255.250) at 1:0:5e:7f:ff:fa on bridge100 ifscope permanent [ethernet]
 </pre>
+        <p>
+            Running the arp program will give you a list of connected IP addresses on your Bridge100 interface, this list of addresses is the list of Raspberry Pi addresses - there should be the same number of addresses as you have Raspberry Pis connected.
+        </p>
 <p>
 The other way is to install a program like nmap, which is available from <a href="https://nmap.org/">https://nmap.org/</a>.
 </p>
@@ -340,7 +343,8 @@ A brief explanation of IP Addresses and DHCP are available at the following link
        
 
     <p>
-Now we have our Pis started, we know their IP addresses - now we should start doing some configuration and setup.
+Now we have our Pis started, we know their current IP addresses - now we should start doing some configuration and setup. 
+        <b>Note: These IP addresses are only valid with the current connection to your computer. After the setup is complete the Raspberry Pis will be assigned addresses by the cluster server.</b>
 </p>
     <p>
 For example, my Pi addresses are:
@@ -356,7 +360,7 @@ For example, my Pi addresses are:
 I am going to make the Pi with address 192.168.2.18 the master node in the cluster and the other Pis will be worker nodes.
     </p>
         <p>
-The master node in our clusters will run the network handing out IP addresses, share its Wifi connection (if setup), share a networked drive for files and start the programs we will run on the cluster.
+The master node in our clusters will run the network assigning IP addresses via the DHCP server, share its Wifi connection (if used), share a networked drive for files and start the programs we will run on the cluster.
                </p>
         <p>
 The worker nodes will do the actual computation in any programs.
@@ -1050,6 +1054,9 @@ Remove the # and change it to:
 dhcp-range=192.168.2.30,192.168.2.100,14d
 </pre>    
 <p>
+This will set the range of IP addresses that can be assigned to client machines (192.168.2.30-192.168.2.100) and for how long they are assigned those addresses before they are renewed, known as lease time, in this case 14 days.
+        </p>
+        <p>
 Save this file now and exit the editor.
  </p>
         <p>
@@ -1259,7 +1266,19 @@ ssh pi@&lt;address&gt;
 You will get the ssh certificate warning which you can ignore, then you will need to type your password in.
 </p>
 <p>
-    Once logged in - you will need to run the raspi-config again and choose the same settings options as you did for the master node - just with a different hostname and remember to set the timezone - <a href="#configrpi" >see the main system configuration</a>.
+    Once logged in - you will need to run the raspi-config again and choose the same settings options as you did for the master node - just with a different hostname and remember to set the timezone - <a href="#configrpi" >see the main system configuration</a>. Here is the list of raspi-config steps.
+    
+    <ul>
+<li>Choose option 3 Boot Options.</li>
+<li>Now choose option B1 Text console and hit enter/return.</li>
+<li>Now choose the option 9 Advanced Options.</li>
+<li>Choose the Option A2 Hostname and hit enter/return.</li>
+  <li>Set Hostname</li>
+    <li>Choose Option 5 Internationalisation Options.</li>
+<li>Choose the T2 Change Timezone option.</li>
+  <li>  From the list choose your area, for me it is Europe</li>
+    <li>Then choose your closest location, I chose London.</li>
+        </ul>    
         </p>
         <p>
 For my example I will just call them worker01-worker04 so if I look at the leases in dnsmasq:
@@ -1633,7 +1652,7 @@ cd bin/rpi
 nano HPL.dat
 </pre>
         <p>
-enter the following:
+Now enter the following text into the HPL.dat file:
          </p>
 <pre>
 HPLinpack benchmark input file
