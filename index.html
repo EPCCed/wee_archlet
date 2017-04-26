@@ -24,6 +24,14 @@
                 <li><a href="https://www.epcc.ed.ac.uk/discover-and-learn/resources-and-activities/what-is-a-supercomputer/wee-archie">Wee Archie</a></li>
             </ul>
         
+        <h2>Version and Authorship</h2>
+        <table>
+            <tr><td><b>Version</b></td><td>0.7</td></tr>
+            <tr><td><b>Author</b></td><td>A Grant (EPCC)</td></tr>
+            <tr><td><b>Contributors</b></td><td>M Antonioletti (EPCC), G Gibb (EPCC)</td></tr>
+            <tr><td><b>Notes</b></td><td>Windows Network Connection and Linux Network Connection to be completed.</td></tr>
+        </table>
+      
         
             <a name="intro"><h2>Setting Up A Raspberry Pi Cluster</h2></a>
 
@@ -34,7 +42,9 @@
 <p>
         <b>Note:</b> these instructions deal with a cluster of 5 Raspberry pis but the cluster can be of any size you want (minimum of 2 as otherwise it is not a parallel computer).
    </p>         
-            
+         <p>
+        <b>Note:</b> Raspbian refers to the version of Linux commonly distributed with the Raspberry Pi computers.
+   </p>    
         <p>
         <b>Note:</b> This is an initial version of these instructions - some parts may need to be updated or changed to make them clearer. If you try these instructions and find any issues or have suggestions, submit an issue to ADD ADDRESS.
    </p>   
@@ -450,7 +460,7 @@ This will mean that the Raspberry Pi will always boot to a command line rather t
         <p>
 An information screen will appear - read it before continuing.
 </p>
-<p>This is a hostname, an easy to recognise name, for the Raspberry Pi you are logged into.To start to make this your cluster, you will have to choose a name for your first Raspberry Pi.
+<p>On this screen, there is a hostname, an easy to recognise name, for the Raspberry Pi you are logged into. To make it more identifiable and customise your cluster, you can choose a name for the Raspberry Pi you are logged into.
         </p>
         <p>
 In my example I will change it to <i>beira</i> and hit enter/return to confirm it.
@@ -1092,9 +1102,10 @@ Then save and exit.
 <p>
 Now we will fix the IP address of this Raspberry Pi - so that it is a fixed point we will always know.
         </p>
+          <p>There are two tested versions of Raspbian for these instructions - "Wheezy" and "Jessie". New installations of Raspbian should be "Jessie" - commonly Raspberry Pi 3 computers, older Raspberry Pi 1 and 2 will if not upgraded likely be running "Wheezy". Use the instructions for your particular installation.</p>
+        
 <h3>Network Configuration: Raspberry Pi "Wheezy"</h3>  
-        <p>There are two tested versions of Raspbian for these instructions - "Wheezy" and "Jessie". New installations of Raspbian should be "Jessie" - commonly Raspberry Pi 3 computers, older Raspberry Pi 1 and 2 will if not upgraded likely be running "Wheezy". Use the instructions for your particular installation.</p>
-        <p>
+      <p>
 For Raspberry Pi running the Raspbian version denoted "Wheezy" (commonly non-upgraded Raspberry Pi 1 and 2) do the following:
         </p>
 <pre>
