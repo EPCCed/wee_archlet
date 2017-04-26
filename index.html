@@ -26,10 +26,10 @@
         
         <h2>Version and Authorship</h2>
         <table>
-            <tr><td><b>Version</b></td><td>0.7</td></tr>
+            <tr><td><b>Version</b></td><td>0.8</td></tr>
             <tr><td><b>Author</b></td><td>A Grant (EPCC)</td></tr>
             <tr><td><b>Contributors</b></td><td>M Antonioletti (EPCC), G Gibb (EPCC)</td></tr>
-            <tr><td><b>Notes</b></td><td>Windows Network Connection and Linux Network Connection to be completed.</td></tr>
+            <tr><td><b>Notes</b></td><td>Linux Network Connection to be completed. Address for issues to be sent to.</td></tr>
         </table>
       
         
@@ -203,8 +203,26 @@ First on your laptop/desktop you will have to configure the internet sharing:
     <p>
 This will start a service which shares the connection from the WiFi across the Ethernet connection (through the switch) to the Raspberry Pis.
 </p>
-<h4>Windows TODO</h4>
-<p>Need to fill in</p>
+<h4>Windows 10</h4>
+        <h5>Share Network Connection</h5>
+        <ul>
+            <li>Open Settings</li>
+            <li>Choose Network and Internet</li>
+            <li>Choose "Network and Sharing Center</li>
+            <li>Choose "Change Adapter Settings"</li>
+            <li>Select the Wi-Fi connection (this maybe called something else on your computer but should be identifiable as being connected to a wireless network by a signal strength in the icon.)</li>
+             <li>Right Click and Choose "Properties"</li>
+             <li>Select the Sharing Tab</li>
+             <li>Under Sharing, click the box at "Allow other network users to connect through this computer's Internet Connection.</li>
+              <li>Ensure that the Home networking connection is your Ethernet network in the box below.</li>
+             <li>Your internet is now shared but you will need to use Nmap to get the attached IP addresses for the Raspberry Pis.</li>
+             <li>In the Network Connections where you selected the Wi-Fi connection, there should be a Ethernet connections, right click on it and choose Properties.</li>
+             <li>In the list headed "This connection uses the following items", click on the one called "Internet Protocal Version 4"</li>
+              <li>A Properties button will enable just below the list - click on it.</li>
+              <li>Take a note of the IP Address and Subnet Mask listed.</li>
+             <li>You can close these dialog boxes.</li>
+        <li>Now click on this link:<a href="#winnmap">Windows IP Address Discovery</a> to get instructions on how to get the Raspberry Pi IP addresses.</li></ul>
+
 <h4>Linux TODO</h4>
 <p>Need to fill in</p>
         
@@ -336,9 +354,37 @@ The other way is to install a program like nmap, which is available from <a href
             Use this option if you only know the start of the IP address range (e.g. 192.168.2) and it will scan over the whole subnet.</li>
         </ul>
     
+        <h4> <a name="winnmap">Windows</a> </h4>     
  <p>       
-<b>NOTE:</b> Windows information is still be written TODO
+Install Nmap (available at <a href="https://nmap.org/">https://nmap.org/</a>) if you are using Windows - this is the easiest way to determine the IP addresses. Using the Ethernet IP address you noted before when sharing the Internet Connection, run the command, replacing the IP address with yours but change the last number to 0:
+ 
 </p>
+            <pre>
+c:\nmap 192.168.137.0/24
+     </pre>
+    <p>This should give output like:</p>
+        <pre>
+C:\>nmap 192.168.137.0/24
+
+Starting Nmap 7.40 ( https://nmap.org ) at 2017-04-26 15:53 GMT Daylight Time
+Nmap scan report for 192.168.137.225
+Host is up (0.00013s latency).
+All 1000 scanned ports on 192.168.137.225 are closed
+MAC Address: 98:5A:EB:C7:15:8B (Apple)
+
+Nmap scan report for 192.168.137.1
+Host is up (0.0013s latency).
+Not shown: 997 closed ports
+PORT    STATE SERVICE
+135/tcp open  msrpc
+139/tcp open  netbios-ssn
+445/tcp open  microsoft-ds
+
+Nmap done: 256 IP addresses (2 hosts up) scanned in 23.48 seconds
+
+C:\>
+        </pre>
+        <p>All the IP addresses which show up starting with Nmap scan report for IP address will be your Raspberry Pis - except for the one with your written down IP address.</p>
         <p>
 Now we know what IP addresses are assigned to the Pis.
 </p>
@@ -1174,7 +1220,7 @@ sudo reboot
 Then log back into the Raspberry Pi.
   </p>
 
-   <h3>All Systems</h3>  
+   <h3>On All Systems</h3>  
         <p>
 If you disable the internet sharing on your laptop/desktop you will find that you get an IP address from the Pi on the ethernet.
   </p>
