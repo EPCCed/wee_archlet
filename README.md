@@ -2,4 +2,4 @@
 
 This repository contains instructions to setup small Raspberry Pi clusters and make your own version of our cluster  *Wee Archie*. Information on *Wee Archie* can be found at [EPCC Outreach and Resources](https://www.epcc.ed.ac.uk/discover-and-learn/resources-and-activities/what-is-a-supercomputer/wee-archie).
 
-To view the HTML in browser - [Wee Archlet HTML Instructions](https://epcced.github.io/wee_archlet/).
+To view the HTML in a browser - [Wee Archlet HTML Instructions](https://epcced.github.io/wee_archlet/).
