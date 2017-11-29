@@ -26,10 +26,11 @@
         
         <h2>Version and Authorship</h2>
         <table>
-            <tr><td><b>Version</b></td><td>0.9</td></tr>
+            <tr><td><b>Version</b></td><td>0.95</td></tr>
             <tr><td><b>Author</b></td><td>A Grant (EPCC)</td></tr>
             <tr><td><b>Contributors</b></td><td>M Antonioletti (EPCC), G Gibb (EPCC)</td></tr>
             <tr><td><b>Notes</b></td><td>Linux Network Connection to be completed. </td></tr>
+            <tr><td><b>Notes</b></td><td>Raspbian SSH Access Note added. </td></tr>
         </table>
       
         
@@ -112,6 +113,14 @@
 <li>1 Macbook with Wifi internet connection shared via Ethernet.</li>
 <li>5 <a href="http://cpc.farnell.com/multicomp/cbpiblox-red/pi-blox-enclosure-red-rev3/dp/SC14019"> Red Lego-Style Raspberry Pi cases</a>.</li>
 </ul>
+
+<h3>Important Note - Only for New Raspbian Installations</h3>
+<p>Due to changes in the recent versions of Raspbian and the NOOBS distributions, to follow these instructions you have to make a change 
+to your Raspberry Pi SD Card before you boot it up for the first time.</p>
+<p>The newer versions of Raspbian have SSH access disabled by default. You need to reenable it to follow the instructions below.</p>
+<p>This can be done by inserting the microSD cards containing Raspbian into your computer and creating a blank text file called SSH in the 
+boot partition. This will be the disk that appears in your file system when you insert the microSD card.</p>
+<p>Once you have created the file, you will be able to boot Raspbian with SSH remote access enabled.</p>
 
 
 <h3>The Hardware</h3>
