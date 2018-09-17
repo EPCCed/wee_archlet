@@ -823,8 +823,11 @@ At the end of the file add the following to export your shared_dir to the networ
 /home/shared_dir 192.168.2.0/24(rw,nohide,insecure,no_subtree_check,async)
 </pre>
         <p>
-This line will expose your shared_dir to the network where all the addresses start 192.168.2 and allow read and write acess.
+This line will expose your shared_dir to the network where all the addresses start 192.168.2 and allow read and write acess. You can use the following command to reload the file now it's been modified:
          </p>
+<pre>
+exportfs -a
+</pre>
 <p>
 As a final check on this we will examine the following files:
          </p>
