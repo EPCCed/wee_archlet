@@ -246,8 +246,20 @@ This will start a service which shares the connection from the WiFi across the E
              <li>You can close these dialog boxes.</li>
         <li>Now click on this link:<a href="#winnmap">Windows IP Address Discovery</a> to get instructions on how to get the Raspberry Pi IP addresses.</li></ul>
 
-<h4>Linux TODO</h4>
-<p>Need to fill in</p>
+<h4>Linux</h4>
+<h5>Ubuntu</h5>
+<ul>
+  <li>Open a terminal</li>
+  <li>Open the network connection editor by running the command: <pre>nm-connection-editor</pre></li>
+  <li>Select your internet connection, then click the cog icon to edit the connection settings
+  <figure>
+    <img src="images/ubuntu_nm-connection-editor.png" alt="nm-connection-editor"/>
+    <figcaption>Edit network connection</figcaption>
+  </figure>
+  <li>Select the "IPv4 Settings" tab</li>
+  <li>Select "Shared to other computers" from the "Method" drop-down list</li>
+  <li>Click "Save", and close the connection editor</li>
+</ul>
 
 <h3>Getting into the Pi</h3>
         <p>
