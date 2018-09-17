@@ -262,13 +262,18 @@ This will start a service which shares the connection from the WiFi across the E
 </ul>
 
 <h3>Getting into the Pi</h3>
+<h4>MacOS and Linux</h4>
         <p>
 Finding out the IP addresses of your Raspberry Pis. For the setup used here, the shared network connection showed up as an adapter called Bridge100 after running ifconfig. This is what allows the WiFi connection to be shared to the Ethernet connection.
 </p>
-        <p><b>Note:</b> the Bridge100 may be using some other name on your computer. To check which interface is created - type ifconfig before turning on your sharing or plugging in your adapter then run it again afterwards to find out what difference the changes made.</p>
-        <p>
-For a MacOS computer you need to find out the Bridge100 IP address. This is the most likely interface you are using for ethernet although some systems will vary.
+<p>
+  <b>Note:</b> Bridge100 may be using some other name on your computer, especially if you are using Linux. To check which interface is created - type ifconfig before turning on your sharing or plugging in your adapter then run it again afterwards to find out what difference the changes made.
 </p>
+<p>
+  <b>Note:</b> On more recent versions of Linux (Ubuntu 18.04+) ifconfig is deprecated. Instead use:
+  <pre>ip -c addr show</pre>
+</p>
+
 Open a command terminal:
 <figure>
 
