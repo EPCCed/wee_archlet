@@ -9,101 +9,104 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-            <img src="images/walogo.png"/>
+        <img src="images/walogo.png"/>
 
-            <h1>Raspberry Pi Cluster Setup</h1>
+        <h1>Raspberry Pi Cluster Setup</h1>
 
-            <ul>
-                <li><a href="#intro">Setting up a Raspberry Pi Cluster</a></li>
-                <li><a href="#command">Command Terminals</a></li>
-                <li><a href="#materials">Materials</a></li>
-                <li><a href="#connections">Connecting the Pi-s</a></li>
-                <li><a href="#mainnode">Setting Up the Main Node</a></li>
-                <li><a href="#workers">Setting up the worker nodes</a></li>
-                <li><a href="#bench">A Quick Benchmark</a></li>
-                <li><a href="https://www.epcc.ed.ac.uk/discover-and-learn/resources-and-activities/what-is-a-supercomputer/wee-archie">Wee Archie</a></li>
-            </ul>
+        <ul>
+          <li><a href="#intro">Setting up a Raspberry Pi Cluster</a></li>
+          <li><a href="#command">Command Terminals</a></li>
+          <li><a href="#materials">Materials</a></li>
+          <li><a href="#connections">Connecting the Pi-s</a></li>
+          <li><a href="#mainnode">Setting Up the Main Node</a></li>
+          <li><a href="#workers">Setting up the worker nodes</a></li>
+          <li><a href="#bench">A Quick Benchmark</a></li>
+          <li><a href="https://www.epcc.ed.ac.uk/discover-and-learn/resources-and-activities/what-is-a-supercomputer/wee-archie">Wee Archie</a></li>
+          <!--TODO Add link to command glossary which I am going to make-->
+          <li>Glossary of commands</li>
+        </ul>
 
         <h2>Version and Authorship</h2>
         <table>
-            <tr><td><b>Version</b></td><td>0.95</td></tr>
-            <tr><td><b>Author</b></td><td>A Grant (EPCC)</td></tr>
-            <tr><td><b>Contributors</b></td><td>M Antonioletti (EPCC), G Gibb (EPCC), O T Brown (EPCC)</td></tr>
-            <tr><td><b>Notes</b></td><td>Linux Network Connection to be completed. </td></tr>
-            <tr><td><b>Notes</b></td><td>Raspbian SSH Access Note added. </td></tr>
+          <tr><td><b>Version</b></td><td>0.96</td></tr>
+          <tr><td><b>Author</b></td><td>A Grant (EPCC)</td></tr>
+          <tr><td><b>Contributors</b></td><td>M Antonioletti (EPCC), O T Brown (EPCC), J Kennedy (EPCC), G Gibb (EPCC),  R MacLeod (EPCC)</td></tr>
+          <tr><td><b>Notes</b></td><td>Linux Network Connection to be completed. </td></tr>
+          <tr><td><b>Notes</b></td><td>Raspbian SSH Access Note added. </td></tr>
         </table>
 
+        <a name="intro"><h2>Before You Start</h2></a>
 
-            <a name="intro"><h2>Setting Up A Raspberry Pi Cluster</h2></a>
-
-        <p>These instructions will help you build and set up a small cluster of Raspberry Pi computers to use as a small parallel system. The instructions take you through the process of connecting the computers together, setting up the environment and checking that it works correctly.
+        <p>These instructions will help you set up a small cluster of Raspberry Pi computers as a small parallel system. They will take you through the process of connecting the Pis together, setting up the environment and checking that it works correctly.
         </p>
-        <p>These instructions are not for complete beginners with computers - they assume knowledge of concepts such as networks, command line and file systems. There are some explanations in this document but still require some experience and a willingness to try things out.
-
-        </p>
-<p>
-        <b>Note:</b> these instructions deal with a cluster of 5 Raspberry Pis but the cluster can be of any size you want (minimum of 2 as otherwise it is not a parallel computer).
-   </p>
-         <p>
-        <b>Note:</b> Raspbian refers to the version of Linux commonly distributed with the Raspberry Pi computers.
-   </p>
         <p>
-        <b>Note:</b> This is an initial version of these instructions - some parts may need to be updated or changed to make them clearer. If you try these instructions and find any issues or have suggestions, submit an issue to <a href="https://github.com/EPCCed/wee_archlet/issues">Cluster Instructions</a>.
-   </p>
+          These instructions are not for complete beginners with computers - they assume knowledge of concepts such as networks, command line and file systems. There are some explanations in this document but still require some experience and a willingness to try things out.
+        </p>
+        <p>
+          <b>Note:</b> these instructions deal with a cluster of 5 Raspberry Pis but the cluster can be of any size you want (minimum of 2 as otherwise it is not a parallel computer!)
+        </p>
+         <p>
+           <b>Note:</b> Raspbian refers to the version of Linux commonly distributed with the Raspberry Pi computers. New Out Of Box Software (NOOBS) is an easy-to-use installation manager for Raspian which you can use if you're setting up your Pis for the first time.
+         </p>
+        <p>
+          <b>Note:</b>If you try these instructions and find any issues or have suggestions, please submit an issue to <a href="https://github.com/EPCCed/wee_archlet/issues">our GitHub repo</a>.
+        </p>
         <a name="command">Command Terminals</a>
         <p>
-        This document will refer to command terminals throughout, this is how the Raspberry Pis are accessed, how you configure them and how you tell the Raspberry Pis what you want them to do.
-        A command terminal provides a command line interface to a user. These often look like:
-                <figure>
-
-<img src="images/terminal.png" alt="Terminal"/>
+          This document will refer to command terminals throughout, when accessing, configuring, and controlling the Raspberry Pis from your computer. A command terminal provides a textual interface to a user, rather than a graphical interface that you might be more used to. Command line interfaces often look like:
+          <figure>
+            <img src="images/terminal.png" alt="Terminal"/>
             <figcaption>Example Terminal</figcaption>
-            </figure>
-        Sometime they will have light text on a dark background - you can configure them to your own liking. Regardless, a Raspberry Pi uses the Linux operating system and will have a terminal that functions and behaves in the same way this document describes.
-        </p>
-    <p>
-            If you are using Windows, you may need to install an SSH client to connect to the Raspberry Pi. An SSH client which is free is PuTTY - <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">available from this link</a>.
+          </figure>
+          Sometimes they will have light text on a dark background - you can configure them to your own liking. Regardless, a Raspberry Pi uses the Linux operating system and will have a terminal that functions and behaves in the same way this document describes.
         </p>
         <p>
-        On a Linux system, you will need to open a command terminal on your computer - you may be able to get this using a right mouse click and choosing "Terminal", or from a list of programs in the program menu.
+          On a Linux system, you will need to open a command terminal on your computer - you may be able to get this using a right mouse click and choosing "Terminal", or from a list of programs in the program menu.
         </p>
         <p>
-        On Windows you will need to start your SSH client.
+          On Windows 10, you can use PowerShell, which you can find through the search feature in the taskbar. If you prefer, you can install a Secure Shell (SSH) client to connect to the Raspberry Pi. Two free options are: - <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a>, and <a href="https://mobaxterm.mobatek.net/">MobaXterm</a>. These instructions assume that you are using PowerShell, so if you are using a client please check its documentation so you know how it works.
         </p>
         <p>
-        On a Mac OS machine, Terminal is under Utilities in the Applications folder.
+          On a Mac OS machine, Terminal is under Utilities in the Applications folder.
         </p>
 
        <a name="materials"><h2>Materials</h2></a>
-<h3>Required</h3>
-         <ul>
-<li>5 Raspberry Pis (Note the examples used in these instructions are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models - if problems are encountered please submit an issue to <a href="https://github.com/EPCCed/wee_archlet/issues">Cluster Instructions</a>).</li>
-<li>5 Power Supplies/1 Multisupply Unit.</li>
-<li>1 Switch (8 Ports).</li>
-<li>6 Ethernet Cables.</li>
-<li>5 USB Cables. </li>
-<li>Laptop or desktop PC with shareable ethernet connection.</li>
-</ul>
-<h3>Optional</h3>
-        <ul>
-<li>5 <a href="#case">Raspberry Pi cases - example cases are Lego-Style stackable cases</a>.</li>
-</ul>
+       <h3>You will need:</h3>
+       <ul>
+         <li>5 Raspberry Pis (Note the examples used in these instructions are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models - if problems are encountered please submit an issue to <a href="https://github.com/EPCCed/wee_archlet/issues">Cluster Instructions</a>).</li>
+         <li>5 Power Supplies/1 Multisupply Unit.</li>
+         <li>1 Switch (8 Ports).</li>
+         <li>6 Ethernet Cables.</li>
+         <li>5 USB Cables. </li>
+         <li>Laptop or desktop PC with a shareable ethernet connection.</li>
+      </ul>
 
-<h3>Suitable and Unsuitable Raspberry Pi Models</h3>
-<p><b>NOTE:</b>There are many products with the Raspberry Pi name so this is a list of the ones that are suitable and unsuitable for these instructions.</p>
-<p>Suitable Raspberry Pi Models (these instructions work for these types of Raspberry Pi):</p>
+      <h3>Optionally:</h3>
         <ul>
-            <li>Raspberry Pi 3</li>
-            <li>Raspberry Pi 2</li>
-        </ul>
-<p>Unsuitable Raspberry Pi Models (these instruction will not work or require substantial changes and/or additional hardware):</p>
-        <ul>
-            <li>Raspberry Pi Zero</li>
-            <li>Raspberry Pi Zero W</li>
-            <li>Raspberry Pi Compute Module</li>
+          <li>5 <a href="#case">Raspberry Pi cases - we've used Lego-Style cases, which are stackable</a>.</li>
         </ul>
 
-        <h3>Materials used in these instructions:</h3>
+      <h3>Suitable and Unsuitable Raspberry Pi Models</h3>
+      <p>
+        <b>NOTE:</b>There are many products with the Raspberry Pi name so this is a list of the ones that are suitable and unsuitable for these instructions.
+      </p>
+      <p>
+        Suitable Raspberry Pi Models (these instructions work for these types of Raspberry Pi):
+      </p>
+      <ul>
+        <li>Raspberry Pi 3</li>
+        <li>Raspberry Pi 2</li>
+      </ul>
+      <p>
+        Unsuitable Raspberry Pi Models (these instruction will not work or require substantial changes and/or additional hardware):
+      </p>
+      <ul>
+        <li>Raspberry Pi Zero</li>
+        <li>Raspberry Pi Zero W</li>
+        <li>Raspberry Pi Compute Module</li>
+      </ul>
+
+      <h3>Materials used in these instructions:</h3>
                 <ul>
 <li>5 Raspberry Pi 3.</li>
             <li><a href="http://www.farnell.com/datasheets/1948264.pdf">1 Multi-USB Power Socket. Note - This model appears to have been discontinued. </a></li>
