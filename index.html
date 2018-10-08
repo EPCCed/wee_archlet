@@ -151,60 +151,69 @@
         Once you have created the file, you will be able to boot Raspbian with SSH remote access enabled.
       </p>
 
-        <h2><a name="connections">Connecting the Raspberry Pi Cluster</a></h2>
-Connect the Ethernet Cables to the ethernet ports:
-<figure>
-<img src="images/IMG_20170210_132818620.jpg" alt="Ether Pi"/>
-            <figcaption>Connect Ethernet to Pi</figcaption>
-            </figure>
-Connect the ethernet cables to the switch:
+      <h2><a name="connections">Connecting the Raspberry Pi Cluster</a></h2>
+      <ol>
+        <li>
+          Connect the Ethernet Cables to the ethernet ports:
+        </li>
 
         <figure>
-<img src="images/IMG_20170210_132909899.jpg" alt="Ether Switch"/>
-            <figcaption>Connect Ethernet to Switch</figcaption>
-            </figure>
-Now it should look something like:
- <figure>
-<img src="images/IMG_20170210_132914225.jpg" alt="Ethernet"/>
-            <figcaption>Connected</figcaption>
-            </figure>
-Connect your laptop or desktop to the switch via an ethernet cable. (Note that while Raspberry Pi 3 has a builtin wireless network - we are not using this and at this point it probably would not have been set up.)
+          <img src="images/IMG_20170210_132818620.jpg" alt="Ether Pi"/>
+          <figcaption>Connect Ethernet to Pi</figcaption>
+        </figure>
 
-Now all the network cables are connected - we need to put the power cables in.
+        <li>
+          Connect the ethernet cables to the switch:
+        </li>
 
-First connect the power cable for the switch:
-         <figure>
-<img src="images/IMG_20170210_132948565.jpg" alt="Ethernet"/>
-            <figcaption>Switch Power</figcaption>
-            </figure>
+        <figure>
+          <img src="images/IMG_20170210_132909899.jpg" alt="Ether Switch"/>
+          <figcaption>Connect Ethernet to Switch</figcaption>
+        </figure>
 
-Then turn on the switch.
+        Now it should look something like:
+        <figure>
+          <img src="images/IMG_20170210_132914225.jpg" alt="Ethernet"/>
+          <figcaption>Connected</figcaption>
+        </figure>
 
-Now connect the micro usb end of the usb cables to each Raspberry Pi:
-         <figure>
-<img src="images/IMG_20170210_133056149.jpg" alt="Ethernet"/>
-            <figcaption>Raspberry Pi Power</figcaption>
-            </figure>
+        <li>
+          Connect your laptop or desktop to the switch via an ethernet cable. (Note that while Raspberry Pi 3 has a builtin wireless network - we are not using this and at this point it probably would not have been set up.)
+        </li>
 
-Connect the other end to your power supply, in this case we are using an externally powered USB-hub:
-         <figure>
-<img src="images/IMG_20170210_133126552_HDR.jpg" alt="Ethernet"/>
-            <figcaption>Plug in</figcaption>
-            </figure>
+        <li>
+          Now all the network cables are connected - we need to put the power cables in. First connect the power cable for the switch and turn it on:
+        </li>
 
-Now plug in the power supply and turn it on.
+        <figure>
+          <img src="images/IMG_20170210_132948565.jpg" alt="Ethernet"/>
+          <figcaption>Switch Power</figcaption>
+        </figure>
 
-All the Pi units should have LED lights on or flashing.
+        <li>
+          Now connect each of the Raspberry Pis to your power supply and turn them on. In this case we are using an externally powered USB-hub:
+        </li>
 
-This should all look something like this:
-         <figure>
-<img src="images/IMG_20170210_133145864.jpg" alt="Ethernet"/>
-            <figcaption>Our Cluster</figcaption>
-            </figure>
+        <figure>
+         <img src="images/IMG_20170210_133056149.jpg" alt="Ethernet"/>
+         <figcaption>Raspberry Pi Power</figcaption>
+        </figure>
 
-Now we have put all the hardware connections in, it is time to start configuring the software.
+       <figure>
+         <img src="images/IMG_20170210_133126552_HDR.jpg" alt="Ethernet"/>
+         <figcaption>Plug in</figcaption>
+       </figure>
 
-<h3><a name="sharing">Network Software Setup</a></h3>
+       And that's it! All the Pi units should have LED lights on or flashing, and look something like this:
+
+      <figure>
+        <img src="images/IMG_20170210_133145864.jpg" alt="Ethernet"/>
+        <figcaption>Our Cluster</figcaption>
+      </figure>
+
+    </ol>
+
+    <h2><a name="sharing">Network Software Setup</a></h2>
 
         <p><b>Note: </b>These instructions assume you are using a computer connected to a WiFi network and that this computer has a free Ethernet port to connect to the cluster.</p>
   <p>
