@@ -83,7 +83,7 @@
 
       <h3>Optionally:</h3>
         <ul>
-          <li>5 <a href="#case">Raspberry Pi cases - we've used <a href="http://cpc.farnell.com/multicomp/cbpiblox-red/pi-blox-enclosure-red-rev3/dp/SC14019">Lego-Style cases</a>, which are stackable</a>.</li>
+          <li>5 Raspberry Pi cases - we've used <a href="http://cpc.farnell.com/multicomp/cbpiblox-red/pi-blox-enclosure-red-rev3/dp/SC14019">Lego-Style cases</a>, which are stackable.</li>
         </ul>
 
       <h3>Suitable and Unsuitable Raspberry Pi Models</h3>
@@ -126,7 +126,6 @@
        If you are using cases - this is the point where you should put the Raspberry Pi into its case. An example of a cased Raspberry Pi would look like this:
      </p>
      <figure>
-       <a name="case"/>
        <img src="images/IMG_20160906_105359475.jpg" alt="Cased Raspberry Pi Open"/>
        <figcaption>Lego Style Case - Open</figcaption>
      </figure>
@@ -137,7 +136,7 @@
 
       <h3>Materials used in these instructions:</h3>
       <p>
-        We've used Raspberry Pi 3s for our cluster. In place of 5 mains power supplies, we've chosen <a href="http://www.farnell.com/datasheets/1948264.pdf">1 Multi-USB Power Socket. Note - This particular model appears to have been discontinued.</a> Each pi is connected to this via a USB to B-type Micro USB cable. Our switch is a Netgear GS108E.
+        We've used Raspberry Pi 3s for our cluster. In place of 5 mains power supplies, we've chosen <a href="http://www.farnell.com/datasheets/1948264.pdf">1 Multi-USB Power Socket. Note - This particular model appears to have been discontinued</a>. Each pi is connected to this via a USB to B-type Micro USB cable. Our switch is a Netgear GS108E.
       </p>
 
       <h3>Important Note for New Raspbian Installations</h3>
@@ -173,7 +172,7 @@
           <figcaption>Connected</figcaption>
         </figure>
 
-        <li>Connect your laptop or desktop to the switch via an ethernet cable. (Note that while Raspberry Pi 3 has a builtin wireless network - we are not using this and at this point it probably would not have been set up.)</li>
+        <li>Connect your laptop or desktop to the switch via an ethernet cable. (Note that while Raspberry Pi 3 has a built-in wireless network - we are not using this and at this point it probably would not have been set up.)</li>
 
         <li>Now all the network cables are connected - we need to put the power cables in. First connect the power cable for the switch and turn it on:</li>
 
@@ -206,7 +205,7 @@
     <h2><a name="sharing">Network Software Setup</a></h2>
 
     <p>
-      <b>Note: </b>These instructions assume you are using a computer connected to the internet via wi-fi.</p>
+      <b>Note: </b>These instructions assume you are using a computer connected to the internet via Wi-Fi.</p>
     <p>
       First on your laptop/desktop you will have to configure the internet sharing, so that the Raspberry Pi's can connect to the Wifi via an ethernet connection to your laptop or desktop. How you do this depends on your operating system:
     </p>
@@ -234,20 +233,19 @@
       <li>Take a note of the IP Address and Subnet Mask listed. You can now close down all the windows you've opened.</li>
     </ol>
 
-<h4>Linux</h4>
-<h5>Ubuntu</h5>
-<ul>
-  <li>Open a terminal</li>
-  <li>Open the network connection editor by running the command: <pre>nm-connection-editor</pre></li>
-  <li>Select your internet connection, then click the cog icon to edit the connection settings
-  <figure>
-    <img src="images/ubuntu_nm-connection-editor.png" alt="nm-connection-editor"/>
-    <figcaption>Edit network connection</figcaption>
-  </figure>
-  <li>Select the "IPv4 Settings" tab</li>
-  <li>Select "Shared to other computers" from the "Method" drop-down list</li>
-  <li>Click "Save", and close the connection editor</li>
-</ul>
+    <h4>Linux</h4>
+    <h5>Ubuntu</h5>
+    <ol>
+      <li>Open a terminal and run the command <pre>nm-connection-editor</pre> to open the network connection editor.</li>
+      <li>Select your internet connection, then click the cog icon to edit the connection settings.
+      <figure>
+        <img src="images/ubuntu_nm-connection-editor.png" alt="nm-connection-editor"/>
+        <figcaption>Edit network connection</figcaption>
+      </figure>
+      <li>Select the "IPv4 Settings" tab</li>
+      <li>Select "Shared to other computers" from the "Method" drop-down list</li>
+      <li>Click "Save", and close the connection editor</li>
+    </ol>
 
 <h3>Getting into the Pi</h3>
 <h4>MacOS and Linux</h4>
