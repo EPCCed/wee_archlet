@@ -153,46 +153,36 @@
 
       <h2><a name="connections">Connecting the Raspberry Pi Cluster</a></h2>
       <ol>
-        <li>
-          Connect the Ethernet Cables to the ethernet ports:
-        </li>
+        <li>Connect the Ethernet Cables to the ethernet ports:</li>
 
         <figure>
           <img src="images/IMG_20170210_132818620.jpg" alt="Ether Pi"/>
           <figcaption>Connect Ethernet to Pi</figcaption>
         </figure>
 
-        <li>
-          Connect the ethernet cables to the switch:
-        </li>
+        <li>Connect the ethernet cables to the switch:</li>
 
         <figure>
           <img src="images/IMG_20170210_132909899.jpg" alt="Ether Switch"/>
           <figcaption>Connect Ethernet to Switch</figcaption>
         </figure>
 
-        Now it should look something like:
+          Now it should look something like:
         <figure>
           <img src="images/IMG_20170210_132914225.jpg" alt="Ethernet"/>
           <figcaption>Connected</figcaption>
         </figure>
 
-        <li>
-          Connect your laptop or desktop to the switch via an ethernet cable. (Note that while Raspberry Pi 3 has a builtin wireless network - we are not using this and at this point it probably would not have been set up.)
-        </li>
+        <li>Connect your laptop or desktop to the switch via an ethernet cable. (Note that while Raspberry Pi 3 has a builtin wireless network - we are not using this and at this point it probably would not have been set up.)</li>
 
-        <li>
-          Now all the network cables are connected - we need to put the power cables in. First connect the power cable for the switch and turn it on:
-        </li>
+        <li>Now all the network cables are connected - we need to put the power cables in. First connect the power cable for the switch and turn it on:</li>
 
         <figure>
           <img src="images/IMG_20170210_132948565.jpg" alt="Ethernet"/>
           <figcaption>Switch Power</figcaption>
         </figure>
 
-        <li>
-          Now connect each of the Raspberry Pis to your power supply and turn them on. In this case we are using an externally powered USB-hub:
-        </li>
+        <li>Now connect each of the Raspberry Pis to your power supply and turn them on. In this case we are using an externally powered USB-hub:</li>
 
         <figure>
          <img src="images/IMG_20170210_133056149.jpg" alt="Ethernet"/>
@@ -223,39 +213,26 @@
 
     <h3>OS X (Mac OS)</h3>
     <ol>
-      <li>
-        Go to System Perferences and choose 'Sharing'.
-      </li>
+      <li>Go to System Perferences and choose 'Sharing'.</li>
 
       <figure>
         <img src="images/mac-preferences.png" alt="Mac preferences"/>
         <figcaption>Mac preferences</figcaption>
       </figure>
 
-      <li>
-        Click on Internet Sharing and choose share from Wifi to Ethernet.
-      </li>
+      <li>Click on Internet Sharing and choose share from Wifi to Ethernet.</li>
     </ol>
 
-<h4>Windows 10</h4>
-        <h5>Share Network Connection</h5>
-        <ul>
-            <li>Open Settings</li>
-            <li>Choose Network and Internet</li>
-            <li>Choose "Network and Sharing Center</li>
-            <li>Choose "Change adapter options"</li>
-            <li>Select the Wi-Fi connection (this maybe called something else on your computer but should be identifiable as being connected to a wireless network by a signal strength in the icon.)</li>
-             <li>Right Click and Choose "Properties"</li>
-             <li>Select the Sharing Tab</li>
-             <li>Under Sharing, click the box at "Allow other network users to connect through this computer's Internet Connection.</li>
-              <li>Ensure that the Home networking connection is your Ethernet network in the box below.</li>
-             <li>Your internet is now shared but you will need to use Nmap to get the attached IP addresses for the Raspberry Pis.</li>
-             <li>In the Network Connections where you selected the Wi-Fi connection, there should be a Ethernet connections, right click on it and choose Properties.</li>
-             <li>In the list headed "This connection uses the following items", click on the one called "Internet Protocal Version 4"</li>
-              <li>A Properties button will enable just below the list - click on it.</li>
-              <li>Take a note of the IP Address and Subnet Mask listed.</li>
-             <li>You can close these dialog boxes.</li>
-        <li>Now click on this link:<a href="#winnmap">Windows IP Address Discovery</a> to get instructions on how to get the Raspberry Pi IP addresses.</li></ul>
+    <h3>Windows 10</h3>
+    <ol>
+      <li>Go into 'Network and Sharing Centre' in the Control Panel</li>
+      <li>Choose 'Change adapter options' from the options on the left, and right-click on the Wi-Fi connection (identifiable by a signal strength indicator in the icon, wired networks will not have this). Select 'Properties' from the menu.</li>
+      <li>Select the Sharing Tab, and from there check the box at "Allow other network users to connect through this computer's Internet Connection.</li>
+      <li>Ensure that the Home networking connection is your Ethernet network in the drop-down menu below.</li>
+      <li>Close the Wi-Fi Properties window to return to the Network Connections. Right-click on the Ethernet connections and select 'Properties' again you have just done for Wi-Fi.</li>
+      <li>In the list headed "This connection uses the following items", click on the one called "Internet Protocal Version 4". This will enable a 'Properties' button just below, click on this.</li>
+      <li>Take a note of the IP Address and Subnet Mask listed. You can now close down all the windows you've opened.</li>
+    </ol>
 
 <h4>Linux</h4>
 <h5>Ubuntu</h5>
