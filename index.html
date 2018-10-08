@@ -43,7 +43,7 @@
           These instructions are not for complete beginners with computers - they assume knowledge of concepts such as networks, command line and file systems. There are some explanations in this document but still require some experience and a willingness to try things out.
         </p>
         <p>
-          <b>Note:</b> these instructions deal with a cluster of 5 Raspberry Pis but the cluster can be of any size you want (minimum of 2 as otherwise it is not a parallel computer!)
+          <b>Note:</b> these instructions deal with a cluster of 5 Raspberry Pis but the cluster can be of any size you want (minimum of 2, as otherwise it is not a parallel computer!)
         </p>
          <p>
            <b>Note:</b> Raspbian refers to the version of Linux commonly distributed with the Raspberry Pi computers. New Out Of Box Software (NOOBS) is an easy-to-use installation manager for Raspian which you can use if you're setting up your Pis for the first time.
@@ -64,7 +64,7 @@
           On a Linux system, you will need to open a command terminal on your computer - you may be able to get this using a right mouse click and choosing "Terminal", or from a list of programs in the program menu.
         </p>
         <p>
-          On Windows 10, you can use PowerShell, which you can find through the search feature in the taskbar. If you prefer, you can install a Secure Shell (SSH) client to connect to the Raspberry Pi. Two free options are: - <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a>, and <a href="https://mobaxterm.mobatek.net/">MobaXterm</a>. These instructions assume that you are using PowerShell, so if you are using a client please check its documentation so you know how it works.
+          On Windows 10 you can use PowerShell, which you can find through the search feature in the taskbar. If you prefer, you can install a Secure Shell (SSH) client to connect to the Raspberry Pis. Two free options are: - <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/">PuTTY</a>, and <a href="https://mobaxterm.mobatek.net/">MobaXterm</a>. These instructions assume that you are working from the command line, so if you are using an SSH client please check its documentation so you know how it works.
         </p>
         <p>
           On a Mac OS machine, Terminal is under Utilities in the Applications folder.
@@ -75,15 +75,15 @@
        <ul>
          <li>5 Raspberry Pis (Note the examples used in these instructions are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models - if problems are encountered please submit an issue to <a href="https://github.com/EPCCed/wee_archlet/issues">Cluster Instructions</a>).</li>
          <li>5 Power Supplies/1 Multisupply Unit.</li>
-         <li>1 Switch (8 Ports).</li>
+         <li>1 Switch (with at least 8 Ports).</li>
          <li>6 Ethernet Cables.</li>
-         <li>5 USB Cables. </li>
+         <li>5 Power cables. </li>
          <li>Laptop or desktop PC with a shareable ethernet connection.</li>
       </ul>
 
       <h3>Optionally:</h3>
         <ul>
-          <li>5 <a href="#case">Raspberry Pi cases - we've used Lego-Style cases, which are stackable</a>.</li>
+          <li>5 <a href="#case">Raspberry Pi cases - we've used <a href="http://cpc.farnell.com/multicomp/cbpiblox-red/pi-blox-enclosure-red-rev3/dp/SC14019">Lego-Style cases</a>, which are stackable</a>.</li>
         </ul>
 
       <h3>Suitable and Unsuitable Raspberry Pi Models</h3>
@@ -106,55 +106,50 @@
         <li>Raspberry Pi Compute Module</li>
       </ul>
 
+      <p>
+        At the time of writing there are three types of  Raspberry Pi in the market - to distinguish between them we provide the following images:
+      </p>
+      <figure>
+        <img src="images/11546-04.jpg" alt="Raspberry Pi 1"/>
+        <figcaption>Raspberry Pi 1 Model B</figcaption>
+      </figure>
+     <figure>
+        <img src="images/Raspberry-Pi-2-Bare-BR.jpg" alt="Raspberry Pi 2"/>
+        <figcaption>Raspberry Pi 2 Model B</figcaption>
+      </figure>
+     <figure>
+        <img src="images/Raspberry_Pi_3_Model_B.png" alt="Raspberry Pi 3"/>
+        <figcaption>Raspberry Pi 3 Model B</figcaption>
+     </figure>
+
+     <p>
+       If you are using cases - this is the point where you should put the Raspberry Pi into its case. An example of a cased Raspberry Pi would look like this:
+     </p>
+     <figure>
+       <a name="case"/>
+       <img src="images/IMG_20160906_105359475.jpg" alt="Cased Raspberry Pi Open"/>
+       <figcaption>Lego Style Case - Open</figcaption>
+     </figure>
+     <figure>
+       <img src="images/IMG_20160906_105327393.jpg" alt="Cased Raspberry Pi Closed"/>
+       <figcaption>Lego Style Case - Closed</figcaption>
+     </figure>
+
       <h3>Materials used in these instructions:</h3>
-                <ul>
-<li>5 Raspberry Pi 3.</li>
-            <li><a href="http://www.farnell.com/datasheets/1948264.pdf">1 Multi-USB Power Socket. Note - This model appears to have been discontinued. </a></li>
-<li>1 Netgear GS108E Switch (8 Ports). </li>
-<li>6 Ethernet Cables.</li>
-<li>5 USB Cables (A-Type USB Male to B-Type Micro-USB Male).</li>
-<li>1 Macbook with Wifi internet connection shared via Ethernet.</li>
-<li>5 <a href="http://cpc.farnell.com/multicomp/cbpiblox-red/pi-blox-enclosure-red-rev3/dp/SC14019"> Red Lego-Style Raspberry Pi cases</a>.</li>
-</ul>
+      <p>
+        We've used Raspberry Pi 3s for our cluster. In place of 5 mains power supplies, we've chosen <a href="http://www.farnell.com/datasheets/1948264.pdf">1 Multi-USB Power Socket. Note - This particular model appears to have been discontinued.</a> Each pi is connected to this via a USB to B-type Micro USB cable. Our switch is a Netgear GS108E.
+      </p>
 
-<h3>Important Note - Only for New Raspbian Installations</h3>
-<p>Due to changes in the recent versions of Raspbian and the NOOBS distributions, to follow these instructions you have to make a change
-to your Raspberry Pi SD Card before you boot it up for the first time.</p>
-<p>The newer versions of Raspbian have SSH access disabled by default. You need to reenable it to follow the instructions below.</p>
-<p>This can be done by inserting the microSD cards containing Raspbian into your computer and creating a blank text file called SSH in the
-boot partition. This will be the disk that appears in your file system when you insert the microSD card.</p>
-<p>Once you have created the file, you will be able to boot Raspbian with SSH remote access enabled.</p>
-
-
-<h3>The Hardware</h3>
-
-At the time of writing there are three types of  Raspberry Pi in the market - to distinguish between them we provide the following images:
-        <figure>
-
-<img src="images/11546-04.jpg" alt="Raspberry Pi 1"/>
-            <figcaption>Raspberry Pi 1 Model B</figcaption>
-            </figure>
-           <figure>
-<img src="images/Raspberry-Pi-2-Bare-BR.jpg" alt="Raspberry Pi 2"/>
-            <figcaption>Raspberry Pi 2 Model B</figcaption>
-            </figure>
-           <figure>
-<img src="images/Raspberry_Pi_3_Model_B.png" alt="Raspberry Pi 3"/>
-            <figcaption>Raspberry Pi 3 Model B</figcaption>
-            </figure>
-
-
-If you are using cases - this is the point where you should put the Raspberry Pi into its case. An example of a cased Raspberry Pi would look like this:
-           <figure>
-                <a name="case"/>
-<img src="images/IMG_20160906_105359475.jpg" alt="Cased Raspberry Pi Open"/>
-            <figcaption>Lego Style Case - Open</figcaption>
-            </figure>
-   <figure>
-<img src="images/IMG_20160906_105327393.jpg" alt="Cased Raspberry Pi Closed"/>
-            <figcaption>Lego Style Case - Closed</figcaption>
-            </figure>
-
+      <h3>Important Note for New Raspbian Installations</h3>
+      <p>
+        Due to changes in the recent versions of Raspbian and the NOOBS distributions, to follow these instructions you have to make a change to your Raspberry Pi SD Card before you boot it up for the first time.
+      </p>
+      <p>
+        Newer versions of Raspbian have SSH access disabled by default. To reenable it, you will need to insert the microSD cards containing Raspbian into your computer and create a blank text file called 'SSH' in the boot partition. This will be the disk that appears in your file system when you insert the microSD card.
+      </p>
+      <p>
+        Once you have created the file, you will be able to boot Raspbian with SSH remote access enabled.
+      </p>
 
         <h2><a name="connections">Connecting the Raspberry Pi Cluster</a></h2>
 Connect the Ethernet Cables to the ethernet ports:
