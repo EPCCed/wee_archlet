@@ -545,318 +545,284 @@
         </pre>
 
         <h3>Software Update and Passwordless Login</h3>
-        
         <p>
-We will now install some updates on the Raspberry Pi main software. The first command to run is rpi-update.
+          We will now install some updates on the Raspberry Pi main software:
+        </p>
+
+        <ol>
+          <li>The first command to run is <code>rpi-update</code>:</li>
+          <pre>
+  pi@beira:~ $ sudo rpi-update
+          </pre>
+          <p>
+            This will update the Raspberry Pi with the latest version of the core software and firmware for the system - it will take a few minutes and start with output like:
           </p>
-<pre>
-pi@beira:~ $ sudo rpi-update
-</pre>
-        <p>
-This will update the Raspberry Pi with the latest version of the core software and firmware for the system - it will take a few minutes and start with output like:
-  </p>
-        <pre>
- *** Raspberry Pi firmware updater by Hexxeh, enhanced by AndrewS and Dom
- *** Performing self-update
- *** Relaunching after update
- *** Raspberry Pi firmware updater by Hexxeh, enhanced by AndrewS and Dom
-#############################################################
-WARNING: This update bumps to rpi-4.9.y linux tree
-Be aware there could be compatibility issues with some drivers
-Discussion here:
-https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=167934
-##############################################################
-Would you like to proceed? (y/N)
-</pre>
-        <p>
-If you do not want to perform this update, choose <i>N</i>, otherwise type <i>y</i>. You will need to reboot the Raspberry Pi for this to take effect.
+          <pre>
+   *** Raspberry Pi firmware updater by Hexxeh, enhanced by AndrewS and Dom
+   *** Performing self-update
+   *** Relaunching after update
+   *** Raspberry Pi firmware updater by Hexxeh, enhanced by AndrewS and Dom
+  #############################################################
+  WARNING: This update bumps to rpi-4.9.y linux tree
+  Be aware there could be compatibility issues with some drivers
+  Discussion here:
+  https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=167934
+  ##############################################################
+  Would you like to proceed? (y/N)
+          </pre>
+          <p>
+            Type <code>y</code>, then hit Enter. You will need to reboot the Raspberry Pi for this to take effect:
           </p>
-    <pre>
-pi@beira:~ $ sudo reboot
-</pre>
-<p>
-This will take a little time.
-</p>
-        <p>
-So far what has been done:
-            </p>
-<ul>
-<li>The hardware and cables have been connected together.</li>
-<li>We shared our internet connection.</li>
-<li>We chose a master node and logged into it.</li>
-<li>We chose a hostname and updated the core software.</li>
-</ul>
-        <p>
-Now log back into the node you are working on.
-</p>
-        <p>
-Before we run any more software updates or install new software we will begin to setup the passwordless login system that the cluster will need to run programs.
-</p>
-        <p>
-At the command line run the following:
-        </p>
-    <pre>
-pi@beira:~ $ ssh-keygen -t rsa
-</pre>
-        <p>
-This will generate what is called a public/private key pair - this is a system used for encryption and security to allow information to be shared in private. This will generate a public file which can be given to any other machine or person you want to communicate with and a private file which has to be kept secret so that other people know that only you sent information to them or the information they send to you using your public key can only be read by you.
-</p>
-        <p>
-Use the default settings for the first prompt and don’t put in a passphrase for this cluster (just press return/enter when you are asked for a pass phrase).
-Your interaction should look a little like:
-        </p>
-    <pre>
-pi@beira:~ $ ssh-keygen -t rsa
-Generating public/private rsa key pair.
-Enter file in which to save the key (/home/pi/.ssh/id_rsa):
-Created directory '/home/pi/.ssh'.
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in /home/pi/.ssh/id_rsa.
-Your public key has been saved in /home/pi/.ssh/id_rsa.pub.
-The key fingerprint is:
-9b:98:c7:86:17:0a:1e:32:95:65:ee:1c:0f:48:48:ef pi@beira
-The key's randomart image is:
-+---[RSA 2048]----+
-| .... o          |
-|  .o *           |
-|    = +          |
-|   o o +         |
-|  o E o S        |
-|   + o * +       |
-|    . = B        |
-|       +         |
-|                 |
-+-----------------+
-pi@beira:~ $
-</pre>
-        <p>
-You’ve set up a ssh key - remember how to do this as you will be doing it again later. Now we will update some of the operating system and installed software, run the command:
-            </p>
-<pre>
-sudo apt-get update
-    </pre>
-        <p>
-This will pull information about the latest versions of packages available for the Raspberry Pi operating system. It will take about 30-50 seconds to run.
-</p>
-        <p>
-Now we will run:
-        </p>
-<pre>
-sudo apt-get upgrade
-</pre>
-        <p>
-This will upgrade the installed software to its latest versions - which should include bug fixes and improvements.
-</p>
-        <p>
-When the prompt asks enter ‘Y’ and it will install the upgrades.
-</p>
-    <p>
-Depending on the number of upgrades it could take a long period of time to run this command.
-</p>
-        <p>
-Once the update has finished, we will start to set up the Network File System (NFS) server component.
-</p>
-        <p>
-First thing we want to do is to add a network module, so run the following command:
-        </p>
-<pre>
-sudo nano /etc/modules
-</pre>
-        <p>
-This should open up a file like this:
-        </p>
-      <figure>
-<img src="images/nanomodules.png" alt="Text Editor"/>
-            <figcaption>Adding ipv6</figcaption>
-            </figure>
-<p>
-at the end of the file, using the cursor keys to move,  if it is not present, add the following:
-</p>
-        <pre>
-ipv6
-</pre>
-<ul>
-   <li> Now press the keys CRTL and O at the same time - this will save the file.</li>
-    <li>Now press the keys CRTL and X at the same time - this will close nano.</li>
-</ul>
-<p>
-<b>Note:</b> nano is a simple text editor program that we will be using during this configuration process.
-</p>
-<p>
-Run the command:
-    </p>
-<pre>
-sudo service rpcbind start
-</pre>
-        <p>
-Now we will install the NFS Kernel server - this is needed to run the server for the NFS drive.
-</p>
-        <pre>
-sudo apt-get install nfs-kernel-server
-</pre>
-        <p>
-Now we will start to create the actual shared location. Start by creating a directory in /home for sharing
-        </p>
-<pre>
-sudo mkdir -p /home/shared_dir
-</pre>
-        <p>
-<i>mkdir</i> is a command used to create a directory (which can contain other directories and files).
-</p>
-        <p>
-Now change its access permissions so that everyone can read or write to this directory:
-        </p>
-<pre>
-sudo chmod 777 /home/shared_dir
-</pre>
-        <p>
-            <i>chmod</i> is a command to change the access permissions on a file or directory. Here 777 means that everyone can read, write or execute commands in that directory. If you only want the owner to be able to write and others to only read you would use 644. This link will take you to the <a href="https://en.wikipedia.org/wiki/Chmod">Wikipedia chmod entry</a>.
-</p>
-        <p>
-Now we need to mount the shared_dir and bind it.
-        </p>
-    <pre>
-sudo mount --bind /home/shared_dir/ /home/shared_dir/
-</pre>
-        <p>
-This means that the system recognises this as something which is a mountable drive in the system - so that it can share it to other computers.
-</p>
-        <p>
-Now we need to make sure the directory gets mounted and exported each time when the system boots up and that other computers can access it.
-</p>
-        <p>
-Run the following command:
-</p>
-    <pre>
-sudo nano /etc/fstab
-</pre>
-        <p>
-at the end of the file add the following:
-        </p>
-    <pre>
-/home/shared_dir  /home/shared_dir   none   bind  0 0
-    </pre>
-<ul>
-   <li> Now press the keys CRTL and O at the same time - this will save the file.</li>
-    <li>Now press the keys CRTL and X at the same time - this will close nano.</li>
-</ul>
-        <p>
-To continue the configuration, run:
-        </p>
-    <pre>
-sudo nano /etc/default/nfs-kernel-server
-</pre>
-        <p>
-Make sure that one of the following options is present in the opened file:
+          <pre>
+  pi@beira:~ $ sudo reboot
+          </pre>
+
+          <li>Wait a few minutes while your master node reboots, then log back in via ssh.</li>
+          <li>Before updating or installing any more software, begin setting up the passwordless login system that the cluster will need to run programs in parallel.
+          <p>
+            At the command line run the following:
           </p>
-<pre>
-NEED_SVCGSSD=no
-</pre>
+          <pre>
+  pi@beira:~ $ ssh-keygen -t rsa
+          </pre>
+          <p>
+            This will generate what is called a public/private key pair - this is a system used for encryption and security to allow information to be shared in private. This will generated public key is stored in a file, which can be given to any other machine or person you want to communicate with and a private file which has to be kept secret so that other people know that only you sent information to them or the information they send to you using your public key can only be read by you.
+          </p>
+          <li>Use the default file path for the first prompt, and then don’t put in a passphrase for this cluster (just press return/enter when you are asked for a pass phrase). Your interaction should look a little like:</li>
+          <pre>
+  pi@beira:~ $ ssh-keygen -t rsa
+  Generating public/private rsa key pair.
+  Enter file in which to save the key (/home/pi/.ssh/id_rsa):
+  Created directory '/home/pi/.ssh'.
+  Enter passphrase (empty for no passphrase):
+  Enter same passphrase again:
+  Your identification has been saved in /home/pi/.ssh/id_rsa.
+  Your public key has been saved in /home/pi/.ssh/id_rsa.pub.
+  The key fingerprint is:
+  9b:98:c7:86:17:0a:1e:32:95:65:ee:1c:0f:48:48:ef pi@beira
+  The key's randomart image is:
+  +---[RSA 2048]----+
+  | .... o          |
+  |  .o *           |
+  |    = +          |
+  |   o o +         |
+  |  o E o S        |
+  |   + o * +       |
+  |    . = B        |
+  |       +         |
+  |                 |
+  +-----------------+
+  pi@beira:~ $
+          </pre>
+          <li>Finally, we will update some of the operating system and installed software, run the command:</li>
+          <pre>
+  sudo apt-get update
+          </pre>
+          <p>
+            When the prompt asks enter ‘<code>Y</code>’ and it will install the upgrades.
+          </p>
+
+          <li>Then upgrade the installed software to its latest versions - which include bug fixes and improvements - with this command:</li>
+        </p>
+        <pre>
+          sudo apt-get upgrade
+        </pre>
         <p>
-or
+          Depending on the number of upgrades, this can take a long time to complete. Once it's done, you are ready to move onto the next stage of setting up the master node.
+        </p>
+      </ol>
+
+      <h3>Setting up the Shared File System</h3>
+      <p>
+        The next step is to set up the Network File System (NFS) server component.
       </p>
-    <pre>
-NEED_SVCGSSD=“no”
-    </pre>
-        <p>
-or
-  </p>
-    <pre>
- NEED_SVCGSSD=“”
-    </pre>
-        <p>
-or
-  </p>
-    <pre>
- NEED_SVCGSSD=
-    </pre>
+      <ol>
+        <li>First thing we want to do is to add a network module, so run the following command:</li>
 
-<ul>
-   <li> Now press the keys CRTL and O at the same time - this will save the file.</li>
-    <li>Now press the keys CRTL and X at the same time - this will close nano.</li>
-</ul>
-        <p>
+        <pre>
+          sudo nano /etc/modules
+        </pre>
 
-The configuration process continues with a mapping file, run:
+        <p>
+          This will open up a file like this one in the nano text editor:
         </p>
-    <pre>
-sudo nano /etc/idmapd.conf
-</pre>
-        <p>
-Ensure that under the [Mapping] section the following is present:
-         </p>
-    <pre>
-[Mapping]
+        <figure>
+          <img src="images/nanomodules.png" alt="Text Editor"/>
+          <figcaption>Adding ipv6</figcaption>
+        </figure>
 
-Nobody-User = nobody
-Nobody-Group = nogroup
-</pre>
+        <li>At the end of the file, using the cursor keys to move,  if it is not present (as it is above), add the following:</li>
+        <pre>
+  ipv6
+        </pre>
+
+        <li>To save the file and exit nano, enter the following keyboard shortcuts:</li>
+        <ul>
+          <li>CRTL + O to save.</li>
+          <li>CTRL + X to close.</li>
+        </ul>
+
+
+        <li>Run the command:</li>
+        <pre>
+  sudo service rpcbind start
+        </pre>
+
+        <li>Next, install the NFS Kernel server. This is needed to run the server for the NFS drive.</li>
+        <pre>
+  sudo apt-get install nfs-kernel-server
+        </pre>
+
+        <li>Now create the actual shared location. Start by creating a directory in /home for sharing:</li>
+        <pre>
+          sudo mkdir -p /home/shared_dir
+        </pre>
         <p>
-Now run the following to expose the new directory to the network:
-     </p>
-    <pre>
-    sudo nano /etc/exports
-</pre>
-        <p>
-At the end of the file add the following to export your shared_dir to the network:
-         </p>
-    <pre>
-/home/shared_dir 192.168.2.0/24(rw,nohide,insecure,no_subtree_check,async)
-</pre>
-        <p>
-This line will expose your shared_dir to the network where all the addresses start 192.168.2 and allow read and write acess. You can use the following command to reload the file now it's been modified:
-         </p>
-<pre>
-exportfs -a
-</pre>
-<p>
-As a final check on this we will examine the following files:
-         </p>
-    <pre>
-/etc/init.d/nfs-kernel-server
-/etc/init.d/nfs-common
-/etc/init.d/rpcbind
-</pre>
-        <p>
-Have a look at each of the above files in nano. Each one, near the top of the file, should have a line:
-         </p>
-    <pre>
-# Default-Start:     2 3 4 5
-</pre>
-        <p>
-            <b>however</b> in some this may say:
-     </p>
-    <pre>
-# Default-Start:     S
-</pre>
-        <p>
-You need to change all the files that have an S to 2 3 4 5 and then run:
+          <code>mkdir</code> is a command used to create a directory (which can contain other directories and files).
         </p>
-    <pre>
-sudo update-rc.d -f rpcbind remove
-sudo update-rc.d rpcbind defaults
-
-sudo update-rc.d -f nfs-common remove
-sudo update-rc.d nfs-common defaults
-
-sudo update-rc.d -f nfs-kernel-server remove
-sudo update-rc.d nfs-kernel-server defaults
-</pre>
-    <p>
-If any of these commands fail with error messages, try the following:
-         </p>
-<pre>
-sudo apt-get purge rpcbind
-sudo apt-get install nfs-kernel-server
-</pre>
+        <li>Change the new directory access permissions so that everyone can read or write to this directory:</li>
+        <pre>
+  sudo chmod 777 /home/shared_dir
+        </pre>
         <p>
-and try to do the above update again for any of the operations that failed.
-</p>
+          <code>chmod</code> is a command to change the access permissions on a file or directory. Here 777 means that all users can read, write or execute commands in that directory. If you only want the owner to be able to write and others to only read you would use 644. This link will take you to the <a href="https://en.wikipedia.org/wiki/Chmod">chmod Wikipedia entry</a>.
+        </p>
 
-     <p>
-Before we go into setting up a DHCP server we will setup MPI. MPI is a core technology used in parallel and high performance computing that allows processes to communicate in a standard way and thus allows them to collaborate to solve a problems together in parallel. We will install and test a simple program on a single node.
-</p>
+        <li>Now we need to mount the shared_dir and bind it in order to make it available to all nodes.</li>
+        <pre>
+  sudo mount --bind /home/shared_dir/ /home/shared_dir/
+        </pre>
+
+        <li>Now we need to make sure the directory gets mounted and exported each time the system boots up. Run the following command:</li>
+
+        <pre>
+  sudo nano /etc/fstab
+        </pre>
+        <p>
+          At the end of the now open file add the following line, and save and close the file as before.
+        </p>
+        <pre>
+          /home/shared_dir  /home/shared_dir   none   bind  0 0
+        </pre>
+
+        <li>Next, open the following file:</li>
+
+        <pre>
+  sudo nano /etc/default/nfs-kernel-server
+        </pre>
+        <p>
+          Make sure that any one of the following options is present in the opened file:
+        </p>
+        <ul>
+          <li>
+            <pre>
+  NEED_SVCGSSD=no
+            </pre>
+          </li>
+
+          <li>
+            <pre>
+  NEED_SVCGSSD=“no”
+            </pre>
+          </li>
+
+          <li>
+            <pre>
+  NEED_SVCGSSD=“”
+            </pre>
+          </li>
+
+          <li>
+            <pre>
+  NEED_SVCGSSD=
+            </pre>
+          </li>
+        </ul>
+
+        <p>
+          Save and close the file.
+        </p>
+
+        <li>The configuration process continues with a mapping file:</li>
+        <pre>
+  sudo nano /etc/idmapd.conf
+        </pre>
+
+        <p>
+          Ensure that under the [Mapping] section the following text is present:
+        </p>
+        <pre>
+  [Mapping]
+
+  Nobody-User = nobody
+  Nobody-Group = nogroup
+        </pre>
+
+        <li>Now run the following to expose the new directory to the network:</li>
+        <pre>
+  sudo nano /etc/exports
+        </pre>
+        <p>
+          At the end of the file add the following to expose your shared_dir to the network, and allow read and write access (replacing with the first part of your IP addresses):
+        </p>
+        <pre>
+  /home/shared_dir 192.168.2.0/24(rw,nohide,insecure,no_subtree_check,async)
+        </pre>
+
+        <li>Use the following command to reload the file now it's been modified:</li>
+        <pre>
+  exportfs -a
+        </pre>
+
+        <li>As a final check, examine the following files in nano:</li>
+
+        <pre>
+  /etc/init.d/nfs-kernel-server
+  /etc/init.d/nfs-common
+  /etc/init.d/rpcbind
+        </pre>
+        <p>
+          Near the top of the file, there should be a line like this one:
+        </p>
+
+        <pre>
+  # Default-Start:     2 3 4 5
+        </pre>
+
+        <p>
+          <b>However</b> in some, it may say:
+        </p>
+        <pre>
+  # Default-Start:     S
+        </pre>
+
+        <p>
+          You need to change all the files that have an <code>S</code> to <code>2 3 4 5</code>.
+        </p>
+
+        <li>Run the following six commands:</li>
+        <pre>
+  sudo update-rc.d -f rpcbind remove
+  sudo update-rc.d rpcbind defaults
+  sudo update-rc.d -f nfs-common remove
+  sudo update-rc.d nfs-common defaults
+  sudo update-rc.d -f nfs-kernel-server remove
+  sudo update-rc.d nfs-kernel-server defaults
+        </pre>
+
+        <p>
+          (If any of these commands fail with error messages, try the following, then retry):
+        </p>
+        <pre>
+  sudo apt-get purge rpcbind
+  sudo apt-get install nfs-kernel-server
+
+      </ol>
+
+      <h3>Set Up MPI</h3>
+      <p>
+        Before we go into setting up a DHCP server we will setup MPI. MPI is a core technology used in parallel and high performance computing that allows processes to communicate in a standard way and thus allows them to collaborate to solve a problems together in parallel. We will install and test a simple program on a single node.
+      </p>
         <p>
 Run the following:
         </p>
