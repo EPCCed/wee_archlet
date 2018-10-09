@@ -82,3 +82,7 @@ pre {
     max-width: 100%;
     background-color: darkgray
 }
+
+li {
+  margin: 10px 0;
+}
