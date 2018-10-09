@@ -51,7 +51,7 @@
           <p>
             <b>Note:</b>If you try these instructions and find any issues or have suggestions, please submit an issue to <a href="https://github.com/EPCCed/wee_archlet/issues">our GitHub repo</a>.
           </p>
-          <a name="command">Command Terminals</a>
+          <a name="command"><h3>Command Terminals</h3></a>
           <p>
             This document will refer to command terminals throughout, when accessing, configuring, and controlling the Raspberry Pis from your computer. A command terminal provides a textual interface to a user, rather than a graphical interface that you might be more used to. Command line interfaces often look like:
             <figure>
@@ -251,6 +251,17 @@
             <p>
               The next step is to obtain the IP addresses for each Raspberry Pi in your cluster. Again, how you do this will depend on what operating system you use.
             </p>
+            <p>
+              IP addresses are what we can use to identify a Pi on the network and use it as a target to log in - its the same as a street address when going somewhere - though IP addresses can change.
+
+              A brief explanation of IP Addresses and DHCP are available at the following links:
+            </p>
+
+            <ul>
+              <li><a href="https://en.wikipedia.org/wiki/IP_address">IP Address</a></li>
+              <li><a href="https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a></li>
+            </ul>
+
             <h3>MacOS and Linux</h3>
             <p>
               For the setup used here, the shared network connection showed up as an adapter called <code>bridge100</code> after running <code>ifconfig</code>. This is what allows the WiFi connection to be shared to the Ethernet connection.
@@ -270,7 +281,7 @@
                 <img src="images/terminal.png" alt="Terminal"/>
                 <figcaption>Example Terminal</figcaption>
               </figure>
-              <br/>
+
               <li>
                 Type: <code>ifconfig</code>. This should output something like:
                 <pre>
@@ -353,7 +364,7 @@
 
                 In this example, the IP address is 192.168.2.1 (line beginning with <code>inet</code> above.)
               </li>
-              <br/>
+
               <li>
                 There are two ways to find out what is connected. the first is to run the command <code>arp</code>:
                 <pre>
@@ -368,7 +379,7 @@
 
                 Running the <code>arp</code> command will give you a list of connected IP addresses - there should be the same number of addresses as you have Raspberry Pis connected.
               </li>
-              <br/>
+
               <li>
                 The other way is to install a program like nmap, which is available from <a href="https://nmap.org/">https://nmap.org/</a>. You can run it in two ways (replacing the IP addresses with the one you noted when running <code>ifconfig</code>):
                 <ul>
@@ -378,193 +389,163 @@
               </li>
             </ol>
 
-        <h4> <a name="winnmap">Windows</a> </h4>
- <p>
-Install Nmap (available at <a href="https://nmap.org/">https://nmap.org/</a>) if you are using Windows - this is the easiest way to determine the IP addresses. Using the Ethernet IP address you noted before when sharing the Internet Connection, run the command, replacing the IP address with yours but change the last number to 0:
+            <h3> <a name="winnmap">Windows</a></h3>
+            <p>
+              The easiest way to determine the IP addresses on Windows is with nmap, which you can download from <a href="https://nmap.org/">here</a>.
+            </p>
 
-</p>
+            <ol>
+              <li>
+                Using the Ethernet IP address you noted before when sharing the Internet Connection, run the following command, but change the last number to 0:
+                <pre>
+  c:\nmap 192.168.137.0/24
+                </pre>
+
+                This should give output like:
+
+                <pre>
+  Starting Nmap 7.40 ( https://nmap.org ) at 2017-04-26 15:53 GMT Daylight Time
+  Nmap scan report for 192.168.137.225
+  Host is up (0.00013s latency).
+  All 1000 scanned ports on 192.168.137.225 are closed
+  MAC Address: 98:5A:EB:C7:15:8B (Apple)
+
+  Nmap scan report for 192.168.137.1
+  Host is up (0.0013s latency).
+  Not shown: 997 closed ports
+  PORT    STATE SERVICE
+  135/tcp open  msrpc
+  139/tcp open  netbios-ssn
+  445/tcp open  microsoft-ds
+
+  Nmap done: 256 IP addresses (2 hosts up) scanned in 23.48 seconds
+
+                  </pre>
+                  All the IP addresses which show up starting with Nmap scan report for IP address will be your Raspberry Pis - except for the one with your written down IP address.
+              </li>
+            </ol>
+
+            <a name="mainnode"><h2>Setting Up the Main Node</h2></a>
+            <p>
+              Now we have our Pis started, we know their current IP addresses, we can start doing some configuration and setup. In this guide, the Pi with address 192.168.2.18 the master node in the cluster, and the other Pis will be worker nodes. In our cluster, the master node will run the network assigning IP addresses via the DHCP server, share its Wifi connection (if used), share a networked drive for files, and start the programs we will run on the cluster.
+            </p>
+            <p>
+              For example, my five Pi addresses are:
+            </p>
             <pre>
-c:\nmap 192.168.137.0/24
-     </pre>
-    <p>This should give output like:</p>
+  192.168.2.18
+  192.168.2.19
+  192.168.2.20
+  192.168.2.21
+  192.168.2.22
+            </pre>
+
+            <p>
+              <b>Note:</b> These IP addresses are only valid with the current connection to your computer. After the setup is complete, the Raspberry Pis will be assigned addresses by the cluster server.
+            </p>
+
+            <h3>Logging in to the Master Node</h3>
+            <p>
+              In your command terminal type the following command, using the username (if not the default <code>pi</code>) and IP address for the Pi that will be your master node:
+            </p>
+            <pre>
+  ssh pi@192.168.2.18
+            </pre>
+
+            <p>
+              The first time you do this, the output will look something like this:
+            </p>
+            <pre>
+  The authenticity of host '192.168.2.18 (192.168.2.18)' can't be established.
+  RSA key fingerprint is a0:97:1f:d6:df:8c:a5:45:db:fe:b4:94:46:1d:0f:48.
+  Are you sure you want to continue connecting (yes/no)?
+            </pre>
+
+            <p>
+              Type <code>yes</code> to allow this and future connections:
+            </p>
+            <pre>
+  Warning: Permanently added '192.168.2.18' (RSA) to the list of known hosts.
+  pi@192.168.2.18's password:
+            </pre>
+            <p>
+              Enter the password for that user (the default will be <code>raspberry</code>).
+            </p>
+
+            <p>
+              If the password is correct, you will get the following output:
+            </p>
+            <pre>
+  The programs included with the Debian GNU/Linux system are free software;
+  the exact distribution terms for each program are described in the
+  individual files in /usr/share/doc/*/copyright.
+
+
+  Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+  permitted by applicable law.
+  Last login: Fri Feb 26 03:25:51 2016
+  pi@raspberrypi:~ $
+            </pre>
+
+            <p>
+              You are now remotely logged in to that account on your Raspberry Pi, via your laptop/desktop. Any commands you enter while logged in will be executed as if you were doing so on the Pi directly. This is a standard way of logging into a remote system - like a supercomputer such as ARCHER.
+            </p>
+
+            <a name="configrpi"><h3>System Configuration</h3></a>
+            <p>
+              To open the Raspberry Pi confiuration program, enter the command <code>sudo raspi-config</code>:
+            </p>
+            <pre>
+  pi@raspberrypi:~ $ sudo raspi-config
+            </pre>
+            <p>
+              The <code>sudo</code> prefix means that the following commands will be run as the super-user which has permissions to make system-wide changes rather than just changes to user files.
+            </p>
+
+            <p>
+              This will bring up a menu. Select the following options:
+            </p>
+            <ol>
+              <li>The first step is to configure the master node to boot to a command line interface (CLI) like you are using now, instead of a graphical user interface (GUI) like most modern operating systems have. Choose the following options in turn, navigating with the keyboard arrow keys and selecting each option with The Enter key:
+                <ul>
+                  <li><code>3 Boot Options</code></li>
+                  <li><code>B1 Desktop/CLI</code></li>
+                  <li><code>B1</code> again for <code>Console</code>.</li>
+                </ul>
+
+                <li>Next, change the Pi's hostname so you can easily identify it from the others in future. Follow the following options in the same ways as the previous step:</li>
+                <ul>
+                  <li><code>2 Network Options</code></li>
+                  <li><code>N2 Hostname</code></li>
+                </ul>
+
+                <li>An information screen will appear, detailing what characters are allowed in the hostname - read it and select <code>&lt;Ok&gt;</code> to continue.</li>
+
+                <li>On this screen, you will see the Raspberry Pi's current hostname. To make it more identifiable and customise your cluster, enter a new name of your choice. In my example I will change it to <i>beira</i> and hit enter/return to confirm it.</li>
+
+                <li>Finally need to set the time zone so that the date and time on the Pi are correct. Once you are back at the main menu, select:</li>
+                <ul>
+                  <li><code>4 Localisation Options</code></li>
+                  <li><code>I2 Change Timezone</code></li>
+                </ul>
+
+                <li>You will be presented with a list of geographic regions. Select where you are and hit Enter, then pick a city from the next list which is in your timezone. For example, if you were here in EPCC, you would pick 'Europe', and then 'London', since Edinburgh is not an option.</li>
+
+                <li>Once back in the main menu, use the right arrow keys to select <code>&lt;Finish&gt;</code> and hit Enter/return.</li>
+
+                <li>You will be asked if you want to reboot - choose yes. Your ssh session will end, and you will have to wait for a couple of minutes while the Raspberry Pi restarts</li>
+              </ol>
+
+        <p>
+          If you log back in to your master node at this stage, you will see your new hostname now appears on the command line:
+        </p>
+
         <pre>
-C:\>nmap 192.168.137.0/24
-
-Starting Nmap 7.40 ( https://nmap.org ) at 2017-04-26 15:53 GMT Daylight Time
-Nmap scan report for 192.168.137.225
-Host is up (0.00013s latency).
-All 1000 scanned ports on 192.168.137.225 are closed
-MAC Address: 98:5A:EB:C7:15:8B (Apple)
-
-Nmap scan report for 192.168.137.1
-Host is up (0.0013s latency).
-Not shown: 997 closed ports
-PORT    STATE SERVICE
-135/tcp open  msrpc
-139/tcp open  netbios-ssn
-445/tcp open  microsoft-ds
-
-Nmap done: 256 IP addresses (2 hosts up) scanned in 23.48 seconds
-
-C:\>
+  pi@beira:~ $
         </pre>
-        <p>All the IP addresses which show up starting with Nmap scan report for IP address will be your Raspberry Pis - except for the one with your written down IP address.</p>
-        <p>
-Now we know what IP addresses are assigned to the Pis.
-</p>
-        <p>
-IP addresses are what we can use to identify a Pi on the network and use it as a target to log in - its the same as a street address when going somewhere - though IP addresses can change.
 
-A brief explanation of IP Addresses and DHCP are available at the following links:
-            </p>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/IP_address">IP Address</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol">DHCP</a></li>
-</ul>
-
-
-    <p>
-Now we have our Pis started, we know their current IP addresses - now we should start doing some configuration and setup.
-        <b>Note: These IP addresses are only valid with the current connection to your computer. After the setup is complete, the Raspberry Pis will be assigned addresses by the cluster server.</b>
-</p>
-    <p>
-For example, my Pi addresses are:
-           </p>
-    <pre>
-192.168.2.18
-192.168.2.19
-192.168.2.20
-192.168.2.21
-192.168.2.22
-</pre>
-        <p>
-I am going to make the Pi with address 192.168.2.18 the master node in the cluster and the other Pis will be worker nodes.
-    </p>
-        <p>
-The master node in our clusters will run the network assigning IP addresses via the DHCP server, share its Wifi connection (if used), share a networked drive for files and start the programs we will run on the cluster.
-               </p>
-        <p>
-The worker nodes will do the actual computation in any programs.
-</p>
-    <a name="mainnode"><h2>Setting Up the Main Node</h2></a>
-
-<p>
-We will start with the master node.
-</p>
-        <p>
-In your command terminal type the following command, replacing the 192.168.2.18 with your IP address for your Pi:
-        </p>
-<pre>
-ssh pi@192.168.2.18
-</pre>
-        <p>
-You will get output like this coming up:
-        </p>
-    <pre>
-The authenticity of host '192.168.2.18 (192.168.2.18)' can't be established.
-RSA key fingerprint is a0:97:1f:d6:df:8c:a5:45:db:fe:b4:94:46:1d:0f:48.
-Are you sure you want to continue connecting (yes/no)?
-</pre>
-        <p>
-Type yes in and the following will appear:
-            </p>
-<pre>
-Warning: Permanently added '192.168.2.18' (RSA) to the list of known hosts.
-pi@192.168.2.18's password:
-</pre>
-        <p>
-Type in the password: <i>raspberry</i>
-</p>
-        <p>
-Now you have logged into your new master node for your cluster.
-</p>
-        <p>
-To breakdown what happened, you typed in
-            </p>
-        <pre>ssh pi@192.168.2.18</pre>
-<p>
-This is a command which runs the ssh client on your computer and tries to connect to a system at address 192.168.2.18 with the user name pi. This is a standard way of logging into a remote system - like a supercomputer such as ARCHER.
-</p>
-        <p>
-You will then get output like:
-</p>
-    <pre>
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Fri Feb 26 03:25:51 2016
-pi@raspberrypi:~ $
-</pre>
-<p>
-<a name="configrpi">Let's do some main system configuration</a>:
-</p>
-        <p>
-Type the command  sudo raspi-config and press Enter/Return, e.g.:
-        </p>
-<pre>
-pi@raspberrypi:~ $ sudo raspi-config
-</pre>
-        <p>
-This will run a provided Raspberry Pi configuration program.
-            </p>
-<p>
-The sudo command means that any following commands will be run as the super-user which has permissions to make system changes rather than just changes in a user own files.
-</p>
-        <p>
-When a menu appears:
-        </p>
-<ul>
-<li>Choose option 3 Boot Options.</li>
-<li>Now choose option B1 Text console and hit enter/return.</li>
-</ul>
-        <p>
-This will mean that the Raspberry Pi will always boot to a command line rather than a GUI (that is a Graphical User Interface which is what we normally use in everyday use of computers).
-        </p>
-<ul>
-<li>Now choose the option 9 Advanced Options.</li>
-<li>Choose the Option A2 Hostname and hit enter/return.</li>
-        </ul>
-        <p>
-An information screen will appear - read it before continuing.
-</p>
-<p>On this screen, there is a hostname, an easy to recognise name, for the Raspberry Pi you are logged into. To make it more identifiable and customise your cluster, you can choose a name for the Raspberry Pi you are logged into.
-        </p>
-        <p>
-In my example I will change it to <i>beira</i> and hit enter/return to confirm it.
-        </p>
-
-<p>
-We need to set the right time zone so that the date and time on the Pi is correct.
-        </p>
-<ul>
-    <li>Choose Option 5 Internationalisation Options.</li>
-<li>Choose the T2 Change Timezone option.</li>
-  <li>  From the list choose your area, for me it is Europe.</li>
-    <li>Then choose your closest location, I chose London.</li>
-        </ul>
-
-<p>
-Once back in the main menu, use the cursor/arrow keys to move to the button which says Finish and hit enter/return.
-          </p>
-        <p>
-It will ask if you want to reboot - choose yes and reboot this Pi.
-  </p>
-    <p>
-Your ssh session with the Raspberry Pi will end. The Raspberry Pi will take a little time to reboot before you can log in again to continue. Have patience here.
-  </p>
-        <p>
-Now log back into the Raspberry Pi using the ssh command previously used and put in the password.
-  </p>
-        <p>
-Now you will note that the command line says pi@your-hostname-here so my example shows
-  </p>
-    <pre>
-pi@beira:~ $
-</pre>
+        <h3>Software Update and Passwordless Login</h3>
+        
         <p>
 We will now install some updates on the Raspberry Pi main software. The first command to run is rpi-update.
           </p>
