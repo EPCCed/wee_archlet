@@ -23,7 +23,7 @@
             <li><a href="#bench">A Quick Benchmark</a></li>
             <li><a href="https://www.epcc.ed.ac.uk/discover-and-learn/resources-and-activities/what-is-a-supercomputer/wee-archie">Wee Archie</a></li>
             <!--TODO Add link to command glossary which I am going to make-->
-            <li>Glossary of commands</li>
+            <!--<li>Glossary of commands</li>-->
           </ul>
 
           <h2>Version and Authorship</h2>
@@ -821,60 +821,55 @@
 
       <h3>Set Up MPI</h3>
       <p>
-        Before we go into setting up a DHCP server we will setup MPI. MPI is a core technology used in parallel and high performance computing that allows processes to communicate in a standard way and thus allows them to collaborate to solve a problems together in parallel. We will install and test a simple program on a single node.
+        <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI (Message Passing Interface)</a> is a core technology used in parallel and high performance computing that allows processes to communicate in a standard way, and so solve a problems together in parallel. We will install and test it with a simple program on a single node.
       </p>
-        <p>
-Run the following:
-        </p>
-<pre>
-sudo apt-get install libxml2-dev
-sudo apt-get install zlib1g zlib1g-dev
-sudo apt-get install mpich
-</pre>
-        <p>
-Now try running the command:
-        </p>
-<pre>
-mpiexec —version
-</pre>
-        <p>
-You should get output looking something like:
-        </p>
-    <pre>
-      pi@beira:~ $ mpiexec --version
-      HYDRA build details:
-          Version:                                 3.2
-          Release Date:                            Wed Nov 11 22:06:48 CST 2015
-          CC:                              gcc   -Wl,-z,relro
-          CXX:                             g++   -Wl,-z,relro
-          F77:                             gfortran  -Wl,-z,relro
-          F90:                             gfortran  -Wl,-z,relro
-          Configure options:                       ...
-          Process Manager:                         pmi
-          Launchers available:                     ssh rsh fork slurm ll lsf sge manual persist
-          Topology libraries available:            hwloc
-          Resource management kernels available:   user slurm ll lsf sge pbs cobalt
-          Checkpointing libraries available:       blcr
-          Demux engines available:                 poll select
+      <ol>
+        <li>Run the following to install necessary libraries:</li>
+        <pre>
+  sudo apt-get install libxml2-dev
+  sudo apt-get install zlib1g zlib1g-dev
+  sudo apt-get install mpich
+        </pre>
+        <li>Now try running the command:</li>
+        <pre>
+  mpiexec —version
+        </pre>
 
-    </pre>
-        <p><b>Note:</b> The output above has been truncated so when the command is run the output will have more details.</p>
         <p>
-Now we will write a small program to test that MPI works on our one Raspberry Pi.
+          The output should look something like this:
         </p>
+        <pre>
+  pi@beira:~ $ mpiexec --version
+  HYDRA build details:
+      Version:                                 3.2
+      Release Date:                            Wed Nov 11 22:06:48 CST 2015
+      CC:                              gcc   -Wl,-z,relro
+      CXX:                             g++   -Wl,-z,relro
+      F77:                             gfortran  -Wl,-z,relro
+      F90:                             gfortran  -Wl,-z,relro
+      Configure options:                       ...
+      Process Manager:                         pmi
+      Launchers available:                     ssh rsh fork slurm ll lsf sge manual persist
+      Topology libraries available:            hwloc
+      Resource management kernels available:   user slurm ll lsf sge pbs cobalt
+      Checkpointing libraries available:       blcr
+      Demux engines available:                 poll select
+
+        </pre>
+
+        <p><b>Note:</b> The output above has been shortened. Yours should have more detail.</p>
+        <li>Now we will write a small program in C to test that MPI works on just one Raspberry Pi.</li>
         <p>
-Type the following commands which will change us to the shared_dir directory, where we will create a new directory, change into that directory, create a text file with the code content, compile the resulting program and run it.
-         </p>
-<pre>
-cd /home/shared_dir
-mkdir testprogram
-cd testprogram
-nano hello.c
-</pre>
-        <p>
-Type the following:
-         </p>
-<pre>
+          Navigate to the shared_dir directory, create a new directory called <code>testprogram</code>, then go into that directory and create an empty file called <code>hello.c</code> with the following set of commands:
+        </p>
+        <pre>
+  cd /home/shared_dir
+  mkdir testprogram
+  cd testprogram
+  nano hello.c
+        </pre>
+        <li>Executing nano hello.c will open the empty file as well as create it. Type the following code, save, and exit:</li>
+        <pre>
 #include &lt;mpi.h&gt;
 #include &lt;stdio.h&gt;
 
@@ -903,65 +898,58 @@ int main(int argc, char** argv) {
     // Finalize the MPI environment.
     MPI_Finalize();
 }
-</pre>
-    <p>
-Now save the file and exit nano.
+        </pre>
+
+        <li>To compile the code into an executable, do the following command:</li>
+        <pre>
+  mpicc -o hello hello.c
+        </pre>
+
+        <li>Type the command:</li>
+        <pre>
+  ls -al
+        </pre>
+        <p>
+          This should show the directory contents - which will include an executable file called <code>hello</code>.
+        </p>
+
+        <li>Now we will run this as an MPI program. First we need to create a hostfile:</li>
+
+        <pre>
+  nano hostfile
+        </pre>
+        <p>
+          and populate it with the address of your Raspberry Pi master node, followed by a <code>:4</code>. For example I need to type in:
+        </p>
+        <pre>
+  192.168.2.18:4
+        </pre>
+        <p>
+          Now save the file and exit nano.
+        </p>
+
+        <li>To run the <code>hello</code> program, type in the command:</li>
+        <pre>
+  mpiexec -n 4 -f hostfile ./hello
+        </pre>
+        <p>
+          <code>mpiexec</mpiexec> command will run the program <code>hello</code> as an MPI program across 4 cores on the systems identified in your hostfile. This means that the program will run as four processes which can communicate with each other - in this case each process will only write out which core on the Raspberry Pi it is working on.
         </p>
         <p>
-Type the following to compile the code:
-         </p>
-<pre>
-mpicc -o hello hello.c
-</pre>
-        <p>
-Type the command:
-         </p>
-<pre>
-ls -al
-</pre>
-        <p>
-This should show the directory contents - which will include an executable file called hello.
-     </p>
-        <p>
-Now we will run this as an MPI program.
- </p>
-        <p>
-First we need to create a hostfile:
-         </p>
-<pre>
-nano hostfile
-</pre>
-        <p>
-where you need to type in the address of <b>your</b> Raspberry Pi followed by a :<i>:4</i>", for example I need to type in:
-         </p>
-<pre>
-192.168.2.18:4
-</pre>
-        <p>
-Now save the file and exit nano.
- </p>
-        <p>
-To run the hello program type in the command:
-         </p>
-<pre>
-mpiexec -n 4 -f hostfile ./hello
-</pre>
-        <p>
-The mpiexec command will run the program hello as an MPI program across 4 cores on the systems identified in your hostfile. This means that the program will run as four processes which can communicate with each other - in this case each process will only write out which core on the Raspberry Pi it is working on.
- </p>
-        <p>
-You should get output like this:
-         </p>
-<pre>
-pi@beira:/home/shared_dir/testprogram $ mpiexec -n 4 -f hostfile ./hello
-Hello world from processor beira, rank 0 out of 4 processors
-Hello world from processor beira, rank 1 out of 4 processors
-Hello world from processor beira, rank 2 out of 4 processors
-Hello world from processor beira, rank 3 out of 4 processors
-</pre>
-        <p>
-If you see this output like this then congratulations - you have setup MPI on your system and run a basic MPI program on it. This is the first step in checking that things are working correctly.
+          You should get output like this:
         </p>
+        <pre>
+  pi@beira:/home/shared_dir/testprogram $ mpiexec -n 4 -f hostfile ./hello
+  Hello world from processor beira, rank 0 out of 4 processors
+  Hello world from processor beira, rank 1 out of 4 processors
+  Hello world from processor beira, rank 2 out of 4 processors
+  Hello world from processor beira, rank 3 out of 4 processors
+      </pre>
+        <p>
+          If you do see this output like this then congratulations - you have setup MPI on your system and run a basic MPI program on it.
+        </p>
+
+        <h3>Setting Up the DHCP Server</h3>
         <p>
 To enable Wifi on this main node, you need to add a network to the wpa_supplicant.conf file.
         </p>
