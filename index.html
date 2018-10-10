@@ -950,195 +950,149 @@ int main(int argc, char** argv) {
         </p>
 
         <h3>Setting Up the DHCP Server</h3>
-        <li>The first step i s to enable Wifi on your master node. To do this, you need to add a network to the wpa_supplicant.conf file.</li>
-        <p>
-          Open wpa_supplicant.conf in nano:
-        </p>
-        <pre>
+        <ol>
+          <li>The first step i s to enable Wifi on your master node. To do this, you need to add a network to the wpa_supplicant.conf file.</li>
+          <p>
+            Open wpa_supplicant.conf in nano:
+          </p>
+          <pre>
   sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
-        </pre>
-        <p>
-          and the end of the file add:
-        </p>
-        <pre>
+          </pre>
+          <p>
+            and the end of the file add:
+          </p>
+          <pre>
   network={
       ssid=“&lt;your ssid&gt;“
       psk=“&lt;your wifi code&gt;“
   }
-        </pre>
-        <p>
-          <b>Note: The SSID is the WiFi network identifier - this is an identifier broadcast to allow you to select the right WiFi network. If you are running a home network - this will likely be on your router. Otherwise you can check to see what WiFi network your main computer is connected to from the WiFi network properties.</b><br/> As an example:
-        </p>
-        <pre>
+          </pre>
+          <p>
+            <b>Note: The SSID is the WiFi network identifier - this is an identifier broadcast to allow you to select the right WiFi network. If you are running a home network - this will likely be on your router. Otherwise you can check to see what WiFi network your main computer is connected to from the WiFi network properties.</b><br/> As an example:
+          </p>
+          <pre>
   network={
     ssid="SKY64DBE"
     psk="UDAXEESQ"
   }
-        </pre>
-        <p>
-          If you have a system like <i>eduroam</i> please have a look <a href="eduroam.html">here</a>.
-        </p>
-        <p>
-You may need to restart the wifi connection on your Raspberry Pi. Run the command:
-         </p>
-<pre>
-sudo ifdown wlan0
-</pre>
-        <p>
-Wait for a few second then run:
-         </p>
-<pre>
-sudo ifup wlan0
-</pre>
-        <p>
-if you run the command:
-         </p>
-<pre>
-ifconfig wlan0
-</pre>
-        <p>
-You should get the output for the wifi with an IP address. Sharing this connection will be done after the next part.
- </p>
-<p>
-Now what we need to do is setup a DHCP server on this node - this will serve IP addresses to any other machine that wants to connect to its network and asks for one.
- </p>
-     <p>
-        First we will install <i>dnsmasq</i>, to do this run the command:
+          </pre>
+          <p>
+            If you have a system like <i>eduroam</i> please have a look <a href="eduroam.html">here</a>.
           </p>
-<pre>
-sudo apt-get install dnsmasq
-</pre>
-        <p>
-Once it is installed, we will need to configure the dhcp server, type:
-        </p>
-<pre>
-sudo nano /etc/dnsmasq.conf
-</pre>
-        <p>
-This will open the configuration file for dnsmasq.
- </p>
-        <p>
-        Press CRTL and W which will start a search, type in <i>domain-needed</i> and press enter/return.
-         </p>
-        <p>
-        Remove the # from the beginning of that line  (a # is a comment and tells the program to ignore the rest of the line, good for documenting your own changes).
-         </p>
-        <p>
-        Also remove the # from the line that has bogus-priv.
- </p>
-        <p>
-Find the line beginning server=/ (ignore lines starting with #) and change the line to read:
- </p>
-<pre>
-server=/cluster/&lt;ip address of your main node&gt;
-</pre>
-        <p>
-so, for example I would use:
- </p>
-<pre>
-server=/cluster/192.168.2.18
-</pre>
-        <p>
-Now find the line starting with local=/ and change it to:
- </p>
-    <pre>
-local=/cluster/
-</pre>
-        <p>
-Search for expand-hosts.
- </p>
-        <p>
-Remove the # from the beginning of that line.
- </p>
-Goto the line starting:
-<pre>
-#domain=
-</pre>
-        <p>
-and change this to:
- </p>
-<pre>
-domain=cluster
-</pre>
-        <p>
-Now goto the first line: #dhcp-range=
- </p>
-        <p>
-Remove the # and change it to:
-     </p>
-<pre>
-dhcp-range=192.168.2.30,192.168.2.100,14d
-</pre>
-<p>
-This will set the range of IP addresses that can be assigned to client machines (192.168.2.30-192.168.2.100) and for how long they are assigned those addresses before they are renewed, known as lease time, in this case 14 days.
-        </p>
-        <p>
-Save this file now and exit the editor.
- </p>
-        <p>
-Run the following command:
-         </p>
-<pre>
-sudo nano /etc/resolv.conf
-</pre>
-        <p>
-At the end of the file add <i>nameserver &lt;ip address of your main node&gt;</i>, for example:
-         </p>
-<pre>
-nameserver 192.168.2.18
-</pre>
-        <p>
-Now save and exit.
-        </p>
-        <p>
-Then run:
-        </p>
-<pre>
-sudo nano /etc/hosts
-</pre>
-        <p>
-at the end of the file add <i>&lt;ip address of your main node&gt; &lt;hostname of your main node&gt;</i>, for example:
-        </p>
-<pre>
-192.168.2.18   beira
-</pre>
-        <p>
-Then save and exit.
-        </p>
-<p>
-Now we will fix the IP address of this Raspberry Pi - so that it is a fixed point we will always know.
-        </p>
-          <p>There are two tested versions of Raspbian for these instructions - "Wheezy" and "Jessie". New installations of Raspbian should be "Jessie" - commonly Raspberry Pi 3 computers, older Raspberry Pi 1 and 2 will if not upgraded likely be running "Wheezy". Use the instructions for your particular installation.</p>
+          <li>You may need to restart the wifi connection on your Raspberry Pi. Run the command:</li>
+          <pre>
+  sudo ifconfig wlan0 down
+          </pre>
+          <p>
+            Wait for a few seconds then run:
+          </p>
+          <pre>
+  sudo ifconfig wlan0 up
+          </pre>
+          <p>
+            When you run the command:
+          </p>
+          <pre>
+  ifconfig wlan0
+          </pre>
+          <p>
+            You should get the output for the wifi with an IP address. Sharing this connection will be done after the next part.
+          </p>
 
-<h3>Network Configuration: Raspberry Pi "Wheezy"</h3>
+          <li>Now what we need to do is setup a DHCP server on this node - this will serve IP addresses to any other machine that wants to connect to its network and requests one.</li>
+          <p>
+            First we will install <code>dnsmasq</code>:
+          </p>
+          <pre>
+  sudo apt-get install dnsmasq
+          </pre>
+          <li>Once installation is complete, we will need to configure the DHCP server. Open the configuration file for dnsmasq:</li>
+          <pre>
+  sudo nano /etc/dnsmasq.conf
+          </pre>
+
+          <p>
+            Press CRTL + W which will start a search, type in <i>domain-needed</i> and press enter/return.
+          </p>
+          <p>
+            Remove the # from the beginning of that line  (a # is a comment and tells the program to ignore the rest of the line, good for documenting your own changes).
+          </p>
+          <li>Also remove the # from the line that has <code>bogus-priv</code>.</li>
+          <!-- The following instructions were changed from an earlier version which asked the reader to uncomment certain lines and amend some details. This is because they were quite difficult to follow and get right-->
+          <li>Add the following lines to the end of the file:</li>
+          <pre>
+  server=/cluster/&lt;ip address of your main node&gt;
+  local=/cluster/
+  domain=cluster
+  dhcp-range=&lt;first part of your node IP addresses&gt;.30,&lt;first part of your node IP addresses&gt;.100,14d
+          </pre>
+          <p>
+            The last line will set the range of IP addresses that can be assigned to client machines (so for me this would be 192.168.2.30-192.168.2.100) and for how long they are assigned those addresses before they are renewed, known as lease time, in this case 14 days.
+          </p>
+          <p>
+            Save this file now and exit the editor.
+          </p>
+
+          <li>Open the file called resolv.conf:</li>
+          <pre>
+  sudo nano /etc/resolv.conf
+          </pre>
+          <p>
+            At the end of the file add <code>nameserver &lt;ip address of your main node&gt;</code>, for example:
+          </p>
+          <pre>
+  nameserver 192.168.2.18
+          </pre>
+          <p>
+            Save and exit.
+          </p>
+          <li>Then open the hosts file:</li>
+          <pre>
+  sudo nano /etc/hosts
+          </pre>
+          <p>
+            At the end of the file add <i>&lt;ip address of your main node&gt; &lt;hostname of your main node&gt;</i>, for example:
+          </p>
+          <pre>
+  192.168.2.18   beira
+          </pre>
+          <p>
+            Then save and exit.
+          </p>
+
+          <li>Now we will fix the IP address of this Raspberry Pi - so that it is a fixed point we will always know.</li>
+          <p>There are two tested versions of Raspbian for these instructions - "Wheezy" and "Jessie". New installations of Raspbian should be "Jessie" - commonly Raspberry Pi 3 computers, older Raspberry Pi 1 and 2 will if not upgraded likely be running "Wheezy". Use the instructions for your particular installation.</p>
+        </ol>
+
+        <h3>Network Configuration: Raspberry Pi "Wheezy"</h3>
         <p>There are two tested versions of Raspbian for these instructions - "Wheezy" and "Jessie". New installations of Raspbian should be "Jessie" - commonly Raspberry Pi 3 computers, older Raspberry Pi 1 and 2 will, if not upgraded, likely be running "Wheezy". Use the instructions for your particular installation.</p>
         <p>
-For Raspberry Pi running the Raspbian version denoted "Wheezy" (commonly non-upgraded Raspberry Pi 1 and 2) do the following:
+          For Raspberry Pi running the Raspbian version denoted "Wheezy" (commonly non-upgraded Raspberry Pi 1 and 2) do the following:
         </p>
-<pre>
-sudo nano /etc/network/interfaces
-</pre>
+        <pre>
+  sudo nano /etc/network/interfaces
+        </pre>
         <p>
-in that file there will be a line:
-           </p>
-<pre>
-iface eth0 net manual
-</pre>
+          In that file there will be a line:
+        </p>
+        <pre>
+  iface eth0 net manual
+        </pre>
         <p>
-we will change this to use  a static IP address.
-
-replace the line with
-                   </p>
-<pre>
-iface eth0 inet static
-address 192.168.2.18
-netmask 255.255.255.0
-network 192.168.3.0
-broadcast 192.168.2.255
-gateway 192.168.2.1
-</pre>
-        <p><b>Note:</b> Use the IP Address of your node in place of my example 192.168.2.18.</p>
-<p>
+          We will change this to use  a static IP address. Replace the line with:
+        </p>
+        <pre>
+  iface eth0 inet static
+  address 192.168.2.18
+  netmask 255.255.255.0
+  network 192.168.3.0
+  broadcast 192.168.2.255
+  gateway 192.168.2.1
+        </pre>
+        <p>
+          <b>Note:</b> Use the IP Address of your node in place of my example 192.168.2.18.
+        </p>
+        <p>
         Save this file and exit now.
        </p>
         <p>
