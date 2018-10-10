@@ -1099,35 +1099,33 @@ int main(int argc, char** argv) {
         Now start the service and reboot:
         </p>
         <pre>
-sudo service dnsmasq start
-sudo reboot
-</pre>
-<p>
-Then log back into the Raspberry Pi.
-  </p>
-<h3>Network Configuration: Raspberry Pi "Jessie"</h3>
-For Raspberry Pi computers running Raspbian version denoted "Jessie" (commonly Raspberry Pi 3), run:
-    <pre>
-    sudo nano /etc/dhcpcd.conf
-</pre>
+  sudo service dnsmasq start
+  sudo reboot
+        </pre>
         <p>
-At the bottom of the file add:
-          </p>
-<pre>
-interface eth0
+          Then log back into the Raspberry Pi.
+        </p>
 
-static ip_address=192.168.2.18/24
-</pre>
-<p>
-Now start the service and reboot:
-          </p>
-<pre>
-sudo service dnsmasq start
-sudo reboot
-</pre>
-   <p>
-Then log back into the Raspberry Pi.
-  </p>
+        <h3>Network Configuration: Raspberry Pi "Jessie"</h3>
+        <ol>
+          <li>For Raspberry Pi computers running Raspbian version denoted "Jessie" (commonly Raspberry Pi 3), run:</li>
+          <pre>
+  sudo nano /etc/dhcpcd.conf
+          </pre>
+
+        <li>At the bottom of the file add:</li>
+        <pre>
+  interface eth0
+
+  static ip_address=&lt;IP address for master node&gt;/24
+        </pre>
+        <li>Now start the service and reboot:</li>
+        <pre>
+  sudo service dnsmasq start
+  sudo reboot
+        </pre>
+        <li>Then log back into the master node.</li>
+      </ol>
 
    <h3>On All Systems</h3>
         <p>
