@@ -1113,90 +1113,71 @@ int main(int argc, char** argv) {
   sudo nano /etc/dhcpcd.conf
           </pre>
 
-        <li>At the bottom of the file add:</li>
-        <pre>
+          <li>At the bottom of the file add:</li>
+          <pre>
   interface eth0
 
   static ip_address=&lt;IP address for master node&gt;/24
-        </pre>
-        <li>Now start the service and reboot:</li>
-        <pre>
+          </pre>
+          <li>Now start the service and reboot:</li>
+          <pre>
   sudo service dnsmasq start
   sudo reboot
-        </pre>
-        <li>Then log back into the master node.</li>
-      </ol>
+          </pre>
+          <li>Then log back into the master node.</li>
+        </ol>
 
-   <h3>On All Systems</h3>
+        <h3>On All Systems</h3>
         <p>
-If you disable the internet sharing on your laptop/desktop you will find that you get an IP address from the Pi on the ethernet.
-  </p>
-        <p>
-If you have configured wifi to connect to your internet, you can share this across the network being served by the Raspberry Pi via its ethernet connection.
-  </p>
-        <p>
-On the host Raspberry Pi run:
+          If you disable the internet sharing on your laptop/desktop and have configured wifi to connect to your internet on the master node, you can share this across the cluster being served by that Raspberry Pi via its ethernet connection.
+        </p>
+        <ol>
+          <li>On the host Raspberry Pi run:</li>
+          <pre>
+  sudo nano /proc/sys/net/ipv4/ip_forward
+          </pre>
+          <li>Change the value from 0 to 1, then save and exit.</li>
+          <li>Then run:</li>
+          <pre>
+  sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+          </pre>
+          <p>
+            This will share the connection across any machines getting IP addresses from this Pi. However if you reboot the Pi, this sharing will be lost.
           </p>
-<pre>
- sudo nano /proc/sys/net/ipv4/ip_forward
-</pre>
+          <li>What we need to do is make the iptables persistent and the forwarding permanent. To do this run:</li>
+          <pre>
+  sudo nano /etc/sysctl.conf
+          </pre>
+          <p>
+            For the line <code>#net.ipv4.ip_forward=1</code>, remove the #.
+          </p>
+          <li>Now run the following commands to make the iptables changes load each time:</li>
+          <pre>
+  sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+  sudo apt-get install iptables-persistent
+          </pre>
+          <p>
+            When it asks you if you want to save the current configuration, say yes both times. This will add the wifi sharing as a permanent feature of your cluster.
+          </p>
+        </ol>
+
         <p>
-Change the value 0 to 1, then save and exit.
-</p>
-        <p>
-Then run:
+          Now you have made changes to your main node which will do the following:
         </p>
-<pre>
-sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
-</pre>
-        <p>
-This will share the connection across any machines getting IP addresses from this Pi.
-</p>
-        <p>
-However if you reboot the Pi, this sharing will be lost.
-</p>
-        <p>
-What we need to do is make the iptables persistent and the forwarding permanent.
-</p>
-        <p>
-To do this run:
-        </p>
-<pre>
-sudo nano /etc/sysctl.conf
-</pre>
-        <p>
-For the line #net.ipv4.ip_forward=1 remove the #.
-</p>
-        <p>
-Now run the following commands to make the iptables changes load each time:
-        </p>
-<pre>
-sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
-sudo apt-get install iptables-persistent
-</pre>
-        <p>
-When it asks you if you want to save the current configuration, say yes both times.
-</p>
-        <p>
-This will add the wifi sharing as a permanent feature of your cluster.
-</p>
-        <p>
-Now you have made changes to your main node which will do the following:
-        </p>
-<ul>
-<li>Share a network drive.</li>
-<li>Run a DHCP Server.</li>
-<li>Run an MPI program.</li>
-<li>Share Internet Connections.</li>
-</ul>
+        <ul>
+          <li>Share a network drive.</li>
+          <li>Run a DHCP Server.</li>
+          <li>Run an MPI program.</li>
+          <li>Share Internet Connections.</li>
+        </ul>
 
 
-<a name="workers"><h3>Setting up the worker nodes</h3></a>
+        <a name="workers"><h2>Setting up the worker nodes</h2></a>
         <p>
-Now what we need to do is configure the worker nodes.
-</p>
+          Now what we need to do is configure the remaining Raspberry Pis - in other words, the worker nodes.
+        </p>
 <p>
-First we need to know what addresses they have - if you are continuing to use internet sharing from a laptop/desktop use the instructions from  <a href="#sharing">earlier.</a>
+First we need to know what their IP addresses are - if you are continuing to use internet sharing from a laptop/desktop use the instructions from  <a href="#sharing">earlier.</a>
 </p>
 <p>
 If you are sharing from your new master node, then you can find out the ip addresses like this:
