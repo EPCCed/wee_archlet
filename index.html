@@ -950,37 +950,34 @@ int main(int argc, char** argv) {
         </p>
 
         <h3>Setting Up the DHCP Server</h3>
+        <li>The first step i s to enable Wifi on your master node. To do this, you need to add a network to the wpa_supplicant.conf file.</li>
         <p>
-To enable Wifi on this main node, you need to add a network to the wpa_supplicant.conf file.
+          Open wpa_supplicant.conf in nano:
         </p>
+        <pre>
+  sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+        </pre>
         <p>
-Type the command:
+          and the end of the file add:
         </p>
-<pre>
-sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
-</pre>
+        <pre>
+  network={
+      ssid=“&lt;your ssid&gt;“
+      psk=“&lt;your wifi code&gt;“
+  }
+        </pre>
         <p>
-at the end of the file add:
-         </p>
-<pre>
-network={
-    ssid=“&lt;your ssid&gt;“
-    psk=“&lt;your wifi code&gt;“
-}
-</pre>
-        <p>
-            <b>Note: The SSID is the WiFi network identifier - this is an identifier broadcast to allow you to select the right WiFi network. If you are running a home network - this will likely be on your router. Otherwise you can check to see what WiFi network your main computer is connected to from the WiFi network properties.</b><br/>
-As an example:
-         </p>
-<pre>
-network={
+          <b>Note: The SSID is the WiFi network identifier - this is an identifier broadcast to allow you to select the right WiFi network. If you are running a home network - this will likely be on your router. Otherwise you can check to see what WiFi network your main computer is connected to from the WiFi network properties.</b><br/> As an example:
+        </p>
+        <pre>
+  network={
     ssid="SKY64DBE"
     psk="UDAXEESQ"
-}
-</pre>
+  }
+        </pre>
         <p>
-        If you have a system like <i>eduroam</i> please see the blog article: <a href="https://www.epcc.ed.ac.uk/blog/2016/04/29/getting-wee-archie-net">Eduroam Networking</a>.
- </p>
+          If you have a system like <i>eduroam</i> please have a look <a href="eduroam.html">here</a>.
+        </p>
         <p>
 You may need to restart the wifi connection on your Raspberry Pi. Run the command:
          </p>
