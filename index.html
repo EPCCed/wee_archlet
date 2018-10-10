@@ -1136,7 +1136,9 @@ int main(int argc, char** argv) {
           <pre>
   sudo nano /proc/sys/net/ipv4/ip_forward
           </pre>
+
           <li>Change the value from 0 to 1, then save and exit.</li>
+
           <li>Then run:</li>
           <pre>
   sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
@@ -1144,6 +1146,7 @@ int main(int argc, char** argv) {
           <p>
             This will share the connection across any machines getting IP addresses from this Pi. However if you reboot the Pi, this sharing will be lost.
           </p>
+
           <li>What we need to do is make the iptables persistent and the forwarding permanent. To do this run:</li>
           <pre>
   sudo nano /etc/sysctl.conf
@@ -1151,6 +1154,7 @@ int main(int argc, char** argv) {
           <p>
             For the line <code>#net.ipv4.ip_forward=1</code>, remove the #.
           </p>
+
           <li>Now run the following commands to make the iptables changes load each time:</li>
           <pre>
   sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
@@ -1176,98 +1180,62 @@ int main(int argc, char** argv) {
         <p>
           Now what we need to do is configure the remaining Raspberry Pis - in other words, the worker nodes.
         </p>
-<p>
-First we need to know what their IP addresses are - if you are continuing to use internet sharing from a laptop/desktop use the instructions from  <a href="#sharing">earlier.</a>
-</p>
-<p>
-If you are sharing from your new master node, then you can find out the ip addresses like this:
-</p>
-
-    <pre>
-less /var/lib/misc/dnsmasq.leases
-</pre>
         <p>
-This will list the connected machines to the master node.
-</p>
-<p>
-One of these will be your laptop/desktop.
+          First we need to know what their IP addresses are - if you are continuing to use internet sharing from a laptop/desktop use the instructions from  <a href="#sharing">earlier</a>. If you are sharing from your new master node, then you can find out the ip addresses like this:
+        </p>
+        <pre>
+  less /var/lib/misc/dnsmasq.leases
+        </pre>
+        <p>
+          This will list the connected machines to the master node. One of these will be your laptop/desktop.
         </p>
 
-<pre>
-1471486087 b8:27:eb:1d:52:f6 192.168.2.55 raspberrypi 01:b8:27:eb:1d:52:f6
-1471486084 b8:27:eb:47:a1:27 192.168.2.39 * 01:b8:27:eb:47:a1:27
-1471486081 b8:27:eb:cf:a3:29 192.168.2.62 * 01:b8:27:eb:cf:a3:29
-1471486081 b8:27:eb:0c:4d:4e 192.168.2.72 * 01:b8:27:eb:0c:4d:4e
-1471482976 34:15:9e:07:d4:42 192.168.2.47 Khonsu 01:34:15:9e:07:d4:42
-</pre>
+        <pre>
+  1471486087 b8:27:eb:1d:52:f6 192.168.2.55 raspberrypi 01:b8:27:eb:1d:52:f6
+  1471486084 b8:27:eb:47:a1:27 192.168.2.39 * 01:b8:27:eb:47:a1:27
+  1471486081 b8:27:eb:cf:a3:29 192.168.2.62 * 01:b8:27:eb:cf:a3:29
+  1471486081 b8:27:eb:0c:4d:4e 192.168.2.72 * 01:b8:27:eb:0c:4d:4e
+  1471482976 34:15:9e:07:d4:42 192.168.2.47 Khonsu 01:34:15:9e:07:d4:42
+        </pre>
         <p>
-You will notice some of the lines have a "*" - this is because all the worker nodes have the same hostname which doesn’t really work on a network. Your laptop or desktop should have a name, in my example it is Khonsu.
-</p>
-<p>
-We are going to do a manual configuration change to fix this, but we could write a script to run on all our nodes so that we don’t have to type a lot ourselves. If this is not the first time you have created a cluster, you can create a script, if it is the first time it may be more reassuring to do it yourself.
-</p>
-<p>
-So on each node you need to login:
+          You will notice some of the lines have a "*" - this is because all the worker nodes have the same hostname which doesn’t really work on a network. Your laptop or desktop should have a name, in my example it is <i>Khonsu</i>.
         </p>
+        <p>
+          We are going to do a manual configuration change to fix this, but we could write a script to run on all our nodes so that we don’t have to type a lot ourselves. If this is not the first time you have created a cluster,
+          you can create a script, if it is the first time it may be more reassuring to do it yourself. Follow these steps <b>on each worker node</b>, referring back to the instructions for <a href="#configrpi" >setting up the master node</a> if you need a reminder.
+          If you like, you can open multiple terminals or ssh clients, and start working on the next node while you are waiting for the update step to complete.
+        </p>
+        <ol>
+          <li>First of all you need to you need to login:</li>
+          <pre>
+  ssh pi@&lt;address&gt;
+          </pre>
+          <p>
+            You will get the ssh certificate warning which you can ignore, then you will need to type your password in.
+          </p>
 
-<pre>
-ssh pi@&lt;address&gt;
-</pre>
-        <p>
-You will get the ssh certificate warning which you can ignore, then you will need to type your password in.
-</p>
-<p>
-    Once logged in - you will need to run the raspi-config again and choose the same settings options as you did for the master node - just with a different hostname and remember to set the timezone - <a href="#configrpi" >see the main system configuration</a>. Here is the list of raspi-config steps:
+          <li>Once logged in, you will need to run the raspi-config again and choose the same settings options as you did before, but with a different host name each time.</li>
+          <p>
+            For my example, I will just call them worker01-worker04 so if I look at the leases in dnsmasq:
+          </p>
+          <pre>
+  1471486724 b8:27:eb:1d:52:f6 192.168.2.55 worker01 01:b8:27:eb:1d:52:f6
+  1471486758 b8:27:eb:47:a1:27 192.168.2.39 worker02 01:b8:27:eb:47:a1:27
+  1471486815 b8:27:eb:cf:a3:29 192.168.2.62 worker03 01:b8:27:eb:cf:a3:29
+  1471486841 b8:27:eb:0c:4d:4e 192.168.2.72 worker04 01:b8:27:eb:0c:4d:4e
+  1471482976 34:15:9e:07:d4:42 192.168.2.47 Khonsu 01:34:15:9e:07:d4:42
+          </pre>
+          <p>
+            I can login to the nodes with their IP Address now if the configuration of the server has worked correctly.
+          </p>
+          <li>You will need to generate an ssh key with ssh-keygen.</li>
 
-    <ul>
-<li>Choose option 3 Boot Options.</li>
-<li>Now choose option B1 Text console and hit enter/return.</li>
-<li>Now choose the option 9 Advanced Options.</li>
-<li>Choose the Option A2 Hostname and hit enter/return.</li>
-  <li>Set Hostname</li>
-    <li>Choose Option 5 Internationalisation Options.</li>
-<li>Choose the T2 Change Timezone option.</li>
-  <li>  From the list choose your area, for me it is Europe</li>
-    <li>Then choose your closest location, I chose London.</li>
-        </ul>
+          <li>Run <code>sudo rpi-update</code>. Then reboot once this is done.</li>
+        </ol>
+
+        <p>
+          To save a lot of typing in future, you can set up passwordless login within the cluster. As well as saving time, it is needed for parallel programs to work.
         </p>
-        <p>
-For my example, I will just call them worker01-worker04 so if I look at the leases in dnsmasq:
-        </p>
-    <pre>
-1471486724 b8:27:eb:1d:52:f6 192.168.2.55 worker01 01:b8:27:eb:1d:52:f6
-1471486758 b8:27:eb:47:a1:27 192.168.2.39 worker02 01:b8:27:eb:47:a1:27
-1471486815 b8:27:eb:cf:a3:29 192.168.2.62 worker03 01:b8:27:eb:cf:a3:29
-1471486841 b8:27:eb:0c:4d:4e 192.168.2.72 worker04 01:b8:27:eb:0c:4d:4e
-1471482976 34:15:9e:07:d4:42 192.168.2.47 Khonsu 01:34:15:9e:07:d4:42
-</pre>
-        <p>
-I can login to the nodes with their IP Address now if the configuration of the server has worked correctly.
-</p>
-        <p>
-You will need to generate an ssh key with ssh-keygen for each machine.
-</p>
-        <p>
-Now you will have four workers each with their own ssh keys.
-</p>
-        <p>
-Now you will have to update them all.
-</p>
-        <p>
-You can open up multiple terminals and on each worker run the following command:
-        </p>
-    <pre>
-sudo rpi-update
-</pre>
-        <p>
-This means all the workers are updating at the same time.
-</p>
-        <p>
-Once the update has completed - you will need to reboot.
-</p>
-        <p>
-To save a lot of typing - what we will do is set up passwordless login within the cluster - we need this for parallel programs to work and it saves us time as well.
-</p>
         <p>
 First we will set up passwordless login from the master node to the worker node.
             </p>
