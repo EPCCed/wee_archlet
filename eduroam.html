@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Connecting Archlet to Eduroam</title>
+        <meta name="description" content="Configuring wpa_supplicant.conf for Eduroam">
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+
+    <body>
+      <h1>Connect Your Wee Archlet Cluster to Eduroam</h1>
+      <p>
+        Since connecting a device to eduroam is not as simple as entering an ssid and password, you will have to put quite a bit more information
+        into your wpa_supplicant.conf file than shown in the main instructions!
+      </p>
+      <p>
+        In addition to a valid eduroam login, you will need to know certain details specific to your institution - there should be manual/Linux configuration istructions on
+        their website. For example, Edinburgh University's are at: <a href="https://www.ed.ac.uk/information-services/computing/desktop-personal/wifi-networking/configure-device/eduroam-generic">
+        https://www.ed.ac.uk/information-services/computing/desktop-personal/wifi-networking/configure-device/eduroam-generic</a>
+      </p>
+      <h2>What to Do</h2>
+      <ol>
+        <p>
+          Open wpa_supplicant.conf as shown in the Wee Archlet instructions.
+        </p>
+        <pre>
+  sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+        </pre>
+        <p>
+          And still add the <code>network</code> field at the bottom with "eduroam" as the ssid.
+        </p>
+        <pre>
+  network={
+    ssid="eduroam"
+  }
+        </pre>
+        <p>
+          As I said, there's more to come. Add the following four lines underneath <code>ssid</code>, but replace the placeholder text with your own login details, and the correct values
+          based on your institution's configuration document. I found the certificate I needed was already in the /etc/ssl/certs directory, but you may need to download yours.
+        </p>
+        <p>
+          <b>Note:</b> Remember that you have your secret password saved in this file, in case you think about sharing your cluster, or your configuration file with anyone!
+        </p>
+        <pre>
+  identity="&lt;your_username&gt;"
+  password="&lt;your_password&gt;"
+  ca_cert="/etc/ssl/certs/&lt;relevant_authentication_certificate&gt;.pem"
+  eap=&lt;supported_EAP_authentication&gt;
+        </pre>
+
+        <p>
+          And finally, add the following just as it is:
+        </p>
+        <pre>
+  phase1="peaplabel=0"
+  phase2="auth=MSCHAPV2"
+  priority=10
+  disabled=0
+  scan_ssid=0
+  mode=0
+  auth_alg=OPEN
+  proto=WPA RSN
+  pairwise=CCMP TKIP
+  key_mgmt=WPA-EAP
+  proactive_key_caching=1
+        </pre>
+
+        <p>
+          This is what my file for connecting to eduroam in Edinburgh looks like (minus secret information):
+        </p>
+
+        <pre>
+  ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+  update_config=1
+  country=GB
+  network={
+          identity="uun@ed.ac.uk"
+          password="password"
+          ca_cert="/etc/ssl/certs/QuoVadis_Root_CA_2.pem"
+          eap=PEAP
+          phase1="peaplabel=0"
+          phase2="auth=MSCHAPV2"
+          priority=10
+          disabled=0
+          ssid="eduroam"
+          scan_ssid=0
+          mode=0
+          auth_alg=OPEN
+          proto=WPA RSN
+          pairwise=CCMP TKIP
+          key_mgmt=WPA-EAP
+          proactive_key_caching=1
+
+  }
+        </pre>
+        <p>
+          Hopefully this has helped you get connected. You can check if you were successful by returning to the main instructions and continuing from where you left off.
+        </p>
+        <p>
+          We found these settings worked for us in Edinburgh, please let us know if you have any problems by opening a new issue <a href="https://www.github.com/EPCCed/wee_archlet/issues">on our GitHub page.</a>
+        </p>
+    </body>
