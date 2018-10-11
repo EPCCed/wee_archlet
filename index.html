@@ -1236,213 +1236,157 @@ int main(int argc, char** argv) {
         <p>
           To save a lot of typing in future, you can set up passwordless login within the cluster. As well as saving time, it is needed for parallel programs to work.
         </p>
-        <p>
-First we will set up passwordless login from the master node to the worker node.
-            </p>
-        <p>
-Log into the master node and then for each of your workers run the following:
-        </p>
-    <pre>
-ssh-copy-id pi@&lt;worker node&gt;
-</pre>
-        <p>
-Each time you will need to enter a password.
-</p>
-        <p>
-Now you will need to do this on each of the workers - doing an ssh-copy-id to all the other nodes.
-</p>
-        <p>
-Now that will take a little time to type in but it will save time in the future.
-</p>
-
-        <p>
-On each worker run:
-        </p>
-<pre>
-sudo nano /etc/hosts
-</pre>
-        <p>
-At the end of the file add:
-        </p>
-<pre>
-&lt;ip address of your server node&gt; &lt;name of your server&gt;
-</pre>
-    <p>
-for my example:
-    </p>
-<pre>
-192.168.2.18 beira
-</pre>
-            <p>
-Now we need to update the OS on each worker.
-</p>
-        <p>
-Run the command:
-        </p>
-    <pre>
-sudo apt-get update && sudo apt-get upgrade
-</pre>
-        <p>
-You will need to confirm on each worker that you want the install to continue.
-</p>
-        <p>
-This will take some time to install even if they are all going at the same time.
-</p>
-        <p>
-After they are updated we need to install some additional packages:
-        </p>
-<pre>
-sudo apt-get install libxml2-dev
-sudo apt-get install zlib1g zlib1g-dev
-sudo apt-get install mpich
-</pre>
+        <ol>
+          <li>First we will set up passwordless login from the master node to the worker node. Log into the master node and then for each of your workers run the following:</li>
+          <pre>
+  ssh-copy-id pi@&lt;worker node&gt;
+          </pre>
           <p>
-Now you should be able to run:
+            Each time you will need to enter a password.
+          </p>
+          <li>Now you will need to do this on each of the workers - doing an ssh-copy-id to all the other nodes. Now that will take a little time to type in but it will save time in the future.</li>
+
+          <li>On each worker node, run:</li>
+          <pre>
+  sudo nano /etc/hosts
+          </pre>
+          <p>
+            At the end of the file add:
+          </p>
+          <pre>
+  &lt;ip address of your master node&gt; &lt;hostname of your master&gt;
+          </pre>
+          <p>
+            For my example:
+          </p>
+          <pre>
+  192.168.2.18 beira
+          </pre>
+
+          <li>Now we need to update the OS on each worker. Run the command:</li>
+          <pre>
+  sudo apt-get update && sudo apt-get upgrade
+          </pre>
+          <p>
+            You will need to confirm on each worker that you want the install to continue. This will take some time to install even if they are all going at the same time.
+          </p>
+          <li>After they are updated we need to install the packages required for mpi as before:</li>
+          <pre>
+  sudo apt-get install libxml2-dev
+  sudo apt-get install zlib1g zlib1g-dev
+  sudo apt-get install mpich
+          </pre>
+          <p>
+            You can test this has worked by running <code>mpiexec -version</code>
+          </p>
+          <li>Finally, we need to setup the mounted shared drive. Start on each node by creating a new directory 'shared_dir' and setting read and write access permissions as before:</li>
+          <pre>
+  sudo mkdir /home/shared_dir
+  sudo chmod 777 /home/shared_dir/
+          </pre>
+          <li>On each node run:</li>
+          <pre>
+  sudo apt-get purge rpcbind
+  sudo apt-get install nfs-common
+          </pre>
+          <li>Have a look at the following files in nano, and replace the line <code># Default-Start:     S</code> with <code># Default-Start:     2 3 4 5</code> where this appears.</li>
+          <pre>
+  /etc/init.d/nfs-common
+  /etc/init.d/rpcbind
+          </pre>
+          <p>
+            Then run:
+          </p>
+          <pre>
+  sudo update-rc.d -f rpcbind remove
+  sudo update-rc.d rpcbind defaults
+  sudo update-rc.d -f nfs-common remove
+  sudo update-rc.d nfs-common defaults
+          </pre>
+          <li>Mount your new shared_dir on each node to the one on the master node, identifying it with its IP address:</li>
+          <pre>
+  sudo mount &lt;ip address of your master node&gt;:/home/shared_dir /home/shared_dir
+          </pre>
+          <li>This only mounts the drive a single time - when you reboot the Pi the changes will be lost. So we need to add it to some configuration that will do this automatically:</li>
+          <pre>
+  sudo nano /etc/fstab
+          </pre>
+          <p>
+            At the end of the file add:
+          </p>
+          <pre>
+  &lt;ip address of your master node&gt;:/home/shared_dir /home/shared_dir nfs rw,hard,intr,noauto,x-systemd.automount 0 0
+          </pre>
+          <p>
+            Now you will need to rebbot all your workers with <code>sudo reboot</code>.
+          </p>
+        </ol>
+
+        <h3>Testing Your Cluster with MPI</H3>
+        <p>
+          Now we will test our simple hello world across multiple nodes.Login to the master node:
+        </p>
+        <pre>
+  cd /home/shared_dir/testprogram
+  nano hostfile
+        </pre>
+        <p>
+          in the hostile add the IP addresses of your nodes (not the ones in the example unless they match up) with a :4 at the end like this:
+        </p>
+        <pre>
+  192.168.2.18:4
+  192.168.2.72:4
+  192.168.2.55:4
+  192.168.2.39:4
+  192.168.2.62:4
+        </pre>
+        <p>
+          Save and exit nano.
+        </p>
+        <p>
+          Run the following command:
+        </p>
+        <pre>
+  mpiexec -n 20 -f hostfile ./hello
+        </pre>
+        <p>
+          and it should give output like:
+        </p>
+        <pre>
+  Hello world from processor worker03, rank 16 out of 20 processors
+  Hello world from processor worker03, rank 17 out of 20 processors
+  Hello world from processor worker03, rank 18 out of 20 processors
+  Hello world from processor worker03, rank 19 out of 20 processors
+  Hello world from processor worker04, rank 4 out of 20 processors
+  Hello world from processor worker04, rank 5 out of 20 processors
+  Hello world from processor worker01, rank 8 out of 20 processors
+  Hello world from processor worker04, rank 6 out of 20 processors
+  Hello world from processor worker01, rank 9 out of 20 processors
+  Hello world from processor worker04, rank 7 out of 20 processors
+  Hello world from processor worker01, rank 10 out of 20 processors
+  Hello world from processor worker01, rank 11 out of 20 processors
+  Hello world from processor worker02, rank 12 out of 20 processors
+  Hello world from processor worker02, rank 13 out of 20 processors
+  Hello world from processor worker02, rank 14 out of 20 processors
+  Hello world from processor worker02, rank 15 out of 20 processors
+  Hello world from processor beira, rank 1 out of 20 processors
+  Hello world from processor beira, rank 3 out of 20 processors
+  Hello world from processor beira, rank 0 out of 20 processors
+  Hello world from processor beira, rank 2 out of 20 processors
+        </pre>
+        <p>
+          Congratulations, if you got this then you have put together a basic cluster for running parallel programs on.
         </p>
 
-    <pre>
-mpiexec —version
-</pre>
-<p>
-However, we are not quite finished with the software setup. We need to setup the mounted shared drive.
-</p>
         <p>
-Start on each node by doing this:
+          To turn off  a Raspberry Pi, type:
         </p>
-    <pre>
-sudo mkdir /home/shared_dir
-sudo chmod 777 /home/shared_dir/
-</pre><p>
-ON each node run:
+        <pre>
+          sudo halt
+        </pre>
+        <p>
+          To see how fast your cluster is, the next instruction set will show you how to install a benchmark and how to run it.
         </p>
-    <pre>
-sudo apt-get purge rpcbind
-sudo apt-get install nfs-common
-</pre><p>
-You will need to do this on each node:
-        </p>
-    <pre>
-/etc/init.d/nfs-common
-/etc/init.d/rpcbind
-</pre>
-        <p>
-Have a look at the above files in nano.
-</p>
-        <p>
-Each file should have a line near the top with:
-        </p>
-    <pre>
-# Default-Start:     2 3 4 5
-</pre>
-        <p>
-However, as before, in some it may have:
-        </p>
-    <pre>
-# Default-Start:     S
-</pre>
-        <p>
-Change all the S to 2 3 4 5.
-</p>
-        <p>
-Then run:
-    <pre>
-sudo update-rc.d -f rpcbind remove
-sudo update-rc.d rpcbind defaults
-
-sudo update-rc.d -f nfs-common remove
-sudo update-rc.d nfs-common defaults
-</pre>
-        <p>
-We are going to address the shared nfs drive by its IP address:
-        </p>
-
-<pre>
-sudo mount 192.168.2.18:/home/shared_dir /home/shared_dir
-</pre>
-        <p>
-This will only mount the drive a single time - when you reboot the Pi the changes will be lost.
-</p>
-        <p>
-So we need to add it to some configuration that will do this automatically, run:
-    </p>
-    <pre>
-sudo nano /etc/fstab
-</pre><p>
-at the end of the file add:
-        </p>
-    <pre>
-192.168.2.18:/home/shared_dir /home/shared_dir nfs rw,hard,intr,noauto,x-systemd.automount 0 0
-</pre>
-        <p>
-Now you can reboot everything so on each node run:
-        </p>
-    <pre>
-sudo reboot
-</pre>
-        <p>
-Now we will test our simple hello world across multiple nodes -
-login to the master node:
-        </p>
-<pre>
-cd /home/shared_dir/testprogram
-nano hostfile
-</pre>
-        <p>
-in the hostile add the IP addresses of your nodes (not the ones in the example unless they match up) with a :4 at the end like this:
-        </p>
-<pre>
-192.168.2.18:4
-192.168.2.72:4
-192.168.2.55:4
-192.168.2.39:4
-192.168.2.62:4
-</pre>
-        <p>
-Save and exit nano.
-</p>
-        <p>
-Run the following command:
-        </p>
-<pre>
-mpiexec -n 20 -f hostfile ./hello
-</pre>
-        <p>
-and it should give output like:
-        </p>
-<pre>
-Hello world from processor worker03, rank 16 out of 20 processors
-Hello world from processor worker03, rank 17 out of 20 processors
-Hello world from processor worker03, rank 18 out of 20 processors
-Hello world from processor worker03, rank 19 out of 20 processors
-Hello world from processor worker04, rank 4 out of 20 processors
-Hello world from processor worker04, rank 5 out of 20 processors
-Hello world from processor worker01, rank 8 out of 20 processors
-Hello world from processor worker04, rank 6 out of 20 processors
-Hello world from processor worker01, rank 9 out of 20 processors
-Hello world from processor worker04, rank 7 out of 20 processors
-Hello world from processor worker01, rank 10 out of 20 processors
-Hello world from processor worker01, rank 11 out of 20 processors
-Hello world from processor worker02, rank 12 out of 20 processors
-Hello world from processor worker02, rank 13 out of 20 processors
-Hello world from processor worker02, rank 14 out of 20 processors
-Hello world from processor worker02, rank 15 out of 20 processors
-Hello world from processor beira, rank 1 out of 20 processors
-Hello world from processor beira, rank 3 out of 20 processors
-Hello world from processor beira, rank 0 out of 20 processors
-Hello world from processor beira, rank 2 out of 20 processors
-</pre>
-        <p>
-Congratulations, if you got this then you have put together a basic cluster for running parallel programs on.
-</p>
-
-        <p>
-To turn off  a Raspberry Pi, type:
-        </p>
-    <pre>sudo halt</pre>
-
-     <p>
-To see how fast your cluster is, the next instruction set will show you how to install a benchmark and how to run it.
-</p>
 
 <a name="bench"><h3>Running a benchmark</h3></a>
 <p>
