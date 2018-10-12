@@ -38,10 +38,10 @@
   <a name="intro"><h2>Before You Start</h2></a>
 
   <p>
-    These instructions will help you set up a small cluster of Raspberry Pi computers as a small parallel system. They will take you through the process of connecting the Pis together, setting up the environment and checking that it works correctly.
+    These instructions will help you set up a cluster of Raspberry Pi computers as a small parallel system. They will take you through the process of connecting the Pis together, setting up the environment and checking that it works correctly.
   </p>
   <p>
-    These instructions are not for complete beginners with computers - they assume knowledge of concepts such as networks, command line and file systems. There are some explanations in this document but still require some experience and a willingness to try things out.
+    These instructions are not for complete beginners with computers - they assume knowledge of concepts such as networks, command line and file systems. There are some explanations in this document, but it still require some experience and a willingness to try things out.
   </p>
   <p>
     <b>Note:</b> these instructions deal with a cluster of 5 Raspberry Pis but the cluster can be of any size you want (minimum of 2, as otherwise it is not a parallel computer!)
@@ -74,7 +74,7 @@
   <a name="materials"><h2>Materials</h2></a>
   <h3>You will need:</h3>
   <ul>
-    <li>5 Raspberry Pis (Note the examples used in these instructions are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models - if problems are encountered please submit an issue to <a href="https://github.com/EPCCed/wee_archlet/issues">Cluster Instructions</a>).</li>
+    <li>5 Raspberry Pis (Note the examples used in these instructions are Raspberry Pi 3s - the instructions should work for most Raspberry Pi models. If problems are encountered please submit an issue to <a href="https://github.com/EPCCed/wee_archlet/issues">Cluster Instructions</a>).</li>
     <li>5 Power Supplies/1 Multisupply Unit.</li>
     <li>1 Switch (with at least 8 Ports).</li>
     <li>6 Ethernet Cables.</li>
@@ -137,7 +137,7 @@
 
   <h3>Materials used in these instructions:</h3>
   <p>
-    We've used Raspberry Pi 3s for our cluster. In place of 5 mains power supplies, we've chosen <a href="http://www.farnell.com/datasheets/1948264.pdf">1 Multi-USB Power Socket. Note - This particular model appears to have been discontinued</a>. Each pi is connected to this via a USB to B-type Micro USB cable. Our switch is a Netgear GS108E.
+    We've used Raspberry Pi 3s for our cluster. In place of 5 mains power supplies, we've chosen <a href="http://www.farnell.com/datasheets/1948264.pdf">1 Multi-USB Power Socket</a>. Note - This particular model appears to have been discontinued. Each pi is connected to this via a USB to B-type Micro USB cable. Our switch is a Netgear GS108E.
   </p>
 
   <h3>Important Note for New Raspbian Installations</h3>
@@ -145,6 +145,7 @@
     Due to changes in the recent versions of Raspbian and the NOOBS distributions, to follow these instructions you have to make a change to your Raspberry Pi SD Card before you boot it up for the first time.
   </p>
   <p>
+    <!--We may need to expand more on this step, as it does not go into as much detail as others in this document-->
     Newer versions of Raspbian have SSH access disabled by default. To reenable it, you will need to insert the microSD cards containing Raspbian into your computer and create a blank text file called 'SSH' in the boot partition. This will be the disk that appears in your file system when you insert the microSD card.
   </p>
   <p>
@@ -153,7 +154,7 @@
 
   <h2><a name="connections">Connecting the Raspberry Pi Cluster</a></h2>
   <ol>
-    <li>Connect the Ethernet Cables to the ethernet ports:</li>
+    <li>Connect the ethernet cables to the ethernet ports:</li>
 
     <figure>
       <img src="images/IMG_20170210_132818620.jpg" alt="Ether Pi"/>
@@ -228,7 +229,7 @@
   <ol>
     <li>Go into 'Network and Sharing Centre' in the Control Panel</li>
     <li>Choose 'Change adapter options' from the options on the left, and right-click on the Wi-Fi connection (identifiable by a signal strength indicator in the icon, wired networks will not have this). Select 'Properties' from the menu.</li>
-    <li>Select the Sharing Tab, and from there check the box at "Allow other network users to connect through this computer's Internet Connection.</li>
+    <li>Select the Sharing Tab, and from there check the box at "Allow other network users to connect through this computer's Internet Connection".</li>
     <li>Ensure that the Home networking connection is your Ethernet network in the drop-down menu below.</li>
     <li>Close the Wi-Fi Properties window to return to the Network Connections. Right-click on the Ethernet connections and select 'Properties' again you have just done for Wi-Fi.</li>
     <li>In the list headed "This connection uses the following items", click on the one called "Internet Protocal Version 4". This will enable a 'Properties' button just below, click on this.</li>
@@ -505,7 +506,7 @@
       This will bring up a menu. Select the following options:
     </p>
     <ol>
-      <li>The first step is to configure the master node to boot to a command line interface (CLI) like you are using now, instead of a graphical user interface (GUI) like most modern operating systems have. Choose the following options in turn, navigating with the keyboard arrow keys and selecting each option with The Enter key:
+      <li>The first step is to configure the master node to boot to a command line interface (CLI) like you are using now, instead of a graphical user interface (GUI) like most modern operating systems have. Choose the following options in turn, navigating with the keyboard arrow keys and selecting each option with the Enter key:
         <ul>
           <li><code>3 Boot Options</code></li>
           <li><code>B1 Desktop/CLI</code></li>
@@ -820,7 +821,8 @@
 
         <h3>Setting Up MPI</h3>
         <p>
-          <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI (Message Passing Interface)</a> is a core technology used in parallel and high performance computing that allows processes to communicate in a standard way, and so solve a problems together in parallel. We will install and test it with a simple program on a single node.
+          <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI (Message Passing Interface)</a> is a core technology used in high performance computing that allows processes to communicate in a standard way, and so solve a problems together in parallel.
+          We will install and test it with a simple program on a single node.
         </p>
         <ol>
           <li>Run the following to install necessary libraries:</li>
@@ -867,7 +869,7 @@
   cd testprogram
   nano hello.c
           </pre>
-          <li>Executing nano hello.c will open the empty file as well as create it. Type the following code, save, and exit:</li>
+          <li>Executing <code>nano hello.c</code> will open the empty file as well as create it. Type the following code, save, and exit:</li>
           <pre>
   #include &lt;mpi.h&gt;
   #include &lt;stdio.h&gt;
@@ -950,7 +952,7 @@
 
           <h3>Setting Up the DHCP Server</h3>
           <ol>
-            <li>The first step i s to enable Wifi on your master node. To do this, you need to add a network to the wpa_supplicant.conf file.</li>
+            <li>The first step is to enable Wifi on your master node. To do this, you need to add a network to the wpa_supplicant.conf file.</li>
             <p>
               Open wpa_supplicant.conf in nano:
             </p>
@@ -967,7 +969,7 @@
   }
             </pre>
             <p>
-              <b>Note: The SSID is the WiFi network identifier - this is an identifier broadcast to allow you to select the right WiFi network. If you are running a home network - this will likely be on your router. Otherwise you can check to see what WiFi network your main computer is connected to from the WiFi network properties.</b><br/> As an example:
+              <b>Note:</b> The SSID is the WiFi network identifier - this is an identifier broadcast to allow you to select the right WiFi network. If you are running a home network - this will likely be on your router. Otherwise you can check to see what WiFi network your main computer is connected to from the WiFi network properties. As an example:
             </p>
             <pre>
   network={
@@ -989,16 +991,16 @@
   sudo ifconfig wlan0 up
             </pre>
             <p>
-              When you run the command:
+              When you run the command, you should get the output for the wifi with an IP address. :
             </p>
             <pre>
   ifconfig wlan0
             </pre>
             <p>
-              You should get the output for the wifi with an IP address. Sharing this connection will be done after the next part.
+              Sharing this connection will be done after the next part.
             </p>
 
-            <li>Now what we need to do is setup a DHCP server on this node - this will serve IP addresses to any other machine that wants to connect to its network and requests one.</li>
+            <li>Now what we need to do is setup a DHCP server on this node - this will provide IP addresses to any other machine that wants to connect to its network and requests one.</li>
             <p>
               First we will install <code>dnsmasq</code>:
             </p>
