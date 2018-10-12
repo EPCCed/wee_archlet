@@ -1510,137 +1510,133 @@ int main(int argc, char** argv) {
         </pre>
 
         <li>Then in the bin/rpi directory run the following:</li>
-    <pre>
-./xhpl
-</pre>
+        <pre>
+          ./xhpl
+        </pre>
         <p>
-This will produce output like:
-         </p>
-    <pre>
-================================================================================
-HPLinpack 2.2  --  High-Performance Linpack benchmark  --   February 24, 2016
-Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
-Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
-Modified by Julien Langou, University of Colorado Denver
-================================================================================
-
-An explanation of the input/output parameters follows:
-T/V    : Wall time / encoded variant.
-N      : The order of the coefficient matrix A.
-NB     : The partitioning blocking factor.
-P      : The number of process rows.
-Q      : The number of process columns.
-Time   : Time in seconds to solve the linear system.
-Gflops : Rate of execution for solving the linear system.
-
-The following parameter values will be used:
-
-N      :    5040
-NB     :     128
-PMAP   : Row-major process mapping
-P      :       1
-Q      :       1
-PFACT  :   Right
-NBMIN  :       4
-NDIV   :       2
-RFACT  :   Crout
-BCAST  :  1ringM
-DEPTH  :       1
-SWAP   : Mix (threshold = 64)
-L1     : transposed form
-U      : transposed form
-EQUIL  : yes
-ALIGN  : 8 double precision words
-
---------------------------------------------------------------------------------
-
-- The matrix A is randomly generated for each test.
-- The following scaled residual check will be computed:
-      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
-- The relative machine precision (eps) is taken to be               1.110223e-16
-- Computational tests pass if scaled residuals are less than                16.0
-    </pre>
-        <p>
-and this will take some time to run.
- </p>
-        <p>
-Then in the end it will produce output like:
- </p>
-<pre>
-================================================================================
-T/V                N    NB     P     Q               Time                 Gflops
---------------------------------------------------------------------------------
-WR11C2R4        5040   128     1     1             317.11              2.693e-01
-HPL_pdgesv() start time Thu Aug 18 09:28:47 2016
-
-HPL_pdgesv() end time   Thu Aug 18 09:34:04 2016
-
---------------------------------------------------------------------------------
-||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0021492 ...... PASSED
-================================================================================
-
-Finished      1 tests with the following results:
-              1 tests completed and passed residual checks,
-              0 tests completed and failed residual checks,
-              0 tests skipped because of illegal input values.
---------------------------------------------------------------------------------
-
-End of Tests.
-================================================================================
-</pre>
-        <p>
-The numbers will vary but this result about shows that a single Raspberry Pi 3 achieves 269.3Mflops (see under the Gflops column at the top).
- </p>
-<p>
-Now what we will do is run LINPACK across our cluster.
- </p>
-        <p>
-The first thing you need to do is to create a hostfile with the ip addresses of your nodes.
-         </p>
-    <pre>
-192.168.2.18:4
-192.168.2.72:4
-192.168.2.55:4
-192.168.2.39:4
-192.168.2.62:4
-</pre>
-        <p>
-Now you will need to edit your HPL.dat:
+          This will run the benchmark and produce output like (IT will take some time to run!):
         </p>
-<pre>
-HPLinpack benchmark input file
-Innovative Computing Laboratory, University of Tennessee
-HPL.out      output file name (if any)
-6            device out (6=stdout,7=stderr,file)
-1            # of problems sizes (N)
-17400         Ns
-1            # of NBs
-128          NBs
-0            PMAP process mapping (0=Row-,1=Column-major)
-1            # of process grids (P x Q)
-4            Ps
-5            Qs
-16.0         threshold
-1            # of panel fact
-2            PFACTs (0=left, 1=Crout, 2=Right)
-1            # of recursive stopping criterium
-4            NBMINs (>= 1)
-1            # of panels in recursion
-2            NDIVs
-1            # of recursive panel fact.
-1            RFACTs (0=left, 1=Crout, 2=Right)
-1            # of broadcast
-1            BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
-1            # of lookahead depth
-1            DEPTHs (>=0)
-2            SWAP (0=bin-exch,1=long,2=mix)
-64           swapping threshold
-0            L1 in (0=transposed,1=no-transposed) form
-0            U  in (0=transposed,1=no-transposed) form
-1            Equilibration (0=no,1=yes)
-8            memory alignment in double (> 0)
+        <pre>
+  ================================================================================
+  HPLinpack 2.2  --  High-Performance Linpack benchmark  --   February 24, 2016
+  Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+  Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+  Modified by Julien Langou, University of Colorado Denver
+  ================================================================================
 
-</pre>
+  An explanation of the input/output parameters follows:
+  T/V    : Wall time / encoded variant.
+  N      : The order of the coefficient matrix A.
+  NB     : The partitioning blocking factor.
+  P      : The number of process rows.
+  Q      : The number of process columns.
+  Time   : Time in seconds to solve the linear system.
+  Gflops : Rate of execution for solving the linear system.
+
+  The following parameter values will be used:
+
+  N      :    5040
+  NB     :     128
+  PMAP   : Row-major process mapping
+  P      :       1
+  Q      :       1
+  PFACT  :   Right
+  NBMIN  :       4
+  NDIV   :       2
+  RFACT  :   Crout
+  BCAST  :  1ringM
+  DEPTH  :       1
+  SWAP   : Mix (threshold = 64)
+  L1     : transposed form
+  U      : transposed form
+  EQUIL  : yes
+  ALIGN  : 8 double precision words
+
+  --------------------------------------------------------------------------------
+
+  - The matrix A is randomly generated for each test.
+  - The following scaled residual check will be computed:
+        ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+  - The relative machine precision (eps) is taken to be               1.110223e-16
+  - Computational tests pass if scaled residuals are less than                16.0
+        </pre>
+        <p>
+          Then in the end it will produce output like:
+        </p>
+        <pre>
+  ================================================================================
+  T/V                N    NB     P     Q               Time                 Gflops
+  --------------------------------------------------------------------------------
+  WR11C2R4        5040   128     1     1             317.11              2.693e-01
+  HPL_pdgesv() start time Thu Aug 18 09:28:47 2016
+
+  HPL_pdgesv() end time   Thu Aug 18 09:34:04 2016
+
+  --------------------------------------------------------------------------------
+  ||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0021492 ...... PASSED
+  ================================================================================
+
+  Finished      1 tests with the following results:
+                1 tests completed and passed residual checks,
+                0 tests completed and failed residual checks,
+                0 tests skipped because of illegal input values.
+  --------------------------------------------------------------------------------
+
+  End of Tests.
+  ================================================================================
+        </pre>
+        <p>
+          The numbers will vary but this result about shows that a single Raspberry Pi 3 achieves 269.3Mflops (see under the Gflops column at the top).
+        </p>
+
+        <li>Now what we will do is run LINPACK across our cluster to measure how they perform as a unit. The first thing you need to do is to create a hostfile with the ip addresses of your nodes, as you did with the MPI program.</li>
+        <pre>
+  192.168.2.18:4
+  192.168.2.72:4
+  192.168.2.55:4
+  192.168.2.39:4
+  192.168.2.62:4
+        </pre>
+        <li>Now you will need to edit your HPL.dat so that it can run on all nodes of your cluster:</li>
+        <pre>
+  HPLinpack benchmark input file
+  Innovative Computing Laboratory, University of Tennessee
+  HPL.out      output file name (if any)
+  6            device out (6=stdout,7=stderr,file)
+  1            # of problems sizes (N)
+  17400         Ns
+  1            # of NBs
+  128          NBs
+  0            PMAP process mapping (0=Row-,1=Column-major)
+  1            # of process grids (P x Q)
+  4            Ps
+  5            Qs
+  16.0         threshold
+  1            # of panel fact
+  2            PFACTs (0=left, 1=Crout, 2=Right)
+  1            # of recursive stopping criterium
+  4            NBMINs (>= 1)
+  1            # of panels in recursion
+  2            NDIVs
+  1            # of recursive panel fact.
+  1            RFACTs (0=left, 1=Crout, 2=Right)
+  1            # of broadcast
+  1            BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
+  1            # of lookahead depth
+  1            DEPTHs (>=0)
+  2            SWAP (0=bin-exch,1=long,2=mix)
+  64           swapping threshold
+  0            L1 in (0=transposed,1=no-transposed) form
+  0            U  in (0=transposed,1=no-transposed) form
+  1            Equilibration (0=no,1=yes)
+  8            memory alignment in double (> 0)
+
+        </pre>
+        <p>
+          <b>Note:</b> These P and Q values will work if you have a cluster of five Raspberry Pis (each with four cores).
+          If you are using a different number, you should set your own values of P and Q so that when they are multiplied together,
+          the product is equal to the total number of cores in your cluster.
+        </p>
         <p>
 Then run the program using mpiexec:
          </p>
