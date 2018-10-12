@@ -20,7 +20,7 @@
             <li><a href="#connections">Connecting the Pis</a></li>
             <li><a href="#mainnode">Setting Up the Main Node</a></li>
             <li><a href="#workers">Setting up the worker nodes</a></li>
-            <li><a href="#bench">A Quick Benchmark</a></li>
+            <li><a href="#bench">Benchmarking</a></li>
             <li><a href="https://www.epcc.ed.ac.uk/discover-and-learn/resources-and-activities/what-is-a-supercomputer/wee-archie">Wee Archie</a></li>
             <!--TODO Add link to command glossary which I am going to make-->
             <!--<li>Glossary of commands</li>-->
@@ -1388,175 +1388,128 @@ int main(int argc, char** argv) {
           To see how fast your cluster is, the next instruction set will show you how to install a benchmark and how to run it.
         </p>
 
-<a name="bench"><h3>Running a benchmark</h3></a>
-<p>
-Linpack is a commonly used benchmark to test how “fast” a supercomputer can go. What we are going to do is install linpack on your cluster and test how fast your cluster is.
-</p>
-
+        <a name="bench"><h2>Running a Benchmark</h2></a>
         <p>
-The first thing to do is to log into your cluster and connect it to the internet.
-</p>
-
-        <p>
-We are going to run the HPL - High Performance Linpack Benchmark on your cluster, more information on this can be found at <a href="http://www.netlib.org/benchmark/hpl/">Linpack</a>.
+          Linpack is a commonly used benchmark to test how “fast” a supercomputer can go. The first thing to do is to log into your cluster and connect it to the internet.
         </p>
-<h4>Software Setup:</h4>
-<p>
-On each node, we need some additional software so run the following command on each of the nodes:
- </p>
-    <pre>
+        <p>
+          We are going to run the HPL - High Performance Linpack Benchmark on your cluster, more information on this can be found at <a href="http://www.netlib.org/benchmark/hpl/">Linpack</a>.
+        </p>
+        <h3>Benchmarking Software Setup</h3>
+        <ol>
+          <li>On each node, we need some additional software so run the following command on all nodes:</li>
+          <pre>
  sudo apt-get install libatlas-base-dev gfortran
-</pre>
+          </pre>
+          <li>Use the following command to navigate into the shared drive:</li>
+          <pre>
+  cd /home/shared_dir
+          </pre>
+          <li>Create directory for the Linpack files with <code>mkdir</code>:</li>
+         <pre>
+  mkdir linpack
+  cd linpack
+        </pre>
+        <li>Download the HPL source:</li>
+        <pre>
+  wget http://www.netlib.org/benchmark/hpl/hpl-2.2.tar.gz
+        </pre>
         <p>
-Now use the following command to change to the shared drive:
-         </p>
-<pre>
-cd /home/shared_dir
-</pre>
-        <p>
-Now, create a linpack directory:
-         </p>
-<pre>
-mkdir linpack
-cd linpack
-</pre>
-        <p>
-Now download the HPL source:
-         </p>
-    <pre>
-wget http://www.netlib.org/benchmark/hpl/hpl-2.2.tar.gz
-</pre>
-        <p>
-This file is a compressed archive to make it quicker to download, we will now extract the archive:
+          This file is a compressed archive to make it quicker to download, so you'll need to extract the archive:
         </p>
-<pre>
-tar xf hpl-2.2.tar.gz
-</pre>
+        <pre>
+  tar xf hpl-2.2.tar.gz
+        </pre>
+        <li>Change into the new directory and into the setup directory:</li>
+        <pre>
+  cd hpl-2.2/setup
+        </pre>
+        <li>Run the make_generic script in the current directory:</li>
+        <pre>
+  sh make_generic
+        </pre>
+        <li>When that's done, change to the parent directory:</li>
+        <pre>
+  cd ..
+        </pre>
+        <li>And copy the Make.UNKNOWN file and rename it Make.rpi.</li>
+        <pre>
+  cp setup/Make.UNKNOWN Make.rpi
+        </pre>
+        <li>Now you will need to edit the file in order to configure it to the Raspberry Pi platform we want to compile on:</li>
+        <pre>
+  nano Make.rpi
+        </pre>
         <p>
-Change into the new directory and into the setup directory:
-         </p>
-<pre>
-cd hpl-2.2/setup
-</pre>
+          Press CRTL+W and search for "ARCH". You're looking for a line that says ARCH = UNKNOWN - change <i>UNKNOWN</i> to <i>rpi</i>.
+        </p>
+        <li>Now search for "TOPdir". Change the value for TOPdir to:</li>
+        <pre>
+  /home/shared_dir/linpack/hpl-2.2
+        </pre>
         <p>
-Run the following command:
-         </p>
-<pre>
-sh make_generic
-</pre>
-        <p>
-Change to the parent directory:
+          (We could set the first part of this to an environment variable but that is another topic).
+        </p>
+        <li>A few lines below you will find three blank entries Mkdir, MPinc, MPlib. Set these to the values shown below:</li>
+        <pre>
+  MPdir        = /usr/lib
+  MPinc        = -I $(MPdir)/mpich/include
+  MPlib        = $(MPdir)/arm-linux-gnueabihf/libmpich.so
 
-     </p>
-    <pre>
-cd ..
-</pre>
-        <p>
-Copy the Make.UNKNOWN file and call it Make.rpi.
-         </p>
-<pre>
-cp setup/Make.UNKNOWN Make.rpi
-</pre>
-        <p>
-Now we will edit the file:
-         </p>
-<pre>
-nano Make.rpi
-</pre>
-        <p>
-Press CRTL+W and search for ARCH.
- </p>
-        <p>
-The line should say ARCH = UNKNOWN.
-         </p>
-<pre>
-Change unknown to rpi
-</pre>
-        <p>
-Search for TOPdir.
- </p>
-Change the value for TOPdir to:
-    <pre>
-/home/shared_dir/linpack/hpl-2.2
-</pre>
-        <p>
-We could set the first part of this to an environment variable but that is another topic.
- </p>
-        <p>
-A few lines below you will find three blank entries Mkdir, MPinc, MPlib.
- </p>
-        <p>
-Set these to the values shown below:
- </p>
-    <pre>
-MPdir        = /usr/lib
-MPinc        = -I $(MPdir)/mpich/include
-MPlib        = $(MPdir)/arm-linux-gnueabihf/libmpich.a
+  LAdir        = /usr/lib/atlas-base/
+  LAinc        = $(LAdir)/libf77blas.a $(LAdir)/libatlas.a
+  LALib        = -lblas
 
-LAdir        = /usr/lib/atlas-base/
-LAinc        = $(LAdir)/libf77blas.a $(LAdir)/libatlas.a
-LALib        = -lblas
+        </pre>
+        <li>Save the file and exit nano, then type the following command to compile Linpack:</li>
+        <pre>
+  make arch=rpi
+        </pre>
 
-</pre>
+        <li>Linpack requires a data file to test with, which we will create now:</li>
+        <pre>
+  cd bin/rpi
+  nano HPL.dat
+        </pre>
         <p>
-Save the file and exit nano, then type the command:
-         </p>
-<pre>
-make arch=rpi
-</pre>
-        <p>
-This will compile the benchmark.
- </p>
-        <p>
-Now we need to create a data file to test with:
-     </p>
-<pre>
-cd bin/rpi
-nano HPL.dat
-</pre>
-        <p>
-Now enter the following text into the HPL.dat file:
-         </p>
-<pre>
-HPLinpack benchmark input file
-Innovative Computing Laboratory, University of Tennessee
-HPL.out      output file name (if any)
-6            device out (6=stdout,7=stderr,file)
-1            # of problems sizes (N)
-5040         Ns
-1            # of NBs
-128          NBs
-0            PMAP process mapping (0=Row-,1=Column-major)
-1            # of process grids (P x Q)
-1            Ps
-1            Qs
-16.0         threshold
-1            # of panel fact
-2            PFACTs (0=left, 1=Crout, 2=Right)
-1            # of recursive stopping criterium
-4            NBMINs (>= 1)
-1            # of panels in recursion
-2            NDIVs
-1            # of recursive panel fact.
-1            RFACTs (0=left, 1=Crout, 2=Right)
-1            # of broadcast
-1            BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
-1            # of lookahead depth
-1            DEPTHs (>=0)
-2            SWAP (0=bin-exch,1=long,2=mix)
-64           swapping threshold
-0            L1 in (0=transposed,1=no-transposed) form
-0            U  in (0=transposed,1=no-transposed) form
-1            Equilibration (0=no,1=yes)
-8            memory alignment in double (> 0)
+          Now enter the following text into the HPL.dat file, then save and exit nano:
+        </p>
+        <pre>
+  HPLinpack benchmark input file
+  Innovative Computing Laboratory, University of Tennessee
+  HPL.out      output file name (if any)
+  6            device out (6=stdout,7=stderr,file)
+  1            # of problems sizes (N)
+  5040         Ns
+  1            # of NBs
+  128          NBs
+  0            PMAP process mapping (0=Row-,1=Column-major)
+  1            # of process grids (P x Q)
+  1            Ps
+  1            Qs
+  16.0         threshold
+  1            # of panel fact
+  2            PFACTs (0=left, 1=Crout, 2=Right)
+  1            # of recursive stopping criterium
+  4            NBMINs (>= 1)
+  1            # of panels in recursion
+  2            NDIVs
+  1            # of recursive panel fact.
+  1            RFACTs (0=left, 1=Crout, 2=Right)
+  1            # of broadcast
+  1            BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
+  1            # of lookahead depth
+  1            DEPTHs (>=0)
+  2            SWAP (0=bin-exch,1=long,2=mix)
+  64           swapping threshold
+  0            L1 in (0=transposed,1=no-transposed) form
+  0            U  in (0=transposed,1=no-transposed) form
+  1            Equilibration (0=no,1=yes)
+  8            memory alignment in double (> 0)
 
-</pre>
-        <p>
-        Save the file and exit nano.
- </p>
-        <p>
-Then in the bin/rpi directory run:
-         </p>
+        </pre>
+
+        <li>Then in the bin/rpi directory run the following:</li>
     <pre>
 ./xhpl
 </pre>
