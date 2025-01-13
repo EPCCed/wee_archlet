@@ -12,8 +12,9 @@ body {
     font-size: 16px;
     line-height: 1.5;
     margin: 0 auto;
-    max-width: 800px;
+    // max-width: 800px;
     padding: 2em 2em 4em;
+    text-align: justify;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -79,6 +80,10 @@ pre {
     border-radius: 4px;
     display: block;
     margin: 1.3em auto;
-    max-width: 100%;
+    max-width: 80%;
     background-color: darkgray
+}
+
+li {
+  margin: 10px 0;
 }
